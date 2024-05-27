@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import Home from '@/pages/Home';
 import GlobalStyle from '@/styles/globalStyle';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { routes } from '@/router/routes';
+
+const router = createBrowserRouter(routes);
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <GlobalStyle />
-      <Home />
+      <RouterProvider router={router} />
     </>
   );
 }
