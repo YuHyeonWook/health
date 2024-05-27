@@ -7,6 +7,7 @@ export const routes = [
   {
     path: '/',
     element: <Home />,
+    errorElement: <NotFound />,
   },
   {
     path: '/login',
@@ -15,9 +16,5 @@ export const routes = [
   {
     path: 'signup',
     element: <SignUp />,
-  },
-  {
-    path: '*',
-    element: <NotFound />,
   },
 ];
