@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import './App.css';
 import Home from '@/pages/Home';
+import GlobalStyle from '@/styles/globalStyle';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
+      <GlobalStyle />
       <Home />
     </>
   );
