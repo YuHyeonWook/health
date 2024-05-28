@@ -2,14 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
 import { auth } from '@/firebase';
 import googleImage from '@/assets/images/googleImage.png';
+import githubImage from '@/assets/images/githubImage.png';
 import styled from 'styled-components';
 
-const StyledGoogleLoginImg = styled.img`
+const StyledLoginImg = styled.img`
   width: 100%;
   height: 4rem;
 `;
 
-const StyledGoogleLoginBtn = styled.button`
+const StyledLoginBtn = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -45,10 +46,12 @@ const Login = () => {
   return (
     <>
       <h1>로그인</h1>
-      <StyledGoogleLoginBtn onClick={handleGoogleLogin}>
-        <StyledGoogleLoginImg src={googleImage} alt="Google 로그인" />
-      </StyledGoogleLoginBtn>
-      <button onClick={handleGithubLogin}>Github 로그인</button>
+      <StyledLoginBtn onClick={handleGoogleLogin}>
+        <StyledLoginImg src={googleImage} alt="Google 로그인" />
+      </StyledLoginBtn>
+      <StyledLoginBtn onClick={handleGithubLogin}>
+        <StyledLoginImg src={githubImage} alt="" />
+      </StyledLoginBtn>
     </>
   );
 };
