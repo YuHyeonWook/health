@@ -8,12 +8,12 @@ import Calendar from '@/pages/CalendarCrud/Calendar';
 export const routes = [
   {
     path: '/',
-    element: <Calendar />,
+    element: <Login />,
     errorElement: <NotFound />,
   },
   {
-    path: '/login',
-    element: <Login />,
+    path: '/calendar',
+    element: <Calendar />,
     errorElement: <NotFound />,
   },
   {
