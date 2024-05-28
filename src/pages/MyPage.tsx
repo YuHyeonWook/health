@@ -4,6 +4,7 @@ import LoginOut from '@/components/LoginOut';
 
 const MyPage = () => {
   const [user, setUser] = useState<User | null>(null);
+  console.log(user);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');

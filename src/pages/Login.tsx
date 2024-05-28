@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
 import { auth } from '@/firebase';
 import googleImage from '@/assets/images/googleImage.png';
 import styled from 'styled-components';
@@ -19,9 +19,21 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
+    const providerGoogle = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, providerGoogle);
+      const user = result.user;
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/home');
+    } catch (error) {
+      console.error('로그인 실패:', error);
+    }
+  };
+
+  const handleGithubLogin = async () => {
+    const providerGithub = new GithubAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, providerGithub);
       const user = result.user;
       localStorage.setItem('user', JSON.stringify(user));
       navigate('/home');
@@ -36,6 +48,7 @@ const Login = () => {
       <StyledGoogleLoginBtn onClick={handleGoogleLogin}>
         <StyledGoogleLoginImg src={googleImage} alt="Google 로그인" />
       </StyledGoogleLoginBtn>
+      <button onClick={handleGithubLogin}>Github 로그인</button>
     </>
   );
 };
