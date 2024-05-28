@@ -1,6 +1,5 @@
-// Login.tsx
 import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider, User } from 'firebase/auth';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/firebase';
 
 const Login = () => {
@@ -11,8 +10,8 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      localStorage.setItem('user', JSON.stringify(user)); // 사용자 정보를 localStorage에 저장
-      navigate('/home'); // /mypage 경로로 이동
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/home');
     } catch (error) {
       console.error('로그인 실패:', error);
     }
