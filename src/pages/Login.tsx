@@ -25,7 +25,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, providerGoogle);
       const user = result.user;
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/home');
+      navigate('/calendar');
     } catch (error) {
       console.error('로그인 실패:', error);
     }
@@ -37,7 +37,7 @@ const Login = () => {
       const result = await signInWithPopup(auth, providerGithub);
       const user = result.user;
       localStorage.setItem('user', JSON.stringify(user));
-      navigate('/home');
+      navigate('/calendar');
     } catch (error) {
       console.error('로그인 실패:', error);
     }

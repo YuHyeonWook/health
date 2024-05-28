@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
-import LoginOut from '@/components/LoginOut';
 
 const MyPage = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -15,7 +14,6 @@ const MyPage = () => {
 
   return (
     <div>
-      <LoginOut />
       <h2>My Page</h2>
       {user ? (
         <>

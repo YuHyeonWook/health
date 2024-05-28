@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from './Modal';
+import Layout from '@/components/layout/Layout';
 
 const Wrap = styled.div`
   display: flex;
@@ -167,40 +168,42 @@ const Calendar: React.FC = () => {
   ];
 
   return (
-    <Wrap>
-      <CalendarGrid>
-        <MonthSwiperGrid>
-          <MonthSwiperLeft onClick={handlePrevMonth}>{'<'}</MonthSwiperLeft>
-          <MonthSwiperRight onClick={handleNextMonth}>{'>'}</MonthSwiperRight>
-        </MonthSwiperGrid>
-        <YearMonth>{`${months[date.getMonth()]}, ${date.getFullYear()}`}</YearMonth>
-        <NewEventGrid>
-          <NewEvent onClick={handleNewEventClick}>+</NewEvent>
-        </NewEventGrid>
+    <Layout>
+      <Wrap>
+        <CalendarGrid>
+          <MonthSwiperGrid>
+            <MonthSwiperLeft onClick={handlePrevMonth}>{'<'}</MonthSwiperLeft>
+            <MonthSwiperRight onClick={handleNextMonth}>{'>'}</MonthSwiperRight>
+          </MonthSwiperGrid>
+          <YearMonth>{`${months[date.getMonth()]}, ${date.getFullYear()}`}</YearMonth>
+          <NewEventGrid>
+            <NewEvent onClick={handleNewEventClick}>+</NewEvent>
+          </NewEventGrid>
 
-        {ModalOpen && <Modal setModalOpen={setModalOpen} startDate={startDate} />}
+          {ModalOpen && <Modal setModalOpen={setModalOpen} startDate={startDate} />}
 
-        {daysOfWeek.map((day, index) => (
-          <DaysOfWeek key={index}>{day}</DaysOfWeek>
-        ))}
-        {BeforeMonthDate.map((dayObj, index) => {
-          const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
-          return <Day key={`start-${index}`}>{dayObj.day}</Day>;
-        })}
-        {daysInMonth.map((dayObj, index) => {
-          const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
-          return (
-            <Day key={index} onClick={() => handleDayClick(dayObj.day, dayObj.isCurrentMonth)}>
-              {dayObj.day}
-            </Day>
-          );
-        })}
-        {AfterMonthDate.map((dayObj, index) => {
-          const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
-          return <Day key={`end-${index}`}>{dayObj.day}</Day>;
-        })}
-      </CalendarGrid>
-    </Wrap>
+          {daysOfWeek.map((day, index) => (
+            <DaysOfWeek key={index}>{day}</DaysOfWeek>
+          ))}
+          {BeforeMonthDate.map((dayObj, index) => {
+            const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
+            return <Day key={`start-${index}`}>{dayObj.day}</Day>;
+          })}
+          {daysInMonth.map((dayObj, index) => {
+            const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
+            return (
+              <Day key={index} onClick={() => handleDayClick(dayObj.day, dayObj.isCurrentMonth)}>
+                {dayObj.day}
+              </Day>
+            );
+          })}
+          {AfterMonthDate.map((dayObj, index) => {
+            const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
+            return <Day key={`end-${index}`}>{dayObj.day}</Day>;
+          })}
+        </CalendarGrid>
+      </Wrap>
+    </Layout>
   );
 };
 
