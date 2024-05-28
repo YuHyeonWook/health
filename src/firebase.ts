@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCTHTRKxdRHshjEsZ2jt0m9jmcrO9QKhSM',
@@ -7,11 +8,10 @@ const firebaseConfig = {
   projectId: 'toy2-abff4',
   storageBucket: 'toy2-abff4.appspot.com',
   messagingSenderId: '690501479513',
-  appId: '1:690501479513:web:be27c7fe6dda9dfbe0d548',
-  measurementId: 'G-7ZYRKL79WJ',
+  appId: '1:690501479513:web:3268869662344392e0d548',
+  measurementId: 'G-8YNJSL2EFE',
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-export { app, auth };
+export const auth = getAuth(app);
+export const db = getDatabase(app);

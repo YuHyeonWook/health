@@ -20,7 +20,7 @@ export const routes = [
   },
 
   {
-    path: 'mypage',
+    path: '/mypage',
     element: <MyPage />,
   },
 ];
