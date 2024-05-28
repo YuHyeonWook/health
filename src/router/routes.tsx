@@ -3,10 +3,16 @@ import Login from '@/pages/Login';
 import MyPage from '@/pages/MyPage';
 import NotFound from '@/pages/NotFound';
 import SignUp from '@/pages/SignUp';
+import Calendar from '@/pages/CalendarCrud/Calendar';
 
 export const routes = [
   {
     path: '/',
+    element: <Calendar />,
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/login',
     element: <Login />,
     errorElement: <NotFound />,
   },
