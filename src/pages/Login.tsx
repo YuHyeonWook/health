@@ -1,6 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/firebase';
+import googleImage from '@/assets/images/googleImage.png';
+import styled from 'styled-components';
+
+const StyledGoogleLoginImg = styled.img`
+  width: 100%;
+  height: 4rem;
+`;
+
+const StyledGoogleLoginBtn = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,9 +31,12 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleGoogleLogin}>구글 로그인</button>
-    </div>
+    <>
+      <h1>로그인</h1>
+      <StyledGoogleLoginBtn onClick={handleGoogleLogin}>
+        <StyledGoogleLoginImg src={googleImage} alt="Google 로그인" />
+      </StyledGoogleLoginBtn>
+    </>
   );
 };
 
