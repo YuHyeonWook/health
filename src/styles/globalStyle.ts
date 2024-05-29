@@ -35,16 +35,21 @@ const GlobalStyle = createGlobalStyle`
 
   :root {
     --color-green: #4cd964
-    --color-lightGreen: #f9fffa;
+    --color-green-light: #f9fffa;
     --color-gray: #969696;
-    --color-ligthGray: #c7c7c7;
-    --color-darkGray: #5e5e5e;
+    --color-gray-light: #c7c7c7;
+    --color-gray-dark: #5e5e5e;
     --color-black: #171717;
     --color-white: #ffffff;
 
+    --font-weight-reqular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
     --border-gray: 1px solid #c7c7c7; 
 
-    font-size: 16px;
+    font-size: 10px;
   }
 
   * {
@@ -56,7 +61,8 @@ const GlobalStyle = createGlobalStyle`
   
   body {
     font-family: "Pretendard", "Helvetica", "Arial", sans-serif;
-    font-size: 16px;
+    font-size: 1.6rem;
+    line-height: 1.25;
     color: var(--color-black);
   }
 
