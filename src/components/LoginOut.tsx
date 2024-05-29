@@ -2,7 +2,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const StyledLogout = styled.button`
+const LogoutBtn = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -24,7 +24,7 @@ const LoginOut = () => {
     }
   };
 
-  return <StyledLogout onClick={handleLogOut}>로그아웃</StyledLogout>;
+  return <LogoutBtn onClick={handleLogOut}>로그아웃</LogoutBtn>;
 };
 
 export default LoginOut;

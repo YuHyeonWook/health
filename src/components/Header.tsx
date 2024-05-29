@@ -3,7 +3,7 @@ import LoginOut from './LoginOut';
 import styled from 'styled-components';
 import logo from '@/assets/images/logo.png';
 
-const StyledNavContainer = styled.nav`
+const NavContainer = styled.nav`
   height: 5rem;
   display: flex;
   align-items: center;
@@ -16,60 +16,59 @@ const StyledNavContainer = styled.nav`
   z-index: 1000;
 `;
 
-const StyledLogoLink = styled(Link)`
+const LogoLink = styled(Link)`
   text-decoration: none;
   margin-left: 21rem;
 `;
 
-const StyledLogoImage = styled.img`
+const LogoImage = styled.img`
   width: 4rem;
   height: auto;
 `;
 
-const StyledLink = styled(Link)`
+const NavLink = styled(Link)`
   text-decoration: none;
   color: #969696;
 `;
 
-const StyledUl = styled.ul`
+const NavList = styled.ul`
   display: flex;
   align-items: center;
   gap: 2rem;
 `;
 
-const StyledLi = styled.li`
+const NavItem = styled.li`
   list-style: none;
   margin: 0 1rem;
   font-size: 1.2rem;
 `;
 
-const LogoutWrapper = styled.div`
+const LogoutBox = styled.div`
   margin-left: 24rem;
 `;
 
 const Header = () => {
   return (
     <>
-      <StyledNavContainer>
-        <StyledLogoLink to="/calendar">
-          <StyledLogoImage src={logo} alt="logo사진" />
-        </StyledLogoLink>
-        <StyledUl>
-          <StyledLi></StyledLi>
-          <StyledLi>
-            <StyledLink to="/mypage">나의 정보</StyledLink>
-          </StyledLi>
-          <StyledLi>
-            <StyledLink to="">PT 신청</StyledLink>
-          </StyledLi>
-          <StyledLi>
-            <StyledLink to="">PT 신청내역</StyledLink>
-          </StyledLi>
-        </StyledUl>
-        <LogoutWrapper>
+      <NavContainer>
+        <LogoLink to="/calendar">
+          <LogoImage src={logo} alt="logo사진" />
+        </LogoLink>
+        <NavList>
+          <NavItem>
+            <NavLink to="/mypage">나의 정보</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="">PT 신청</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="">PT 신청내역</NavLink>
+          </NavItem>
+        </NavList>
+        <LogoutBox>
           <LoginOut />
-        </LogoutWrapper>
-      </StyledNavContainer>
+        </LogoutBox>
+      </NavContainer>
     </>
   );
 };
