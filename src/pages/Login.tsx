@@ -5,14 +5,20 @@ import googleImage from '@/assets/images/googleImage.png';
 import githubImage from '@/assets/images/githubImage.png';
 import styled from 'styled-components';
 
+const LoginBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+`;
+
 const LoginImg = styled.img`
   width: 100%;
   height: 4rem;
 `;
 
 const LoginBtn = styled.button`
-  border: none;
-  background-color: transparent;
   cursor: pointer;
 `;
 
@@ -46,12 +52,14 @@ const Login = () => {
   return (
     <>
       <h1>로그인</h1>
-      <LoginBtn onClick={handleGoogleLogin}>
-        <LoginImg src={googleImage} alt="Google 로그인" />
-      </LoginBtn>
-      <LoginBtn onClick={handleGithubLogin}>
-        <LoginImg src={githubImage} alt="" />
-      </LoginBtn>
+      <LoginBox>
+        <LoginBtn onClick={handleGoogleLogin}>
+          <LoginImg src={googleImage} alt="Google 로그인" />
+        </LoginBtn>
+        <LoginBtn onClick={handleGithubLogin}>
+          <LoginImg src={githubImage} alt="" />
+        </LoginBtn>
+      </LoginBox>
     </>
   );
 };
