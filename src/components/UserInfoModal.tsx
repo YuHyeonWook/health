@@ -1,6 +1,7 @@
 import { EditUserInfoModalProps, ModalProps } from '@/lib/types/editUserInfoModalType';
 import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
+import { updateUserData } from './firebaseFunctions';
 
 const modalStyles = css`
   display: block;
@@ -58,7 +59,7 @@ const ModalBtn = styled.button`
   }
 `;
 
-const EditUserInfoModal = ({ isOpen, onClose, onSave, user }: EditUserInfoModalProps) => {
+const UserInfoModal = ({ isOpen, onClose, onSave, user }: EditUserInfoModalProps) => {
   const [birthday, setBirthday] = useState(user?.birthday || '');
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || '');
   const [displayName, setDisplayName] = useState(user?.displayName || '');
@@ -73,22 +74,18 @@ const EditUserInfoModal = ({ isOpen, onClose, onSave, user }: EditUserInfoModalP
     }
   }, [user]);
 
-  const handleSave = () => {
-    onSave({ birthday, phoneNumber });
-    setBirthday('');
-    setPhoneNumber('');
+  const handleSave = async () => {
+    const updatedUserData = { ...user, birthday, phoneNumber };
+    await updateUserData(user.uid, updatedUserData);
+    onSave(updatedUserData);
     onClose();
-  };
 
-  const handleClose = () => {
-    setBirthday('');
-    setPhoneNumber('');
-    onClose();
+    localStorage.setItem('user', JSON.stringify(updatedUserData));
   };
 
   return (
     <>
-      <ModalBackground isOpen={isOpen} onClick={handleClose} />
+      <ModalBackground isOpen={isOpen} onClick={onClose} />
       <UserInfoModalBox isOpen={isOpen}>
         <h2>개인정보 수정</h2>
         <label>
@@ -108,10 +105,10 @@ const EditUserInfoModal = ({ isOpen, onClose, onSave, user }: EditUserInfoModalP
           <UserInfoInput type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
         </label>
         <ModalBtn onClick={handleSave}>저장</ModalBtn>
-        <ModalBtn onClick={handleClose}>취소</ModalBtn>
+        <ModalBtn onClick={onClose}>취소</ModalBtn>
       </UserInfoModalBox>
     </>
   );
 };
 
-export default EditUserInfoModal;
+export default UserInfoModal;

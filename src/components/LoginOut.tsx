@@ -17,7 +17,7 @@ const LoginOut = () => {
   const handleLogOut = async () => {
     try {
       await signOut(auth);
-      localStorage.removeItem('user');
+      // localStorage.removeItem('user');
       navigate('/');
     } catch (error) {
       console.log('로그아웃 실패:', error);

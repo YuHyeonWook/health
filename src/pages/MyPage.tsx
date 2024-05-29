@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Layout from '@/components/layout/Layout';
 import UserInfoModal from '@/components/UserInfoModal';
 import { UpdatedInfo } from '@/lib/types/mypageType';
+import { readUserData } from '@/components/firebaseFunctions';
 
 const LogoImg = styled.img`
   width: 10rem;
@@ -53,6 +54,17 @@ const EditBtn = styled.button`
 const MyPage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const userId = 'user-id';
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await readUserData(userId);
+      if (userData) {
+        setUser(userData);
+      }
+    };
+    fetchUserData();
+  }, [userId]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -94,20 +106,20 @@ const MyPage = () => {
                 <UserParagraph>{user.email}</UserParagraph>
               </div>
             </UserInfoBox>
+            <UserInfoBox>
+              <div>
+                생년월일
+                <UserParagraph>{user.birthday}</UserParagraph>
+              </div>
+              <div>
+                전화번호
+                <UserParagraph>{user.phoneNumber}</UserParagraph>
+              </div>
+            </UserInfoBox>
           </>
         ) : (
           <p>로그인하지 않았습니다.</p>
         )}
-        <UserInfoBox>
-          <div>
-            생년월일
-            <UserParagraph></UserParagraph>
-          </div>
-          <div>
-            전화번호
-            <UserParagraph></UserParagraph>
-          </div>
-        </UserInfoBox>
         <EditBtn onClick={handleEditClick}>개인정보 수정</EditBtn>
       </UserInfoContainer>
       <div>

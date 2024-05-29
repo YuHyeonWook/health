@@ -1,66 +1,44 @@
-import { useNavigate } from 'react-router-dom';
-import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
 import { auth } from '@/firebase';
-import googleImage from '@/assets/images/googleImage.png';
-import githubImage from '@/assets/images/githubImage.png';
-import styled from 'styled-components';
-
-const LoginBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-`;
-
-const LoginImg = styled.img`
-  width: 100%;
-  height: 4rem;
-`;
-
-const LoginBtn = styled.button`
-  cursor: pointer;
-`;
+import { FirebaseError } from 'firebase/app';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const handleGoogleLogin = async () => {
-    const providerGoogle = new GoogleAuthProvider();
+  const handleLogin = async () => {
+    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, providerGoogle);
-      const user = result.user;
-      localStorage.setItem('user', JSON.stringify(user));
-      navigate('/calendar');
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      if (credential) {
+        const token = credential.accessToken;
+        const user = result.user;
+        console.log('User Info:', user);
+        console.log('Token:', token);
+        navigate('/calendar');
+      } else {
+        console.error('No credential found');
+      }
     } catch (error) {
-      console.error('로그인 실패:', error);
-    }
-  };
-
-  const handleGithubLogin = async () => {
-    const providerGithub = new GithubAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, providerGithub);
-      const user = result.user;
-      localStorage.setItem('user', JSON.stringify(user));
-      navigate('/calendar');
-    } catch (error) {
-      console.error('로그인 실패:', error);
+      if (error instanceof FirebaseError) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        let email;
+        if (error.customData) {
+          email = error.customData.email;
+        }
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error('Error during sign in:', errorCode, errorMessage, email, credential);
+      } else {
+        console.error('Error during sign in:', error);
+      }
     }
   };
 
   return (
-    <>
-      <h1>로그인</h1>
-      <LoginBox>
-        <LoginBtn onClick={handleGoogleLogin}>
-          <LoginImg src={googleImage} alt="Google 로그인" />
-        </LoginBtn>
-        <LoginBtn onClick={handleGithubLogin}>
-          <LoginImg src={githubImage} alt="" />
-        </LoginBtn>
-      </LoginBox>
-    </>
+    <div>
+      <button onClick={handleLogin}>Login with Google</button>
+    </div>
   );
 };
 
