@@ -1,30 +1,122 @@
 import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
+import styled from 'styled-components';
+import Layout from '@/components/layout/Layout';
+import EditUserInfoModal from '@/components/EditUserInfoModal';
+import { UpdatedInfo } from '@/lib/types/mypageType';
+
+const LogoImg = styled.img`
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  margin-bottom: 3rem;
+`;
+
+const UserInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10rem;
+`;
+
+const UserInfoBox = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+`;
+
+const UserParagraph = styled.p`
+  width: 25rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid #c7c7c7;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+`;
+
+const EditBtn = styled.button`
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
 
 const MyPage = () => {
   const [user, setUser] = useState<User | null>(null);
-  console.log(user);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  });
+  }, []);
+
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSaveUserInfo = (updatedInfo: UpdatedInfo) => {
+    if (user) {
+      const updatedUser = { ...user, ...updatedInfo };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+    }
+  };
 
   return (
-    <div>
-      <h2>My Page</h2>
-      {user ? (
-        <>
-          <img src={user.photoURL || ''} alt="User Profile" />
-          <p>Email: {user.email}</p>
-          <p>이름: {user.displayName}</p>
-        </>
-      ) : (
-        <p>로그인하지 않았습니다.</p>
-      )}
-    </div>
+    <Layout>
+      <UserInfoContainer>
+        {user ? (
+          <>
+            <LogoImg src={user.photoURL || ''} alt="User Profile" />
+            <h2>개인정보</h2>
+            <UserInfoBox>
+              <div>
+                이름
+                <UserParagraph>{user.displayName}</UserParagraph>
+              </div>
+              <div>
+                이메일
+                <UserParagraph> {user.email}</UserParagraph>
+              </div>
+            </UserInfoBox>
+          </>
+        ) : (
+          <p>로그인하지 않았습니다.</p>
+        )}
+        <UserInfoBox>
+          <div>
+            생년월일
+            <UserParagraph></UserParagraph>
+          </div>
+          <p>전화번호: </p>
+        </UserInfoBox>
+        <EditBtn onClick={handleEditClick}>개인정보 수정</EditBtn>
+      </UserInfoContainer>
+      <div>
+        <h2>인바디 정보</h2>
+        <p>키:</p>
+        <p>체중: </p>
+        <p>근육량: </p>
+        <p>체지방량: </p>
+        <p>BMI: </p>
+      </div>
+      <EditUserInfoModal isOpen={isModalOpen} onClose={handleModalClose} onSave={handleSaveUserInfo} user={user} />
+    </Layout>
   );
 };
 
