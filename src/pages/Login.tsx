@@ -1,10 +1,13 @@
 import { auth } from '@/firebase';
 import { FirebaseError } from 'firebase/app';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
@@ -12,9 +15,11 @@ const Login = () => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       if (credential) {
         const token = credential.accessToken;
-        const user = result.user;
-        console.log('User Info:', user);
+        const userInfo = result.user;
+        console.log('User Info:', userInfo);
         console.log('Token:', token);
+        setUser(userInfo);
+        localStorage.setItem('user', JSON.stringify(user));
         navigate('/calendar');
       } else {
         console.error('No credential found');
