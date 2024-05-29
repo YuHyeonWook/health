@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { User } from 'firebase/auth';
 import styled from 'styled-components';
 import Layout from '@/components/layout/Layout';
-import EditUserInfoModal from '@/components/EditUserInfoModal';
+import UserInfoModal from '@/components/UserInfoModal';
 import { UpdatedInfo } from '@/lib/types/mypageType';
 
 const LogoImg = styled.img`
@@ -91,7 +91,7 @@ const MyPage = () => {
               </div>
               <div>
                 이메일
-                <UserParagraph> {user.email}</UserParagraph>
+                <UserParagraph>{user.email}</UserParagraph>
               </div>
             </UserInfoBox>
           </>
@@ -103,7 +103,10 @@ const MyPage = () => {
             생년월일
             <UserParagraph></UserParagraph>
           </div>
-          <p>전화번호: </p>
+          <div>
+            전화번호
+            <UserParagraph></UserParagraph>
+          </div>
         </UserInfoBox>
         <EditBtn onClick={handleEditClick}>개인정보 수정</EditBtn>
       </UserInfoContainer>
@@ -115,7 +118,7 @@ const MyPage = () => {
         <p>체지방량: </p>
         <p>BMI: </p>
       </div>
-      <EditUserInfoModal isOpen={isModalOpen} onClose={handleModalClose} onSave={handleSaveUserInfo} user={user} />
+      <UserInfoModal isOpen={isModalOpen} onClose={handleModalClose} onSave={handleSaveUserInfo} user={user} />
     </Layout>
   );
 };
