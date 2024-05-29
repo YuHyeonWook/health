@@ -2,7 +2,7 @@ import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import MyPage from '@/pages/MyPage';
 import NotFound from '@/pages/NotFound';
-import Calendar from '@/pages/CalendarCrud/Calendar';
+import Calendar from '@/pages/Calendar';
 
 export const routes = [
   {
