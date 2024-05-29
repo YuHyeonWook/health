@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
+
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
