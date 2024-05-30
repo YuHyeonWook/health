@@ -3,6 +3,9 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
+import bgLogin from '@/assets/images/bg-login.png';
+import { BgLoginImg, LogoImg, SignForm, SignSection } from '@/styles/signStyle';
+import logo from '@/assets/images/logo.png';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -17,87 +20,81 @@ const SignIn = () => {
 
   const handleSignIn = async (event: React.FormEvent) => {
     event.preventDefault();
+    setError('');
+
+    if (!email || !password) {
+      setError('이메일과 비밀번호를 모두 입력하세요.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('유효한 이메일 주소를 입력하세요.');
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert('로그인에 성공하였습니다.');
       navigate('/calendar');
     } catch (error) {
       if (error instanceof FirebaseError) {
-        setError(error.message);
+        switch (error.code) {
+          case 'auth/user-not-found':
+            setError('존재하지 않는 사용자입니다.');
+            break;
+          case 'auth/wrong-password':
+            setError('비밀번호가 올바르지 않습니다.');
+            break;
+          case 'auth/invalid-email':
+            setError('유효하지 않은 이메일 주소입니다.');
+            break;
+          default:
+            setError('로그인에 실패하였습니다. 다시 시도해주세요.');
+            break;
+        }
+      } else {
+        setError('알 수 없는 오류가 발생했습니다.');
       }
     }
   };
 
   return (
-    <div>
-      <h2>로그인</h2>
-      <form onSubmit={handleSignIn}>
-        <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit">로그인</button>
-      </form>
-      <button onClick={routeChange}>회원가입</button>
-      {error && <p>{error}</p>}
-    </div>
+    <>
+      <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
+      <SignForm onSubmit={handleSignIn}>
+        <SignSection>
+          <LogoImg src={logo} alt="로고 이미지" />
+          <h2>로그인</h2>
+          <label htmlFor="email">
+            이메일(아이디)
+            <input
+              type="email"
+              placeholder="이메일(아이디)을 입력하세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          <label htmlFor="password">
+            비밀번호
+            <input
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          <button type="submit">로그인</button>
+          <button type="button" onClick={routeChange}>
+            회원가입
+          </button>
+          {error && <p>{error}</p>}
+        </SignSection>
+      </SignForm>
+    </>
   );
 };
 
 export default SignIn;
-
-// import { auth } from '@/firebase';
-// import { userState } from '@/recoil/userState';
-// import { FirebaseError } from 'firebase/app';
-// import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-// import { useNavigate } from 'react-router-dom';
-// import { useSetRecoilState } from 'recoil';
-
-// const Login = () => {
-//   const navigate = useNavigate();
-//   const setUser = useSetRecoilState(userState);
-
-//   const handleLogin = async () => {
-//     const provider = new GoogleAuthProvider();
-//     try {
-//       const result = await signInWithPopup(auth, provider);
-//       const credential = GoogleAuthProvider.credentialFromResult(result);
-//       if (credential) {
-//         const token = credential.accessToken;
-//         const userInfo = result.user;
-//         console.log('User Info:', userInfo);
-//         console.log('Token:', token);
-//         setUser(userInfo);
-//         localStorage.setItem('user', JSON.stringify(userInfo));
-
-//         const phoneNumber = localStorage.getItem('phoneNumber') || '';
-//         const birthdate = localStorage.getItem('birthdate') || '';
-
-//         // 전화번호와 생년월일 정보 업데이트 (Firebase Realtime Database 또는 다른 저장소)
-//         await updateUserInfo(userInfo.uid, phoneNumber, birthdate);
-//         navigate('/calendar');
-//       } else {
-//         console.error('No credential found');
-//       }
-//     } catch (error) {
-//       if (error instanceof FirebaseError) {
-//         const errorCode = error.code;
-//         const errorMessage = error.message;
-//         let email;
-//         if (error.customData) {
-//           email = error.customData.email;
-//         }
-//         const credential = GoogleAuthProvider.credentialFromError(error);
-//         console.error('Error during sign in:', errorCode, errorMessage, email, credential);
-//       } else {
-//         console.error('Error during sign in:', error);
-//       }
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <button onClick={handleLogin}>Login with Google</button>
-//     </div>
-//   );
-// };
-
-// export default Login;
