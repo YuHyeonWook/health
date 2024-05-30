@@ -1,75 +1,79 @@
 import { Link } from 'react-router-dom';
 import LoginOut from './LoginOut';
 import styled from 'styled-components';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.svg';
 
 const NavContainer = styled.nav`
-  height: 5rem;
   display: flex;
   align-items: center;
-  color: #f9fffa;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  padding-right: 2rem;
+  justify-content: space-between;
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   z-index: 1000;
+  height: 8rem;
+  padding: 0 8rem;
+  color: var(--color-gray-dark);
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.05);
 `;
 
 const LogoLink = styled(Link)`
   text-decoration: none;
-  margin-left: 21rem;
 `;
 
 const LogoImage = styled.img`
-  width: 4rem;
+  width: 6rem;
   height: auto;
-`;
-
-const NavLink = styled(Link)`
-  text-decoration: none;
-  color: #969696;
 `;
 
 const NavList = styled.ul`
   display: flex;
   align-items: center;
-  gap: 2rem;
+  margin-right: auto;
+  padding-left: 12rem;
+  gap: 10rem;
 `;
 
-const NavItem = styled.li`
-  list-style: none;
-  margin: 0 1rem;
-  font-size: 1.2rem;
+const NavItem = styled.li``;
+
+const NavLink = styled(Link)`
+  font-size: 1.8rem;
+  color: var(--color-gray-dark);
+  font-weight: 700;
+  transition: color 0.3s;
+  &:hover {
+    color: var(--color-primary);
+  }
 `;
 
 const LogoutBox = styled.div`
-  margin-left: 24rem;
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  font-weight: 700;
 `;
 
 const Header = () => {
   return (
-    <>
-      <NavContainer>
-        <LogoLink to="/calendar">
-          <LogoImage src={logo} alt="logo사진" />
-        </LogoLink>
-        <NavList>
-          <NavItem>
-            <NavLink to="/mypage">나의 정보</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="">PT 신청</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink to="">PT 신청내역</NavLink>
-          </NavItem>
-        </NavList>
-        <LogoutBox>
-          <LoginOut />
-        </LogoutBox>
-      </NavContainer>
-    </>
+    <NavContainer>
+      <LogoLink to="/calendar">
+        <LogoImage src={logo} alt="health calendar" />
+      </LogoLink>
+      <NavList>
+        <NavItem>
+          <NavLink to="/mypage">마이페이지</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/apply">PT 신청</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="">PT 신청내역</NavLink>
+        </NavItem>
+      </NavList>
+      <LogoutBox>
+        <LoginOut />
+      </LogoutBox>
+    </NavContainer>
   );
 };
 
