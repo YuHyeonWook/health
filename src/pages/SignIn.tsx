@@ -4,8 +4,9 @@ import { auth } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import bgLogin from '@/assets/images/bg-login.png';
-import { BgLoginImg, LogoImg, SignForm, SignSection } from '@/styles/commonSignStyle';
+import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
 import logo from '@/assets/images/logo.png';
+import Button from '@/components/Button';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -66,7 +67,7 @@ const SignIn = () => {
         <SignSection>
           <LogoImg src={logo} alt="로고 이미지" />
           <h2>로그인</h2>
-          <label htmlFor="email">
+          <SignLabel htmlFor="email">
             이메일(아이디)
             <input
               type="email"
@@ -75,8 +76,8 @@ const SignIn = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </label>
-          <label htmlFor="password">
+          </SignLabel>
+          <SignLabel htmlFor="password">
             비밀번호
             <input
               type="password"
@@ -85,11 +86,11 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-          </label>
-          <button type="submit">로그인</button>
-          <button type="button" onClick={routeChange}>
+          </SignLabel>
+          <Button type="submit">로그인</Button>
+          <Button type="button" onClick={routeChange}>
             회원가입
-          </button>
+          </Button>
           {error && <p>{error}</p>}
         </SignSection>
       </SignForm>

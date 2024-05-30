@@ -4,7 +4,8 @@ import { auth } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.png';
-import { BgLoginImg, LogoImg, SignForm, SignSection } from '@/styles/commonSignStyle';
+import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
+import Button from '@/components/Button';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -13,18 +14,17 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const [userName, setUserName] = useState<string>('');
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // 이메일 유효성 검사
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError('유효한 이메일 주소를 입력하세요.');
       return;
     }
 
-    // 비밀번호 강도 검사 (예: 최소 6자, 숫자 포함 등)
     if (password.length < 8 || !/\d/.test(password)) {
       setPasswordError('비밀번호는 최소 8자 이상이어야 하며, 숫자를 포함해야 합니다.');
       return;
@@ -54,7 +54,7 @@ const SignUp = () => {
         <SignSection>
           <LogoImg src={logo} alt="로고 이미지" />
           <h2>회원가입</h2>
-          <label htmlFor="email">
+          <SignLabel htmlFor="email">
             이메일(아이디)
             <input
               type="email"
@@ -66,9 +66,9 @@ const SignUp = () => {
               }}
               required
             />
-          </label>
+          </SignLabel>
           {error && <p>{error}</p>}
-          <label htmlFor="password">
+          <SignLabel htmlFor="password">
             비밀번호
             <input
               type="password"
@@ -80,9 +80,9 @@ const SignUp = () => {
               }}
               required
             />
-          </label>
+          </SignLabel>
           {passwordError && <p>{passwordError}</p>}
-          <label htmlFor="password">
+          <SignLabel htmlFor="password">
             비밀번호 확인
             <input
               type="password"
@@ -94,9 +94,19 @@ const SignUp = () => {
               }}
               required
             />
-          </label>
+          </SignLabel>
           {passwordError && <p>{passwordError}</p>}
-          <button type="submit">회원가입</button>
+          <SignLabel htmlFor="userName">
+            사용자 이름
+            <input
+              type="text"
+              placeholder="사용자 이름을 입력하세요"
+              value={userName}
+              onChange={(event) => setUserName(event.target.value)}
+              required
+            />
+          </SignLabel>
+          <Button type="submit">회원가입</Button>
         </SignSection>
       </SignForm>
     </>
