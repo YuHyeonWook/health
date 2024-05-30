@@ -1,6 +1,6 @@
 export interface UpdatedInfo {
   displayName?: string | null;
   email?: string | null;
-  birthday?: string;
+  birthday?: string | null;
   phoneNumber: string | null;
 }

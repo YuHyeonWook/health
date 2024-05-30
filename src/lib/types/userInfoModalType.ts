@@ -4,7 +4,7 @@ export interface ModalProps {
   isOpen: boolean;
 }
 
-export interface EditUserInfoModalProps {
+export interface userInfoModalType {
   isOpen: boolean;
   onClose: () => void;
   onSave: (updatedInfo: UpdatedInfo) => void;

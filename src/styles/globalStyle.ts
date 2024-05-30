@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
     src: url('../assets/fonts/PretendardBold.woff') format('truetype');
     font-weight: 700;
     font-style: normal;
-  } 
+  }
 
   :root {
     --color-green: #4cd964
