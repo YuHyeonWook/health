@@ -5,6 +5,7 @@ import { getDatabase } from 'firebase/database';
 const firebaseConfig = {
   apiKey: 'AIzaSyCTHTRKxdRHshjEsZ2jt0m9jmcrO9QKhSM',
   authDomain: 'toy2-abff4.firebaseapp.com',
+  databaseURL: 'https://toy2-abff4-default-rtdb.asia-southeast1.firebasedatabase.app',
   projectId: 'toy2-abff4',
   storageBucket: 'toy2-abff4.appspot.com',
   messagingSenderId: '690501479513',

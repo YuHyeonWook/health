@@ -2,8 +2,8 @@ import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import MyPage from '@/pages/MyPage';
 import NotFound from '@/pages/NotFound';
-import SignUp from '@/pages/SignUp';
 import Calendar from '@/pages/Calendar';
+import ApplyForm from '@/pages/ApplyForm';
 
 export const routes = [
   {
@@ -12,21 +12,20 @@ export const routes = [
     errorElement: <NotFound />,
   },
   {
-    path: 'signup',
-    element: <SignUp />,
+    path: '/calendar',
+    element: <Calendar />,
+    errorElement: <NotFound />,
   },
   {
     path: '/home',
     element: <Home />,
   },
-
   {
     path: '/mypage',
     element: <MyPage />,
   },
-
   {
-    path: '/calendar',
-    element: <Calendar />,
+    path: '/apply',
+    element: <ApplyForm />,
   },
 ];
