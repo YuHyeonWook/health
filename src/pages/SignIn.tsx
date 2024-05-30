@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
+import { FirebaseError } from 'firebase/app';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -14,26 +15,28 @@ const SignIn = () => {
     navigate('/signup');
   };
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
+  const handleSignIn = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert('로그인에 성공하였습니다.');
       navigate('/calendar');
     } catch (error) {
-      setError(error.message);
+      if (error instanceof FirebaseError) {
+        setError(error.message);
+      }
     }
   };
 
   return (
     <div>
       <h2>로그인</h2>
-      <button onClick={routeChange}>회원가입</button>
       <form onSubmit={handleSignIn}>
         <input type="email" placeholder="이메일" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">로그인</button>
       </form>
+      <button onClick={routeChange}>회원가입</button>
       {error && <p>{error}</p>}
     </div>
   );

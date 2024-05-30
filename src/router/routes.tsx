@@ -4,6 +4,7 @@ import NotFound from '@/pages/NotFound';
 import Calendar from '@/pages/Calendar';
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
+import Layout from '@/components/layout/Layout';
 
 export const routes = [
   {
@@ -26,6 +27,10 @@ export const routes = [
   },
   {
     path: '/mypage',
-    element: <MyPage />,
+    element: (
+      <Layout>
+        <MyPage />
+      </Layout>
+    ),
   },
 ];
