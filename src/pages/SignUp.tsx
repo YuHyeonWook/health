@@ -4,15 +4,42 @@ import { auth } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import bgLogin from '@/assets/images/bg-login.png';
+import logo from '@/assets/images/logo.png';
 
-const SignUpForm = styled.form`
+const SignForm = styled.form`
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+`;
+
+const SignSection = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  width: 100%;
-  height: auto;
+  gap: 2.5rem;
+  border: 1px solid var(--color-white);
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  width: 20rem;
+  height: 80%;
+`;
+
+const BgLoginImg = styled.img`
+  position: relative;
+`;
+
+const LogoImg = styled.img`
+  width: 8rem;
 `;
 
 const SignUp = () => {
@@ -37,24 +64,27 @@ const SignUp = () => {
 
   return (
     <div>
-      <img src={bgLogin} alt="회원가입 화면 이미지" />
-      <h2>회원가입</h2>
-      <SignUpForm onSubmit={handleSignUp}>
-        <input type="email" placeholder="이메일" value={email} onChange={(event) => setEmail(event.target.value)} />
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="비밀번호 확인"
-          value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
-        />
-        <button type="submit">회원가입하기</button>
-      </SignUpForm>
+      <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
+      <SignForm onSubmit={handleSignUp}>
+        <SignSection>
+          <LogoImg src={logo} alt="로고 이미지" />
+          <h3>회원가입</h3>
+          <input type="email" placeholder="이메일" value={email} onChange={(event) => setEmail(event.target.value)} />
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="비밀번호 확인"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+          />
+          <button type="submit">회원가입</button>
+        </SignSection>
+      </SignForm>
       {error && <p>{error}</p>}
     </div>
   );
