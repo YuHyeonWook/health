@@ -3,6 +3,7 @@ import Login from '@/pages/Login';
 import MyPage from '@/pages/MyPage';
 import NotFound from '@/pages/NotFound';
 import Calendar from '@/pages/Calendar';
+import ApplyForm from '@/pages/ApplyForm';
 
 export const routes = [
   {
@@ -22,5 +23,9 @@ export const routes = [
   {
     path: '/mypage',
     element: <MyPage />,
+  },
+  {
+    path: '/apply',
+    element: <ApplyForm />,
   },
 ];
