@@ -4,7 +4,7 @@ import { auth } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.png';
-import { BgLoginImg, LogoImg, SignForm, SignSection } from '@/styles/signStyle';
+import { BgLoginImg, LogoImg, SignForm, SignSection } from '@/styles/commonSignStyle';
 
 const SignUp = () => {
   const navigate = useNavigate();

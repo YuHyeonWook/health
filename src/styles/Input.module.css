@@ -1,0 +1,26 @@
+.input-box .label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.input-box .input {
+  display: block;
+  width: 100%;
+  height: 5rem;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  color: var(--color-black);
+  border-radius: 0.06rem;
+  border: var(--border-gray);
+  background-color: var(--color-white);
+}
+
+.input-box .input::placeholder {
+  color: var(--color-gray-light);
+}
+
+.input-box .input:focus {
+  border: var(--border-primary);
+  background-color: var(--color-primary-light);
+}

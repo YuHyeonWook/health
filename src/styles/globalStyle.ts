@@ -34,14 +34,16 @@ const GlobalStyle = createGlobalStyle`
   }
 
   :root {
-    --color-green: #4cd964
-    --color-green-light: #f9fffa;
+    --color-primary: #4cd964;
+    --color-primary-light: #f9fffa;
+    --color-primary-dark: #30ac45;
     --color-gray: #969696;
     --color-gray-light: #c7c7c7;
     --color-gray-dark: #5e5e5e;
     --color-black: #171717;
     --color-white: #ffffff;
 
+    --border-primary: 1px solid #4cd964; 
     --border-gray: 1px solid #c7c7c7; 
 
     font-size: 10px;

@@ -2,9 +2,13 @@ import Home from '@/pages/Home';
 import MyPage from '@/pages/MyPage';
 import NotFound from '@/pages/NotFound';
 import Calendar from '@/pages/Calendar';
+<<<<<<< HEAD
 import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
 import Layout from '@/components/layout/Layout';
+=======
+import ApplyForm from '@/pages/ApplyForm';
+>>>>>>> 13eb51913f24895181adacc307842e8fb035c4b1
 
 export const routes = [
   {
@@ -32,5 +36,9 @@ export const routes = [
         <MyPage />
       </Layout>
     ),
+  },
+  {
+    path: '/apply',
+    element: <ApplyForm />,
   },
 ];

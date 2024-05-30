@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const LogoutBtn = styled.button`
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: #4cd964;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  transition: color 0.3s;
+  &:hover {
+    color: var(--color-primary-dark);
+  }
 `;
 
 const LoginOut = () => {
