@@ -1,7 +1,11 @@
-import React from 'react';
+import UserInfo from '@/components/UserInfo';
 
 const MyPage = () => {
-  return <div>MyPage</div>;
+  return (
+    <div>
+      <UserInfo />
+    </div>
+  );
 };
 
 export default MyPage;

@@ -6,6 +6,8 @@ import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
 import Button from '@/components/Button';
+import { useRecoilState } from 'recoil';
+import { userNameState } from '@/lib/store/userNameState';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
+  const [userName, setUserName] = useRecoilState(userNameState);
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
