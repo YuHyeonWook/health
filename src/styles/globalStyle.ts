@@ -42,11 +42,6 @@ const GlobalStyle = createGlobalStyle`
     --color-black: #171717;
     --color-white: #ffffff;
 
-    --font-weight-reqular: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-
     --border-gray: 1px solid #c7c7c7; 
 
     font-size: 10px;
