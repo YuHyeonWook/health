@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const Modal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,10 +16,10 @@ const Modal = () => {
         </ModalBtn>
         {isOpen ? 
         <ModalBackdrop onClick={openModalHandler}>
-          <ModalView>
-            <div onClick={openModalHandler}>&times;</div>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseBtn onClick={openModalHandler}>&times;</CloseBtn>
             <div>Hello World</div>
-          </ModalView>
+          </ModalContent>
         </ModalBackdrop> 
         : null}
       </ModalContainer>
@@ -29,40 +29,54 @@ const Modal = () => {
 
 export default Modal;
 
-export const ModalContainer = styled.div`
+const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-flow: row wrep;
   justify-content: center;
   align-items: center;
 `;
-export const ModalBtn = styled.button`
+
+const ModalBtn = styled.button`
   background-color: #4000c7;
   text-decoration: none;
   border: none;
   padding: 20px;
   color: white;
   border-radius: 30px;
-  cursor: grab;
+  cursor: pointer; /* grab 대신 pointer로 변경 */
 `;
-export const ModalBackdrop = styled.div`
+
+const ModalBackdrop = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
   display: flex;
-  flex-flow: row wrep;
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
 `;
-export const ModalView = styled.div.attrs(props => ({
+
+const ModalContent = styled.div.attrs(props => ({
   role: 'dialog'
 }))`
+  position: relative; /* 상대 위치 설정을 추가 */
   text-align: center;
   text-decoration: none;
   padding: 30px 90px;
   background-color: white;
   border-radius: 30px;
   color: #4000c7;
+  width: 400px;
+  height: 600px;
+`;
+
+const CloseBtn = styled.div`
+  position: absolute;
+  top: 10px; /* 모달 내부 상단에 위치하도록 설정 */
+  right: 10px; /* 모달 내부 우측에 위치하도록 설정 */
+  cursor: pointer;
+  font-size: 24px;
 `;

@@ -173,6 +173,13 @@ const Day = styled.div`
   border: 1px solid #E8E8E8;
   border-radius: 5px;
   text-align: left;
+  &:hover {
+    background: cornflowerblue;
+    color: white;
+    transition: 0.5s;
+    transform: scale(1.05);
+    cursor: pointer;
+  }
 `;
 
 const CurrentMonthDay = styled(Day)`
