@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ref, get } from 'firebase/database';
 import styled from 'styled-components';
-import { db } from '@/firebase';
+import { auth, db } from '@/firebase';
 import UserInBodyModal from '@/components/UserInBobyModal';
 
 const UserInBody = () => {
@@ -22,7 +22,8 @@ const UserInBody = () => {
   };
 
   const loadData = async () => {
-    const userRef = ref(db, 'users/userId/body'); // 실제 userId로 대체
+    const userId = auth.currentUser?.uid; // 현재 사용자의 uid 가져오기
+    const userRef = ref(db, `users/${userId}/body`); // 데이터베이스 경로 수정    const snapshot = await get(userRef);
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
       const data = snapshot.val();

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { userNameState } from '@/lib/store/userNameState';
 import UserInfoModal from './UserInfoModal';
 import { ref, get } from 'firebase/database';
-import { db } from '@/firebase';
+import { auth, db } from '@/firebase';
 
 const UserInfo = () => {
   const userName = useRecoilValue(userNameState);
@@ -25,7 +25,8 @@ const UserInfo = () => {
   };
 
   const loadData = async () => {
-    const userRef = ref(db, 'users/userId'); // 실제 userId로 대체
+    const userId = auth.currentUser?.uid;
+    const userRef = ref(db, `users/${userId}`); // Replace 'userId' with actual user ID
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
       const data = snapshot.val();

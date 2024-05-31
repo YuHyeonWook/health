@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import bgLogin from '@/assets/images/bg-login.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
 import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button';
+import { ref, set } from 'firebase/database';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -59,6 +60,21 @@ const SignIn = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userRef = ref(db, `users/${user.uid}`);
+        set(userRef, {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>

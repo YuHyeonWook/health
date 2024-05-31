@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
-import { db } from '@/firebase';
+import { auth, db } from '@/firebase';
 import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userModalProps';
 
@@ -11,7 +11,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const loadData = async () => {
-    const userRef = ref(db, 'users/userId'); // 실제 userId로 대체
+    const userId = auth.currentUser?.uid; // Get current user ID
+    const userRef = ref(db, `users/${userId}`); // Replace 'userId' with actual user ID
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
       const data = snapshot.val();
@@ -22,7 +23,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   };
 
   const handleSave = async () => {
-    const userRef = ref(db, 'users/userId'); // 실제 userId로 대체
+    const userId = auth.currentUser?.uid; // Get current user ID
+    const userRef = ref(db, `users/${userId}`); // Replace 'userId' with actual user ID
     await set(userRef, {
       email,
       birthday,

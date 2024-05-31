@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase';
+import { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.png';
@@ -8,6 +8,7 @@ import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/
 import Button from '@/components/Button';
 import { useRecoilState } from 'recoil';
 import { userNameState } from '@/lib/store/userNameState';
+import { ref, set } from 'firebase/database';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -48,6 +49,22 @@ const SignUp = () => {
       }
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userRef = ref(db, `users/${user.uid}`);
+        set(userRef, {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        });
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
