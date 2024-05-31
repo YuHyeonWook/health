@@ -62,7 +62,6 @@ const SignUp = () => {
       }
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 

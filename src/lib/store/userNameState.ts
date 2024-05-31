@@ -7,15 +7,11 @@ export const userNameState = atom<string>({
     ({ setSelf, onSet }) => {
       const savedData = sessionStorage.getItem('userNameState');
       if (savedData != null) {
-        try {
-          setSelf(savedData);
-        } catch (e) {
-          console.error('Failed to parse sessionStorage item "userNameState"', e);
-        }
+        setSelf(savedData);
       }
 
       onSet((newValue) => {
-        if (newValue != null) {
+        if (newValue) {
           sessionStorage.setItem('userNameState', newValue);
         } else {
           sessionStorage.removeItem('userNameState');
