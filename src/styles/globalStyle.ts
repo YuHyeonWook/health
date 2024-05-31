@@ -52,7 +52,6 @@ const GlobalStyle = createGlobalStyle`
     --chip-blue: #1d4ed8;
     --chip-blue-bg: #dbeafe;
 
-
     --border-primary: 1px solid #4cd964; 
     --border-gray: 1px solid #c7c7c7; 
 
@@ -102,7 +101,7 @@ const GlobalStyle = createGlobalStyle`
   input,
   select,
   textarea {
-    font-size: 16px;
+    font-size: 1.6rem;
     background-color: transparent;
     border: 0;
     border-radius: 6px;
