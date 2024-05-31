@@ -74,7 +74,6 @@ const PrivateH2 = styled.h2`
 `;
 
 const UserInfoContainer = styled.div`
-  margin-top: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
