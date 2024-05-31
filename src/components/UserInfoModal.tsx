@@ -7,14 +7,14 @@ import Button from './Button';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  // setUserInfoData: React.Dispatch<
-  //   React.SetStateAction<{
-  //     photoURL: string;
-  //     birthday: string;
-  //     phoneNumber: string;
-  //     email: string;
-  //   }>
-  // >;
+  setUserInfoData: React.Dispatch<
+    React.SetStateAction<{
+      photoURL: string;
+      birthday: string;
+      phoneNumber: string;
+      email: string;
+    }>
+  >;
 }
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
@@ -40,7 +40,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
       birthday,
       phoneNumber,
     });
-    setUserInfoData({ email, birthday, phoneNumber });
+    setUserInfoData({ email, birthday, phoneNumber, photoURL: '' });
     onClose();
   };
 
@@ -52,7 +52,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
 
   return (
     <>
-      {isOpen && <ModalBackground isOpen={isOpen} onClose={onClose} onClick={onClose} />}{' '}
+      {isOpen && <ModalBackground isOpen={isOpen} onClose={onClose} onClick={onClose} />}
       <UserInfoModalBox isOpen={isOpen} onClose={onClose}>
         <h2>개인정보 수정</h2>
         <label>
@@ -107,12 +107,12 @@ const modalBackgroundStyles = css`
   z-index: 999;
 `;
 
-const UserInfoModalBox = styled.div<ModalProps>`
+const UserInfoModalBox = styled.div<{ isOpen: boolean; onClose: () => void }>`
   display: none;
   ${({ isOpen }) => isOpen && modalStyles}
 `;
 
-const ModalBackground = styled.div<ModalProps>`
+const ModalBackground = styled.div<{ isOpen: boolean; onClose: () => void }>`
   display: none;
   ${({ isOpen }) => isOpen && modalBackgroundStyles}
 `;
@@ -130,18 +130,4 @@ const UserInfoModalBtnBox = styled.div`
   justify-content: center;
   margin-top: 1rem;
   gap: 1rem;
-`;
-
-const ModalBtn = styled.button`
-  padding: 0.5rem 1rem;
-  margin: 0.5rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 `;

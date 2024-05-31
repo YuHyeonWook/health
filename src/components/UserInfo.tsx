@@ -45,6 +45,7 @@ const UserInfo = () => {
   return (
     <>
       <UserInfoBox>
+        <h2>개인정보</h2>
         {userName && <p>이름: {userName}!</p>}
         <p>Email: {userInfoData.email}</p>
         <p>Birthday: {userInfoData.birthday}</p>
