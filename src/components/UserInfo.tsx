@@ -26,7 +26,7 @@ const UserInfo = () => {
 
   const loadData = async () => {
     const userId = auth.currentUser?.uid;
-    const userRef = ref(db, `users/${userId}`); // Replace 'userId' with actual user ID
+    const userRef = ref(db, `users/${userId}`);
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
       const data = snapshot.val();

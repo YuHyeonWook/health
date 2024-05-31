@@ -11,8 +11,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const loadData = async () => {
-    const userId = auth.currentUser?.uid; // Get current user ID
-    const userRef = ref(db, `users/${userId}`); // Replace 'userId' with actual user ID
+    const userId = auth.currentUser?.uid;
+    const userRef = ref(db, `users/${userId}`);
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
       const data = snapshot.val();
@@ -23,8 +23,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   };
 
   const handleSave = async () => {
-    const userId = auth.currentUser?.uid; // Get current user ID
-    const userRef = ref(db, `users/${userId}`); // Replace 'userId' with actual user ID
+    const userId = auth.currentUser?.uid;
+    const userRef = ref(db, `users/${userId}`);
     await set(userRef, {
       email,
       birthday,
