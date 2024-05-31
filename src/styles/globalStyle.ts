@@ -43,6 +43,15 @@ const GlobalStyle = createGlobalStyle`
     --color-black: #171717;
     --color-white: #ffffff;
 
+    --chip-red: #b91c1c;
+    --chip-red-bg: #fee2e2;
+    --chip-yellow: #d97706;
+    --chip-yellow-bg: #fef3c7;
+    --chip-green: #047857;
+    --chip-green-bg: #d1fae5;
+    --chip-blue: #1d4ed8;
+    --chip-blue-bg: #dbeafe;
+
     --border-primary: 1px solid #4cd964; 
     --border-gray: 1px solid #c7c7c7; 
 
@@ -61,6 +70,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     line-height: 1.25;
     color: var(--color-black);
+    background-color: var(--color-primary-light);
   }
 
   a {
@@ -85,6 +95,26 @@ const GlobalStyle = createGlobalStyle`
   img {
     max-width: 100%;
     height: auto;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 1.6rem;
+    background-color: transparent;
+    border: 0;
+    border-radius: 6px;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+  input::-webkit-inner-spin-button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
   }
 `;
 

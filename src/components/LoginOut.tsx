@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 const LogoutBtn = styled.button`
   font-size: 1.8rem;
-  font-weight: 700;
   color: var(--color-primary);
-  transition: color 0.3s;
+  font-weight: 600;
+  transition: color 0.2s;
   &:hover {
     color: var(--color-primary-dark);
   }

@@ -15,7 +15,8 @@ const NavContainer = styled.nav`
   height: 8rem;
   padding: 0 8rem;
   color: var(--color-gray-dark);
-  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.03);
+  background-color: var(--color-white);
 `;
 
 const LogoLink = styled(Link)`
@@ -40,8 +41,8 @@ const NavItem = styled.li``;
 const NavLink = styled(Link)`
   font-size: 1.8rem;
   color: var(--color-gray-dark);
-  font-weight: 700;
-  transition: color 0.3s;
+  font-weight: 600;
+  transition: color 0.2s;
   &:hover {
     color: var(--color-primary);
   }
