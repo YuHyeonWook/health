@@ -99,7 +99,7 @@ const SignUp = () => {
           </SignLabel>
           {passwordError && <p>{passwordError}</p>}
           <SignLabel htmlFor="userName">
-            사용자 이름
+            닉네임
             <input
               type="text"
               placeholder="사용자 이름을 입력하세요"

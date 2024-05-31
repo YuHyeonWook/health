@@ -2,10 +2,19 @@ import { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { db } from '@/firebase';
+import Button from './Button';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  // setUserInfoData: React.Dispatch<
+  //   React.SetStateAction<{
+  //     photoURL: string;
+  //     birthday: string;
+  //     phoneNumber: string;
+  //     email: string;
+  //   }>
+  // >;
 }
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
@@ -63,8 +72,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </label>
-        <ModalBtn onClick={handleSave}>저장</ModalBtn>
-        <ModalBtn onClick={onClose}>취소</ModalBtn>
+        <UserInfoModalBtnBox>
+          <Button onClick={handleSave}>저장</Button>
+          <Button onClick={onClose}>취소</Button>
+        </UserInfoModalBtnBox>
       </UserInfoModalBox>
     </>
   );
@@ -112,6 +123,13 @@ const UserInfoInput = styled.input`
   margin: 0.5rem 0;
   border-radius: 5px;
   border: 1px solid #ccc;
+`;
+
+const UserInfoModalBtnBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  gap: 1rem;
 `;
 
 const ModalBtn = styled.button`
