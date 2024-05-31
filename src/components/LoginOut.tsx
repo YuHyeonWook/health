@@ -19,7 +19,8 @@ const LoginOut = () => {
   const handleLogOut = async () => {
     try {
       await signOut(auth);
-      localStorage.removeItem('user');
+      localStorage.removeItem('user'); // 로컬 스토리지에서 사용자 정보 삭제
+      localStorage.removeItem('userDetails'); // 로컬 스토리지에서 사용자 세부 정보 삭제
       navigate('/');
     } catch (error) {
       console.log('로그아웃 실패:', error);
