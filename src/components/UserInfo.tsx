@@ -5,6 +5,7 @@ import { userNameState } from '@/lib/store/userNameState';
 import UserInfoModal from './UserInfoModal';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
+import Button from './Button';
 
 const UserInfo = () => {
   const userName = useRecoilValue(userNameState);
@@ -45,14 +46,20 @@ const UserInfo = () => {
 
   return (
     <>
-      <UserInfoBox>
-        <h2>개인정보</h2>
-        {userName && <p>닉네임: {userName}</p>}
-        <p>Email: {userInfoData.email}</p>
-        <p>Birthday: {userInfoData.birthday}</p>
-        <p>Phone Number: {userInfoData.phoneNumber}</p>
-      </UserInfoBox>
-      <button onClick={openModal}>수정</button>
+      <UserInfoContainer>
+        <main>
+          <PrivateH2>개인정보</PrivateH2>
+          <UserInfoBox>
+            <UserInfoSpan>닉네임: {userName && <p>닉네임: {userName}</p>}</UserInfoSpan>
+            <UserInfoSpan>이메일: {userInfoData.email}</UserInfoSpan>
+            <UserInfoSpan>생년월일: {userInfoData.birthday}</UserInfoSpan>
+            <UserInfoSpan>핸드폰 번호: {userInfoData.phoneNumber}</UserInfoSpan>
+          </UserInfoBox>
+        </main>
+        <BtnBox>
+          <Button onClick={openModal}>수정</Button>
+        </BtnBox>
+      </UserInfoContainer>
       <UserInfoModal isOpen={isModalOpen} onClose={closeModal} setUserInfoData={setUserInfoData} />
     </>
   );
@@ -60,9 +67,37 @@ const UserInfo = () => {
 
 export default UserInfo;
 
-const UserInfoBox = styled.div`
-  margin-top: 10rem;
+const PrivateH2 = styled.h2`
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
+`;
+
+const UserInfoContainer = styled.div`
+  margin-top: 20rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
+`;
+
+const UserInfoBox = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+`;
+
+const UserInfoSpan = styled.span`
+  border: 1px solid var(--color-gray-light);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 30rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+`;
+
+const BtnBox = styled.div`
+  margin-top: 2rem;
 `;
