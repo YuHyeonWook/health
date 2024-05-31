@@ -49,6 +49,13 @@ const UserInfo = () => {
       <UserInfoContainer>
         <main>
           <PrivateH2>개인정보</PrivateH2>
+          {userInfoData.photoURL && (
+            <img
+              src={userInfoData.photoURL}
+              alt="Profile"
+              style={{ width: '100px', height: '100px', borderRadius: '50%' }}
+            />
+          )}
           <UserInfoBox>
             <UserInfoSpan>닉네임: {userName && <p>닉네임: {userName}</p>}</UserInfoSpan>
             <UserInfoSpan>이메일: {userInfoData.email}</UserInfoSpan>

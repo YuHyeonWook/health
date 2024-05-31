@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
-import { auth, db } from '@/firebase';
+import { auth, db, storage } from '@/firebase';
 import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userModalProps';
 import { UserModalBtnBoxProps } from '@/lib/types/userInfoModalType';
+import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [file, setFile] = useState<File | null>(null);
 
   const loadData = async () => {
     const userId = auth.currentUser?.uid;
@@ -22,16 +24,31 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
       setPhoneNumber(data.phoneNumber || '');
     }
   };
+  const handleFileChange = (e) => {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
 
   const handleSave = async () => {
     const userId = auth.currentUser?.uid;
     const userRef = ref(db, `users/${userId}`);
+    let photoURL = '';
+
+    if (file) {
+      const fileRef = storageRef(storage, `/${userId}/${file.name}`);
+      await uploadBytes(fileRef, file);
+      photoURL = await getDownloadURL(fileRef);
+    }
+
     await set(userRef, {
       email,
       birthday,
       phoneNumber,
+      photoURL,
     });
-    setUserInfoData({ email, birthday, phoneNumber, photoURL: '' });
+
+    setUserInfoData({ email, birthday, phoneNumber, photoURL });
     onClose();
   };
 
@@ -46,6 +63,9 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
       {isOpen && <ModalBackground isOpen={isOpen} onClose={onClose} onClick={onClose} />}
       <UserInfoModalBox isOpen={isOpen} onClose={onClose}>
         <h2>개인정보 수정</h2>
+        <label>
+          <input type="file" onChange={handleFileChange} />
+        </label>
         <label>
           이메일:
           <UserInfoInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
