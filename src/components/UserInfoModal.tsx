@@ -1,23 +1,11 @@
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { db } from '@/firebase';
-import Button from './Button';
+import Button from '@/components/Button';
+import { userInfoModalProps } from '@/lib/types/userModalProps';
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  setUserInfoData: React.Dispatch<
-    React.SetStateAction<{
-      photoURL: string;
-      birthday: string;
-      phoneNumber: string;
-      email: string;
-    }>
-  >;
-}
-
-const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
+const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -83,8 +71,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: ModalProps) => {
 
 export default UserInfoModal;
 
-const modalStyles = css`
-  display: block;
+const UserInfoModalBox = styled.div<{ isOpen: boolean }>`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 50%;
   left: 50%;
@@ -96,8 +84,8 @@ const modalStyles = css`
   z-index: 1000;
 `;
 
-const modalBackgroundStyles = css`
-  display: block;
+const ModalBackground = styled.div<{ isOpen: boolean }>`
+  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
@@ -105,16 +93,6 @@ const modalBackgroundStyles = css`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-`;
-
-const UserInfoModalBox = styled.div<{ isOpen: boolean; onClose: () => void }>`
-  display: none;
-  ${({ isOpen }) => isOpen && modalStyles}
-`;
-
-const ModalBackground = styled.div<{ isOpen: boolean; onClose: () => void }>`
-  display: none;
-  ${({ isOpen }) => isOpen && modalBackgroundStyles}
 `;
 
 const UserInfoInput = styled.input`
