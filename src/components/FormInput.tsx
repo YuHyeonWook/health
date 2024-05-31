@@ -2,8 +2,8 @@ import { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 
 interface InputProps {
-  type: 'text' | 'number' | 'email' | 'password' | 'date' | 'checkbox' | 'radio';
-  value: string | number | boolean;
+  type: 'text' | 'number' | 'email' | 'password' | 'date';
+  value: string | number;
   label: string;
   name?: string;
   placeholder?: string;
@@ -30,13 +30,11 @@ const FormInput: FC<InputProps> = ({
       <InputStyled
         type={type}
         id={name}
+        value={value}
         name={name}
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
-        {...(type === 'checkbox' || type === 'radio'
-          ? { checked: value as boolean }
-          : { value: value as string | number })}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
     </InputBox>
