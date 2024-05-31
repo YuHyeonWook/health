@@ -42,12 +42,12 @@ const FormInput: FC<InputProps> = ({
 };
 
 const InputBox = styled.div`
-  margin-bottom: 4rem;
+  margin-bottom: 6rem;
 `;
 
 const LabelStyled = styled.label`
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   font-weight: 500;
 `;
 
