@@ -47,7 +47,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         <h2>개인정보 수정</h2>
         <label>
           이메일:
-          <UserInfoInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <UserInfoInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
         </label>
         <label>
           생년월일:

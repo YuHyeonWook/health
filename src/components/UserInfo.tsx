@@ -47,7 +47,7 @@ const UserInfo = () => {
     <>
       <UserInfoBox>
         <h2>개인정보</h2>
-        {userName && <p>이름: {userName}!</p>}
+        {userName && <p>이름: {userName}</p>}
         <p>Email: {userInfoData.email}</p>
         <p>Birthday: {userInfoData.birthday}</p>
         <p>Phone Number: {userInfoData.phoneNumber}</p>
