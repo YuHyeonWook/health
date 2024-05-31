@@ -4,6 +4,7 @@ import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userModalProps';
+import { UserModalBtnBoxProps } from '@/lib/types/userInfoModalType';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState('');
@@ -73,7 +74,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
 export default UserInfoModal;
 
-const UserInfoModalBox = styled.div<{ isOpen: boolean }>`
+const UserInfoModalBox = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 50%;
@@ -86,7 +87,7 @@ const UserInfoModalBox = styled.div<{ isOpen: boolean }>`
   z-index: 1000;
 `;
 
-const ModalBackground = styled.div<{ isOpen: boolean }>`
+const ModalBackground = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 0;

@@ -23,7 +23,6 @@ const LoginOut = () => {
     try {
       await signOut(auth);
       resetUserName();
-      sessionStorage.removeItem('userNameState');
       navigate('/');
     } catch (error) {
       console.log('로그아웃 실패:', error);

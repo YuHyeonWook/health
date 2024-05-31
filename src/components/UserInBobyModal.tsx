@@ -4,6 +4,7 @@ import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import { userInBodyModalProps } from '@/lib/types/userModalProps';
 import Button from '@/components/Button';
+import { UserModalBtnBoxProps } from '@/lib/types/userInfoModalType';
 
 const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
   const [muscleMass, setMuscleMass] = useState('');
@@ -77,7 +78,7 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
 
 export default UserInBodyModal;
 
-const UserInBodyModalBox = styled.div<{ isOpen: boolean }>`
+const UserInBodyModalBox = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 50%;
@@ -90,7 +91,7 @@ const UserInBodyModalBox = styled.div<{ isOpen: boolean }>`
   z-index: 1000;
 `;
 
-const ModalBackground = styled.div<{ isOpen: boolean }>`
+const ModalBackground = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 0;
