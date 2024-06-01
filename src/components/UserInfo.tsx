@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { userNameState } from '@/lib/store/userNameState';
 import UserInfoModal from './UserInfoModal';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import Button from './Button';
 
 const UserInfo = () => {
-  const userName = useRecoilValue(userNameState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [userInfoData, setUserInfoData] = useState({
     photoURL: '',
     birthday: '',
     phoneNumber: '',
     email: '',
+    userName: '',
   });
 
   const openModal = () => {
@@ -36,6 +34,7 @@ const UserInfo = () => {
         birthday: data.birthday || '',
         phoneNumber: data.phoneNumber || '',
         email: data.email || '',
+        userName: data.userName || '',
       });
     }
   };
@@ -53,7 +52,7 @@ const UserInfo = () => {
             {userInfoData.photoURL && <ProfileImage src={userInfoData.photoURL} alt="프로필 이미지" />}
           </ProfileBox>
           <UserInfoBox>
-            <UserInfoSpan>닉네임: {userName && <p>닉네임: {userName}</p>}</UserInfoSpan>
+            <UserInfoSpan>닉네임: {userInfoData.userName}</UserInfoSpan>
             <UserInfoSpan>이메일: {userInfoData.email}</UserInfoSpan>
             <UserInfoSpan>생년월일: {userInfoData.birthday}</UserInfoSpan>
             <UserInfoSpan>핸드폰 번호: {userInfoData.phoneNumber}</UserInfoSpan>

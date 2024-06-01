@@ -12,8 +12,9 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const [email, setEmail] = useState<string>('');
   const [birthday, setBirthday] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [file, setFile] = useState<File | null>(null);
+  const [userName, setUserName] = useState<string>('');
   const [previewURL, setPreviewURL] = useState<string>('');
+  const [file, setFile] = useState<File | null>(null);
 
   const loadData = async () => {
     try {
@@ -22,6 +23,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
       const snapshot = await get(userRef);
       if (snapshot.exists()) {
         const data = snapshot.val();
+        setUserName(data.userName || '');
         setEmail(data.email || '');
         setBirthday(data.birthday || '');
         setPhoneNumber(data.phoneNumber || '');
@@ -56,13 +58,14 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
       }
 
       await set(userRef, {
+        userName,
         email,
         birthday,
         phoneNumber,
         photoURL,
       });
 
-      setUserInfoData({ email, birthday, phoneNumber, photoURL });
+      setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
       onClose();
     } catch (error) {
       console.error(error, '저장에 실패했습니다.');
@@ -106,6 +109,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         <label>
           이메일:
           <UserInfoInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
+        </label>
+        <label>
+          닉네임:
+          <UserInfoInput type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
         </label>
         <label>
           생년월일:
