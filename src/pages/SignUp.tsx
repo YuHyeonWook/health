@@ -6,8 +6,6 @@ import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
 import Button from '@/components/Button';
-import { useRecoilState } from 'recoil';
-import { userNameState } from '@/lib/store/userNameState';
 import { ref, set } from 'firebase/database';
 
 const SignUp = () => {
@@ -17,7 +15,6 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
-  const [userName, setUserName] = useRecoilState(userNameState);
 
   const handleSignUp = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -62,7 +59,6 @@ const SignUp = () => {
       }
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
@@ -115,16 +111,7 @@ const SignUp = () => {
             />
           </SignLabel>
           {passwordError && <p>{passwordError}</p>}
-          <SignLabel htmlFor="userName">
-            닉네임
-            <input
-              type="text"
-              placeholder="사용자 이름을 입력하세요"
-              value={userName}
-              onChange={(event) => setUserName(event.target.value)}
-              required
-            />
-          </SignLabel>
+
           <Button type="submit">회원가입</Button>
         </SignSection>
       </SignForm>

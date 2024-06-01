@@ -4,6 +4,7 @@ import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import { userInBodyModalProps } from '@/lib/types/userModalProps';
 import Button from '@/components/Button';
+import { UserModalBtnBoxProps } from '@/lib/types/userInfoModalType';
 
 const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
   const [muscleMass, setMuscleMass] = useState('');
@@ -12,8 +13,8 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
   const [weight, setWeight] = useState('');
 
   const loadData = async () => {
-    const userId = auth.currentUser?.uid; // 현재 사용자의 uid 가져오기
-    const userRef = ref(db, `users/${userId}/body`); // 데이터베이스 경로 수정    const snapshot = await get(userRef);
+    const userId = auth.currentUser?.uid;
+    const userRef = ref(db, `users/${userId}/body`);
     const snapshot = await get(userRef);
 
     if (snapshot.exists()) {
@@ -26,8 +27,8 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
   };
 
   const handleSave = async () => {
-    const userId = auth.currentUser?.uid; // 현재 사용자의 uid 가져오기
-    const userRef = ref(db, `users/${userId}/body`); // 데이터베이스 경로 수정
+    const userId = auth.currentUser?.uid;
+    const userRef = ref(db, `users/${userId}/body`);
     await set(userRef, {
       muscleMass,
       bmi,
@@ -77,7 +78,7 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
 
 export default UserInBodyModal;
 
-const UserInBodyModalBox = styled.div<{ isOpen: boolean }>`
+const UserInBodyModalBox = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 50%;
@@ -90,7 +91,7 @@ const UserInBodyModalBox = styled.div<{ isOpen: boolean }>`
   z-index: 1000;
 `;
 
-const ModalBackground = styled.div<{ isOpen: boolean }>`
+const ModalBackground = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
   top: 0;

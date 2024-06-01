@@ -37,7 +37,9 @@ const SignIn = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+
       alert('로그인에 성공하였습니다.');
+
       navigate('/calendar');
     } catch (error) {
       if (error instanceof FirebaseError) {

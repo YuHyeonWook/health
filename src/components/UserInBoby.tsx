@@ -22,8 +22,8 @@ const UserInBody = () => {
   };
 
   const loadData = async () => {
-    const userId = auth.currentUser?.uid; // 현재 사용자의 uid 가져오기
-    const userRef = ref(db, `users/${userId}/body`); // 데이터베이스 경로 수정    const snapshot = await get(userRef);
+    const userId = auth.currentUser?.uid;
+    const userRef = ref(db, `users/${userId}/body`);
     const snapshot = await get(userRef);
     if (snapshot.exists()) {
       const data = snapshot.val();
