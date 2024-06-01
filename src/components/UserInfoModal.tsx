@@ -41,6 +41,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
   const handleSave = async () => {
     try {
+      if (phoneNumber.length !== 11) {
+        alert('전화번호를 11자리를 눌러주세요');
+        return;
+      }
       const userId = auth.currentUser?.uid;
       const userRef = ref(db, `users/${userId}`);
       let photoURL = '';
@@ -114,6 +118,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
             pattern="[0-9]{11}"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder=" -없이 입력해주세요"
+            maxLength={11}
           />
         </label>
         <UserInfoModalBtnBox>
