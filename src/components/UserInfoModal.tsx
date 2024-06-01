@@ -43,6 +43,18 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
   const handleSave = async () => {
     try {
+      if (!userName) {
+        alert('닉네임을 입력해주세요');
+        return;
+      }
+      if (!birthday) {
+        alert('생년월일을 입력해주세요');
+        return;
+      }
+      if (!phoneNumber) {
+        alert('전화번호를 입력해주세요');
+        return;
+      }
       if (phoneNumber.length !== 11) {
         alert('전화번호를 11자리를 눌러주세요');
         return;
