@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import iconCheck from '@/assets/images/icon-check.svg';
 
@@ -8,12 +8,20 @@ interface RadioProps {
   defaultChecked?: boolean;
   disabled?: boolean;
   children: React.ReactNode;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormRadio: FC<RadioProps> = ({ children, value, name, defaultChecked = false, disabled = false }) => {
+const FormRadio: FC<RadioProps> = ({ children, value, name, defaultChecked = false, disabled = false, onChange }) => {
   return (
     <Label>
-      <RadioInput type="radio" value={value} name={name} defaultChecked={defaultChecked} disabled={disabled} />
+      <RadioInput
+        type="radio"
+        value={value}
+        name={name}
+        defaultChecked={defaultChecked}
+        disabled={disabled}
+        onChange={onChange}
+      />
       {children}
     </Label>
   );

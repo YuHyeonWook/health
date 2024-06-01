@@ -10,6 +10,8 @@ interface InputProps {
   error?: boolean;
   errorMessage?: string;
   disabled?: boolean;
+  readOnly?: boolean;
+  min?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -20,14 +22,16 @@ const FormInput: FC<InputProps> = ({
   name,
   placeholder,
   error,
-  disabled,
   errorMessage,
+  disabled,
+  readOnly,
+  min,
   onChange,
 }) => {
   return (
     <InputBox>
-      <LabelStyled htmlFor={name}>{label}</LabelStyled>
-      <InputStyled
+      <Label htmlFor={name}>{label}</Label>
+      <Input
         type={type}
         id={name}
         value={value}
@@ -35,6 +39,9 @@ const FormInput: FC<InputProps> = ({
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
+        readOnly={readOnly}
+        min={min}
+        onClick={(e) => e.currentTarget.focus()}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
     </InputBox>
@@ -45,13 +52,13 @@ const InputBox = styled.div`
   margin-bottom: 6rem;
 `;
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: block;
   margin-bottom: 1.2rem;
   font-weight: 500;
 `;
 
-const InputStyled = styled.input`
+const Input = styled.input`
   display: block;
   width: 100%;
   height: 5rem;
@@ -67,6 +74,10 @@ const InputStyled = styled.input`
 
   &:focus {
     border: var(--border-primary);
+  }
+
+  &:read-only {
+    border: var(--border-gray);
   }
 `;
 
