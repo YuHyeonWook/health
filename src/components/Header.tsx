@@ -11,7 +11,7 @@ const NavContainer = styled.nav`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 999;
   height: 8rem;
   padding: 0 8rem;
   color: var(--color-gray-dark);

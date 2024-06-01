@@ -49,13 +49,9 @@ const UserInfo = () => {
       <UserInfoContainer>
         <main>
           <PrivateH2>개인정보</PrivateH2>
-          {userInfoData.photoURL && (
-            <img
-              src={userInfoData.photoURL}
-              alt="Profile"
-              style={{ width: '100px', height: '100px', borderRadius: '50%' }}
-            />
-          )}
+          <ProfileBox>
+            {userInfoData.photoURL && <ProfileImage src={userInfoData.photoURL} alt="프로필 이미지" />}
+          </ProfileBox>
           <UserInfoBox>
             <UserInfoSpan>닉네임: {userName && <p>닉네임: {userName}</p>}</UserInfoSpan>
             <UserInfoSpan>이메일: {userInfoData.email}</UserInfoSpan>
@@ -73,6 +69,19 @@ const UserInfo = () => {
 };
 
 export default UserInfo;
+
+const ProfileBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ProfileImage = styled.img`
+  width: 10rem;
+  height: 10rem;
+  border-radius: 20%;
+  margin: 2rem auto;
+`;
 
 const PrivateH2 = styled.h2`
   display: flex;
