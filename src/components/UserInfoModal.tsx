@@ -15,6 +15,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const [userName, setUserName] = useState<string>('');
   const [previewURL, setPreviewURL] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
+  const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
 
   const loadData = async () => {
     try {
@@ -38,6 +39,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
       const selectedFile = event.target.files[0];
       setFile(selectedFile);
       setPreviewURL(URL.createObjectURL(selectedFile));
+      setIsFileUploaded(false);
     }
   };
 
@@ -51,14 +53,20 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         alert('생년월일을 입력해주세요');
         return;
       }
-      if (!phoneNumber) {
-        alert('전화번호를 입력해주세요');
-        return;
-      }
       if (phoneNumber.length !== 11) {
         alert('전화번호를 11자리를 눌러주세요');
         return;
       }
+      if (!file) {
+        alert('파일을 업로드해주세요');
+        return;
+      }
+      if (!isFileUploaded) {
+        alert('파일 업로드 버튼을 클릭해주세요');
+        return;
+      }
+      setIsFileUploaded(false);
+
       const userId = auth.currentUser?.uid;
       const userRef = ref(db, `users/${userId}`);
       let photoURL = '';
@@ -90,7 +98,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
     }
   }, [isOpen]);
 
-  const hanldUpload = async () => {
+  const handleUpload = async () => {
     try {
       const userId = auth.currentUser?.uid;
       let photoURL = '';
@@ -100,7 +108,9 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         await uploadBytes(fileRef, file);
         photoURL = await getDownloadURL(fileRef);
         setPreviewURL(photoURL);
+        setIsFileUploaded(true);
       }
+      alert('업로드에 성공했습니다.');
     } catch (error) {
       console.error(error, '업로드에 실패했습니다.');
     }
@@ -116,7 +126,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           <ProfileInput type="file" onChange={handleFileChange} />
         </ProfileLabel>
         <FileUploadBox>
-          <FileUploadBtn onClick={hanldUpload}>업로드</FileUploadBtn>
+          <FileUploadBtn onClick={handleUpload}>업로드</FileUploadBtn>
         </FileUploadBox>
         <label>
           이메일:
