@@ -20,6 +20,7 @@ export interface userInfoModalProps {
       birthday: string;
       phoneNumber: string;
       email: string;
+      userName: string;
     }>
   >;
 }
