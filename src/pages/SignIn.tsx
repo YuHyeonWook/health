@@ -116,17 +116,16 @@ const SignIn = () => {
               required={true}
             />
           </SignLabel>
-
           <ButtonCompoent type="submit">로그인</ButtonCompoent>
           {passwordError && <p>{passwordError}</p>}
           {error && <p>{error}</p>}
+          <BorderBox />
           <SignUpQuestionBox>
             <span>아직 계정이 없으신가요? </span>
             <SignUpBtn type="button" onClick={routeChange}>
               회원가입하기
             </SignUpBtn>
           </SignUpQuestionBox>
-          <BorderBox />
         </SignSection>
       </SignForm>
     </>
