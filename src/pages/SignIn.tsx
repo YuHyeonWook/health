@@ -7,7 +7,7 @@ import bgLogin from '@/assets/images/bg-login.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/commonSignStyle';
 import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button';
-import { ref, set } from 'firebase/database';
+import { get, ref, set } from 'firebase/database';
 import FormInput from '@/components/FormInput';
 import styled from 'styled-components';
 
@@ -16,6 +16,7 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
+  const [userInfoData, setUserInfoData] = useState<any>({}); // userInfo 상태 선언
 
   const navigate = useNavigate();
 
@@ -45,9 +46,16 @@ const SignIn = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-
+      const userRef = ref(db, 'users/' + auth.currentUser?.uid);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        console.log(snapshot.val());
+        // 로그인 성공 후 데이터를 상태에 저장
+        setUserInfoData(snapshot.val());
+      } else {
+        console.log('No data available');
+      }
       alert('로그인에 성공하였습니다.');
-
       navigate('/calendar');
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -75,10 +83,17 @@ const SignIn = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const userRef = ref(db, `users/${user.uid}`);
-        set(userRef, {
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
+        get(userRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            setUserInfoData({
+              email: data.email || '',
+              userName: data.userName || '',
+              birthday: data.birthday || '',
+              phoneNumber: data.phoneNumber || '',
+              photoURL: data.photoURL || '',
+            });
+          }
         });
       }
     });
