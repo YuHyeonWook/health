@@ -4,15 +4,18 @@ import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import bgLogin from '@/assets/images/bg-login.png';
-import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
+import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/commonSignStyle';
 import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button';
 import { ref, set } from 'firebase/database';
+import FormInput from '@/components/FormInput';
+import styled from 'styled-components';
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -26,6 +29,11 @@ const SignIn = () => {
 
     if (!email || !password) {
       setError('이메일과 비밀번호를 모두 입력하세요.');
+      return;
+    }
+
+    if (password.length < 8) {
+      setPasswordError('비밀번호를 8자 이상 입력해주세요.');
       return;
     }
 
@@ -44,21 +52,21 @@ const SignIn = () => {
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {
+          case 'auth/invalid-email':
+            setError('이메일 형식이 틀립니다.');
+            break;
           case 'auth/user-not-found':
-            setError('존재하지 않는 사용자입니다.');
+            setError('회원가입이 되어있지 않은 사용자입니다.');
             break;
           case 'auth/wrong-password':
             setError('비밀번호가 올바르지 않습니다.');
             break;
-          case 'auth/invalid-email':
-            setError('유효하지 않은 이메일 주소입니다.');
+          case 'auth/invalid-credential':
+            setError('이메일 또는 비밀번호가 잘못되었습니다.');
             break;
           default:
-            setError('로그인에 실패하였습니다. 다시 시도해주세요.');
             break;
         }
-      } else {
-        setError('알 수 없는 오류가 발생했습니다.');
       }
     }
   };
@@ -87,29 +95,38 @@ const SignIn = () => {
           <h2>로그인</h2>
           <SignLabel htmlFor="email">
             이메일(아이디)
-            <input
+            <FormInput
               type="email"
               placeholder="이메일(아이디)을 입력하세요"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
+              required={true}
             />
           </SignLabel>
           <SignLabel htmlFor="password">
             비밀번호
-            <input
+            <FormInput
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError('');
+              }}
+              required={true}
             />
           </SignLabel>
-          <Button type="submit">로그인</Button>
-          <Button type="button" onClick={routeChange}>
-            회원가입
-          </Button>
+
+          <ButtonCompoent type="submit">로그인</ButtonCompoent>
+          {passwordError && <p>{passwordError}</p>}
           {error && <p>{error}</p>}
+          <SignUpQuestionBox>
+            <span>아직 계정이 없으신가요? </span>
+            <SignUpBtn type="button" onClick={routeChange}>
+              회원가입하기
+            </SignUpBtn>
+          </SignUpQuestionBox>
+          <BorderBox />
         </SignSection>
       </SignForm>
     </>
@@ -117,3 +134,19 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+const ButtonCompoent = styled(Button)`
+  width: 70%;
+`;
+
+const SignUpQuestionBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
+const SignUpBtn = styled.button`
+  color: var(--color-primary);
+`;

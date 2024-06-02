@@ -4,13 +4,14 @@ import styled from 'styled-components';
 interface InputProps {
   type: 'text' | 'number' | 'email' | 'password' | 'date';
   value: string | number;
-  label: string;
+  label?: string;
   name?: string;
   placeholder?: string;
   error?: boolean;
   errorMessage?: string;
   disabled?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
 }
 
 const FormInput: FC<InputProps> = ({
@@ -23,9 +24,10 @@ const FormInput: FC<InputProps> = ({
   disabled,
   errorMessage,
   onChange,
+  required,
 }) => {
   return (
-    <InputBox>
+    <>
       <LabelStyled htmlFor={name}>{label}</LabelStyled>
       <InputStyled
         type={type}
@@ -35,15 +37,12 @@ const FormInput: FC<InputProps> = ({
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
+        required={required}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
-    </InputBox>
+    </>
   );
 };
-
-const InputBox = styled.div`
-  margin-bottom: 4rem;
-`;
 
 const LabelStyled = styled.label`
   display: block;
