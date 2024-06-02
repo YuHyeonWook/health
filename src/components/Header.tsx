@@ -3,6 +3,30 @@ import LoginOut from './LoginOut';
 import styled from 'styled-components';
 import logo from '@/assets/images/logo.svg';
 
+const Header = () => {
+  return (
+    <NavContainer>
+      <LogoLink to="/calendar">
+        <LogoImage src={logo} alt="health calendar" />
+      </LogoLink>
+      <NavList>
+        <NavItem>
+          <NavLink to="/mypage">마이페이지</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/apply">PT 신청</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink to="/applyList">PT 신청내역</NavLink>
+        </NavItem>
+      </NavList>
+      <LogoutBox>
+        <LoginOut />
+      </LogoutBox>
+    </NavContainer>
+  );
+};
+
 const NavContainer = styled.nav`
   display: flex;
   align-items: center;
@@ -53,29 +77,5 @@ const LogoutBox = styled.div`
   color: var(--color-primary);
   font-weight: 700;
 `;
-
-const Header = () => {
-  return (
-    <NavContainer>
-      <LogoLink to="/calendar">
-        <LogoImage src={logo} alt="health calendar" />
-      </LogoLink>
-      <NavList>
-        <NavItem>
-          <NavLink to="/mypage">마이페이지</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="/apply">PT 신청</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink to="">PT 신청내역</NavLink>
-        </NavItem>
-      </NavList>
-      <LogoutBox>
-        <LoginOut />
-      </LogoutBox>
-    </NavContainer>
-  );
-};
 
 export default Header;
