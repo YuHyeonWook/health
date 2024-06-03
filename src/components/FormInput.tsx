@@ -2,7 +2,7 @@ import { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
 
 interface InputProps {
-  type: 'text' | 'number' | 'email' | 'password' | 'date';
+  type: 'text' | 'number' | 'email' | 'password' | 'date' | 'tel';
   value: string | number;
   label?: string;
   name?: string;
@@ -14,6 +14,8 @@ interface InputProps {
   min?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
+  pattern?: string;
+  maxLength?: number;
 }
 
 const FormInput: FC<InputProps> = ({
@@ -29,6 +31,8 @@ const FormInput: FC<InputProps> = ({
   min,
   onChange,
   required,
+  maxLength,
+  pattern,
 }) => {
   return (
     <>
@@ -45,6 +49,8 @@ const FormInput: FC<InputProps> = ({
         readOnly={readOnly}
         min={min}
         onClick={(e) => e.currentTarget.focus()}
+        pattern={pattern}
+        maxLength={maxLength}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
     </>

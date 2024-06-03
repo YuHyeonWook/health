@@ -7,6 +7,7 @@ import { userInfoModalProps } from '@/lib/types/userInformation';
 import { UserModalBtnBoxProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import { CgProfile } from 'react-icons/cg';
+import FormInput from './FormInput';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
@@ -133,19 +134,19 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         </FileUploadBox>
         <label>
           이메일:
-          <UserInfoInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
+          <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
         </label>
         <label>
           닉네임:
-          <UserInfoInput type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+          <FormInput type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
         </label>
         <label>
           생년월일:
-          <UserInfoInput type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+          <FormInput type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
         </label>
         <label>
           전화번호:
-          <UserInfoInput
+          <FormInput
             type="tel"
             pattern="[0-9]{11}"
             value={phoneNumber}
