@@ -132,29 +132,31 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         <FileUploadBox>
           <FileUploadBtn onClick={handleUpload}>업로드</FileUploadBtn>
         </FileUploadBox>
-        <label>
-          이메일:
-          <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
-        </label>
-        <label>
-          닉네임:
-          <FormInput type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
-        </label>
-        <label>
-          생년월일:
-          <FormInput type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-        </label>
-        <label>
-          전화번호:
-          <FormInput
-            type="tel"
-            pattern="[0-9]{11}"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder=" -없이 입력해주세요"
-            maxLength={11}
-          />
-        </label>
+        <LabelBox>
+          <label>
+            이메일:
+            <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
+          </label>
+          <label>
+            닉네임:
+            <FormInput type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+          </label>
+          <label>
+            생년월일:
+            <FormInput type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+          </label>
+          <label>
+            전화번호:
+            <FormInput
+              type="tel"
+              pattern="[0-9]{11}"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder=" -없이 입력해주세요"
+              maxLength={11}
+            />
+          </label>
+        </LabelBox>
         <UserInfoModalBtnBox>
           <Button onClick={handleSave}>저장</Button>
           <Button onClick={onClose}>취소</Button>
@@ -165,6 +167,12 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 };
 
 export default UserInfoModal;
+
+const LabelBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
 const ProfileLabel = styled.label`
   display: flex;
@@ -211,11 +219,13 @@ const UserInfoModalBox = styled.div<UserModalBtnBoxProps>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: var(--color-white);
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  width: 40%;
+  height: auto;
 `;
 
 const ModalBackground = styled.div<UserModalBtnBoxProps>`
@@ -227,14 +237,6 @@ const ModalBackground = styled.div<UserModalBtnBoxProps>`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-`;
-
-const UserInfoInput = styled.input`
-  width: 100%;
-  padding: 0.5rem;
-  margin: 0.5rem 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
 `;
 
 const UserInfoModalBtnBox = styled.div`
