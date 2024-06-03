@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from '../components/calendarcrud/Modal';
 import Layout from '@/components/layout/Layout';
@@ -256,7 +256,7 @@ const Day = styled.div`
     background: #4cd964;
     color: #000;
     transition: 0.5s;
-    transform: scale(1.05);
+    transform: scale(1.1);
     cursor: pointer;
     z-index: 1;
   }
