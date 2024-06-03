@@ -3,32 +3,32 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Pretendard';
-    src: local('PretendardRegular');
-    src: url('../assets/fonts/PretendardRegular.woff') format('truetype');
+    src: local('PretendardRegular'),
+          url('@/assets/fonts/PretendardRegular.woff') format('font-woff');
     font-weight: 400;
     font-style: normal;
   } 
 
   @font-face {
     font-family: 'Pretendard';
-    src: local('PretendardMedium');
-    src: url('../assets/fonts/PretendardMedium.woff') format('truetype');
+    src: local('PretendardMedium'),
+          url('@/assets/fonts/PretendardMedium.woff') format('font-woff');
     font-weight: 500;
     font-style: normal;
   } 
 
   @font-face {
     font-family: 'Pretendard';
-    src: local('../assets/fonts/PretendardSemiBold.woff');
-    src: url('../assets/fonts/PretendardSemiBold.woff') format('truetype');
+    src: local('PretendardSemiBold'),
+          url('@/assets/fonts/PretendardSemiBold.woff') format('font-woff');
     font-weight: 600;
     font-style: normal;
   } 
 
   @font-face {
     font-family: 'Pretendard';
-    src: local('PretendardBold');
-    src: url('../assets/fonts/PretendardBold.woff') format('truetype');
+    src: local('PretendardBold'),
+        url('@/assets/fonts/PretendardBold.woff') format('font-woff');
     font-weight: 700;
     font-style: normal;
   }
