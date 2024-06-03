@@ -7,7 +7,7 @@ import bgLogin from '@/assets/images/bg-login.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/commonSignStyle';
 import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button';
-import { get, ref, set } from 'firebase/database';
+import { get, ref } from 'firebase/database';
 import FormInput from '@/components/FormInput';
 import styled from 'styled-components';
 
@@ -16,7 +16,7 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
-  const [userInfoData, setUserInfoData] = useState<any>({}); // userInfo 상태 선언
+  const [, setUserInfoData] = useState({}); // userInfo 상태 선언
 
   const navigate = useNavigate();
 

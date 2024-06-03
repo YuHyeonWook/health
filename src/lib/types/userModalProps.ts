@@ -1,6 +1,9 @@
-export interface userInBodyModalProps {
+interface userModalProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+export interface userInBodyModalProps extends userModalProps {
   setUserBodyData: React.Dispatch<
     React.SetStateAction<{
       muscleMass: string;
@@ -11,9 +14,7 @@ export interface userInBodyModalProps {
   >;
 }
 
-export interface userInfoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+export interface userInfoModalProps extends userModalProps {
   setUserInfoData: React.Dispatch<
     React.SetStateAction<{
       photoURL: string;
