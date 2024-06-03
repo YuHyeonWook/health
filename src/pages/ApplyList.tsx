@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react';
 import { onValue, ref, remove } from 'firebase/database';
 import { db } from '@/firebase';
 import Pagination from '@/components/Pagination';
+import { Application } from '@/lib/types/application';
 
-const ApplyList: React.FC = () => {
-  const [applications, setApplications] = useState<Array<any>>([]);
+const ApplyList = () => {
+  const [applications, setApplications] = useState<Application[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -19,7 +20,7 @@ const ApplyList: React.FC = () => {
         const applicationList = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
-        }));
+        })) as Application[];
         setApplications(applicationList.reverse());
       } else {
         setApplications([]);

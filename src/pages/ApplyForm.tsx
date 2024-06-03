@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { db } from '@/firebase';
 import { ref, set } from 'firebase/database';
 import Button from '@/components/Button';
@@ -8,7 +8,7 @@ import RadioGroup from '@/components/RadioGroup';
 import Layout from '@/components/layout/Layout';
 import styled from 'styled-components';
 
-const ApplyForm: React.FC = () => {
+const ApplyForm = () => {
   const [count, setCount] = useState('');
   const [cost, setCost] = useState('');
   const [startDate, setStartDate] = useState('');
