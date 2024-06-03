@@ -13,10 +13,10 @@ import {
 } from '@/styles/userInformation';
 
 const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
-  const [muscleMass, setMuscleMass] = useState('');
-  const [bmi, setBmi] = useState('');
-  const [height, setHeight] = useState('');
-  const [weight, setWeight] = useState('');
+  const [muscleMass, setMuscleMass] = useState<string>('');
+  const [bmi, setBmi] = useState<string>('');
+  const [height, setHeight] = useState<string>('');
+  const [weight, setWeight] = useState<string>('');
 
   const loadData = async () => {
     const userId = auth.currentUser?.uid;
