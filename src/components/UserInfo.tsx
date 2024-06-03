@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import UserInfoModal from './UserInfoModal';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
-import Button from './Button';
+import Button from '@/components/Button';
 
 const UserInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

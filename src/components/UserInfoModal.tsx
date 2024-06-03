@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { auth, db, storage } from '@/firebase';
 import Button from '@/components/Button';
-import { userInfoModalProps } from '@/lib/types/userModalProps';
-import { UserModalBtnBoxProps } from '@/lib/types/userInfoModalType';
+import { userInfoModalProps } from '@/lib/types/userInformation';
+import { UserModalBtnBoxProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import { CgProfile } from 'react-icons/cg';
 

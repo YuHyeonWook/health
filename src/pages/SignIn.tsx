@@ -16,7 +16,7 @@ const SignIn = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
-  const [, setUserInfoData] = useState({}); // userInfo 상태 선언
+  const [, setUserInfoData] = useState({});
 
   const navigate = useNavigate();
 

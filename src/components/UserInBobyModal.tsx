@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
-import { userInBodyModalProps } from '@/lib/types/userModalProps';
+import { userInBodyModalProps } from '@/lib/types/userInformation';
 import Button from '@/components/Button';
-import { UserModalBtnBoxProps } from '@/lib/types/userInfoModalType';
+import { UserModalBtnBoxProps } from '@/lib/types/userInformation';
 
 const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
   const [muscleMass, setMuscleMass] = useState('');
