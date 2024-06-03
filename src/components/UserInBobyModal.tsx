@@ -33,17 +33,42 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
   };
 
   const handleSave = async () => {
-    const userId = auth.currentUser?.uid;
-    const userRef = ref(db, `users/${userId}/body`);
-    await set(userRef, {
-      muscleMass,
-      bmi,
-      height,
-      weight,
-    });
+    try {
+      if (isNaN(Number(muscleMass)) || isNaN(Number(bmi)) || isNaN(Number(height)) || isNaN(Number(weight))) {
+        alert('숫자만 입력해주세요.');
+        return;
+      }
+      if (!muscleMass) {
+        alert('근육량을 입력해주세요.');
+        return;
+      }
+      if (!bmi) {
+        alert('BMI를 입력해주세요.');
+        return;
+      }
+      if (!height) {
+        alert('키를 입력해주세요.');
+        return;
+      }
+      if (!weight) {
+        alert('체중을 입력해주세요.');
+        return;
+      }
 
-    setUserBodyData({ muscleMass, bmi, height, weight });
-    onClose();
+      const userId = auth.currentUser?.uid;
+      const userRef = ref(db, `users/${userId}/body`);
+      await set(userRef, {
+        muscleMass,
+        bmi,
+        height,
+        weight,
+      });
+
+      setUserBodyData({ muscleMass, bmi, height, weight });
+      onClose();
+    } catch (error) {
+      console.error(error, '저장하는데 실패했습니다.');
+    }
   };
 
   useEffect(() => {
@@ -59,20 +84,25 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
         <UserModalInformationH2>신체정보 수정</UserModalInformationH2>
         <LabelBox>
           <label>
-            근육량:
-            <FormInput type="text" value={muscleMass} onChange={(e) => setMuscleMass(e.target.value)} />
+            키 (cm):
+            <FormInput type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="cm" />
           </label>
           <label>
-            BMI:
-            <FormInput type="text" value={bmi} onChange={(e) => setBmi(e.target.value)} />
+            체중 (kg):
+            <FormInput type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="kg" />
           </label>
           <label>
-            키:
-            <FormInput type="text" value={height} onChange={(e) => setHeight(e.target.value)} />
+            BMI (kg/㎡):
+            <FormInput type="text" value={bmi} onChange={(e) => setBmi(e.target.value)} placeholder="kg/㎡" />
           </label>
           <label>
-            체중:
-            <FormInput type="text" value={weight} onChange={(e) => setWeight(e.target.value)} />
+            근육량 (kg):
+            <FormInput
+              type="text"
+              value={muscleMass}
+              onChange={(e) => setMuscleMass(e.target.value)}
+              placeholder="kg"
+            />
           </label>
         </LabelBox>
         <UserInformationModalBtnBox>

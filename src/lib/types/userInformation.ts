@@ -29,6 +29,15 @@ export interface UserInfoData {
   userName: string;
 }
 
+export interface UserInBodyData {
+  muscleMass: string;
+  bmi: string;
+  height: string;
+  weight: string;
+}
+
+export interface UserInformationData extends UserInfoData, UserInBodyData {}
+
 interface userModalProps {
   isOpen: boolean;
   onClose: () => void;

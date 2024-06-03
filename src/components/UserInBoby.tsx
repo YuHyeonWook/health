@@ -10,10 +10,11 @@ import {
   UserInformationSpan,
 } from '@/styles/userInformation';
 import Button from './Button';
+import { UserInBodyData } from '@/lib/types/userInformation';
 
 const UserInBody = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [userBodyData, setUserBodyData] = useState({
+  const [userBodyData, setUserBodyData] = useState<UserInBodyData>({
     muscleMass: '',
     bmi: '',
     height: '',
@@ -54,18 +55,18 @@ const UserInBody = () => {
           <UserInformationH2>신체 정보</UserInformationH2>
           <UserInformationBox>
             <p>
-              키<UserInformationSpan>{userBodyData.height}</UserInformationSpan>
+              키 (cm)<UserInformationSpan>{userBodyData.height}</UserInformationSpan>
             </p>
             <p>
-              체중
+              체중 (kg)
               <UserInformationSpan>{userBodyData.weight}</UserInformationSpan>
             </p>
             <p>
-              BMI
+              BMI (kg/㎡)
               <UserInformationSpan>{userBodyData.bmi}</UserInformationSpan>
             </p>
             <p>
-              근육량
+              근육량 (kg)
               <UserInformationSpan>{userBodyData.muscleMass}</UserInformationSpan>
             </p>
           </UserInformationBox>
