@@ -7,7 +7,7 @@ import logo from '@/assets/images/logo.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/AuthStyles';
 import Button from '@/components/Button';
 import { ref, set } from 'firebase/database';
-import FormInput from '@/components/FormInput';
+import Input from '@/components/Input';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
 
@@ -79,7 +79,7 @@ const SignUp = () => {
           <h2>회원가입</h2>
           <SignLabel htmlFor="email">
             이메일(아이디)
-            <FormInput
+            <Input
               type="email"
               placeholder="이메일(아이디)을 입력하세요"
               value={email}
@@ -93,7 +93,7 @@ const SignUp = () => {
           {error && <p>{error}</p>}
           <SignLabel htmlFor="password">
             비밀번호
-            <FormInput
+            <Input
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={password}
@@ -106,7 +106,7 @@ const SignUp = () => {
           </SignLabel>
           <SignLabel htmlFor="password">
             비밀번호 확인
-            <FormInput
+            <Input
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={confirmPassword}

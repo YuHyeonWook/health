@@ -6,7 +6,7 @@ interface RadioGroupProps {
   children: ReactNode;
 }
 
-const FormRadioGroup: FC<RadioGroupProps> = ({ label, children }) => {
+const RadioGroup: FC<RadioGroupProps> = ({ label, children }) => {
   return (
     <FieldsetLayout>
       <LegendLayout>{label}</LegendLayout>
@@ -14,8 +14,6 @@ const FormRadioGroup: FC<RadioGroupProps> = ({ label, children }) => {
     </FieldsetLayout>
   );
 };
-
-export default FormRadioGroup;
 
 const FieldsetLayout = styled.fieldset`
   border: none;
@@ -28,3 +26,5 @@ const LegendLayout = styled.legend`
   font-weight: 500;
   margin-bottom: 1.2rem;
 `;
+
+export default RadioGroup;
