@@ -36,8 +36,6 @@ export interface UserInBodyData {
   weight: string;
 }
 
-export interface UserInformationData extends UserInfoData, UserInBodyData {}
-
 interface userModalProps {
   isOpen: boolean;
   onClose: () => void;

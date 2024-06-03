@@ -10,7 +10,7 @@ import Button from '@/components/Button';
 import { get, ref } from 'firebase/database';
 import FormInput from '@/components/FormInput';
 import styled from 'styled-components';
-import { UserInfoData } from '@/lib/types/userInformation';
+import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');
@@ -23,6 +23,12 @@ const SignIn = () => {
     phoneNumber: '',
     email: '',
     userName: '',
+  });
+  const [, setUserInBodyData] = useState<UserInBodyData>({
+    muscleMass: '',
+    bmi: '',
+    height: '',
+    weight: '',
   });
 
   const navigate = useNavigate();
@@ -57,10 +63,17 @@ const SignIn = () => {
       const snapshot = await get(userRef);
       if (snapshot.exists()) {
         console.log(snapshot.val());
-        // 로그인 성공 후 데이터를 상태에 저장
-        setUserInfoData(snapshot.val());
+        const privacyData = snapshot.val(); // 로그인 성공 후 데이터를 상태에 저장
+        setUserInfoData(privacyData); // 개인정보 전역 상태 업데이트
+        const userBodyRef = ref(db, 'users/' + auth.currentUser?.uid + '/body');
+        const bodySnapshot = await get(userBodyRef);
+        if (bodySnapshot.exists()) {
+          console.log(bodySnapshot.val());
+          const bodyData = bodySnapshot.val();
+          setUserInBodyData(bodyData); // 인바디정보 전역 상태 업데이트
+        }
       } else {
-        console.log('No data available');
+        console.log('개인정보가 없습니다.');
       }
       alert('로그인에 성공하였습니다.');
       navigate('/calendar');
@@ -99,6 +112,18 @@ const SignIn = () => {
               birthday: data.birthday || '',
               phoneNumber: data.phoneNumber || '',
               photoURL: data.photoURL || '',
+            });
+            const userBodyRef = ref(db, `users/${user.uid}/body`);
+            get(userBodyRef).then((bodySnapshot) => {
+              if (bodySnapshot.exists()) {
+                const bodyData = bodySnapshot.val();
+                setUserInBodyData({
+                  muscleMass: bodyData.muscleMass || '',
+                  bmi: bodyData.bmi || '',
+                  height: bodyData.height || '',
+                  weight: bodyData.weight || '',
+                });
+              }
             });
           }
         });
