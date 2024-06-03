@@ -61,7 +61,9 @@ const ApplyForm: React.FC = () => {
     <Layout>
       <TitleLayout>PT 신청</TitleLayout>
       <form onSubmit={handleSubmit}>
-        <FormInput type="date" label="PT 시작 날짜" value={startDate} onChange={handleDateChange} min={minDate} />
+        <FormInputBox>
+          <FormInput type="date" label="PT 시작 날짜" value={startDate} onChange={handleDateChange} min={minDate} />
+        </FormInputBox>
         <FormRadioGroup label="퍼스널 트레이너">
           <FormRadio name="trainer" value="trainer1" onChange={handleTrainerChange}>
             박민주 T
@@ -94,7 +96,9 @@ const ApplyForm: React.FC = () => {
           </FormRadio>
         </FormRadioGroup>
 
-        <FormInput type="text" label="비용 (1회 - 5만원)" value={cost} readOnly />
+        <FormInputBox>
+          <FormInput type="text" label="비용 (1회 - 5만원)" value={cost} readOnly />
+        </FormInputBox>
         <ApplyBtn type="submit">신청하기</ApplyBtn>
       </form>
     </Layout>
@@ -105,6 +109,10 @@ const TitleLayout = styled.h2`
   margin-bottom: 4rem;
   font-size: 2.8rem;
   font-weight: 700;
+`;
+
+const FormInputBox = styled.div`
+  margin-bottom: 6rem;
 `;
 
 const ApplyBtn = styled(Button)`
