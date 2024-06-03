@@ -4,10 +4,16 @@ import { ref, set, get } from 'firebase/database';
 import { auth, db, storage } from '@/firebase';
 import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userInformation';
-import { UserModalBtnBoxProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import { CgProfile } from 'react-icons/cg';
-import FormInput from './FormInput';
+import FormInput from '@/components/FormInput';
+import {
+  LabelBox,
+  ModalBackgroundBox,
+  UserInformationModalBox,
+  UserInformationModalBtnBox,
+  UserModalInformationH2,
+} from '@/styles/userInformation';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
@@ -122,9 +128,9 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
   return (
     <>
-      {isOpen && <ModalBackground isOpen={isOpen} onClose={onClose} onClick={onClose} />}
-      <UserInfoModalBox isOpen={isOpen} onClose={onClose}>
-        <h2>개인정보 수정</h2>
+      {isOpen && <ModalBackgroundBox isOpen={isOpen} onClose={onClose} onClick={onClose} />}
+      <UserInformationModalBox isOpen={isOpen} onClose={onClose}>
+        <UserModalInformationH2>개인정보 수정</UserModalInformationH2>
         <ProfileLabel>
           {previewURL ? <ProfileImage src={previewURL} alt="프로필 이미지" /> : <ProfileIcon />}
           <ProfileInput type="file" onChange={handleFileChange} />
@@ -157,22 +163,16 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
             />
           </label>
         </LabelBox>
-        <UserInfoModalBtnBox>
+        <UserInformationModalBtnBox>
           <Button onClick={handleSave}>저장</Button>
           <Button onClick={onClose}>취소</Button>
-        </UserInfoModalBtnBox>
-      </UserInfoModalBox>
+        </UserInformationModalBtnBox>
+      </UserInformationModalBox>
     </>
   );
 };
 
 export default UserInfoModal;
-
-const LabelBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
 
 const ProfileLabel = styled.label`
   display: flex;
@@ -204,6 +204,7 @@ const FileUploadBox = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const FileUploadBtn = styled.button`
   border: 1px solid var(--color-primary);
   background-color: var(--color-primary);
@@ -211,37 +212,4 @@ const FileUploadBtn = styled.button`
   font-size: 1.6rem;
   font-weight: 600;
   padding: 0.5rem;
-`;
-
-const UserInfoModalBox = styled.div<UserModalBtnBoxProps>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: var(--color-white);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  width: 40%;
-  height: auto;
-`;
-
-const ModalBackground = styled.div<UserModalBtnBoxProps>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-`;
-
-const UserInfoModalBtnBox = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  gap: 1rem;
 `;
