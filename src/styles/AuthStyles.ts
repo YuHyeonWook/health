@@ -46,7 +46,6 @@ export const LogoImg = styled.img`
 export const SignLabel = styled.label`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
   width: 70%;
 `;
 

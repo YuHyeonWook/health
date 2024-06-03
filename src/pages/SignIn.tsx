@@ -4,7 +4,7 @@ import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
 import bgLogin from '@/assets/images/bg-login.png';
-import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/commonSignStyle';
+import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/AuthStyles';
 import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button';
 import { get, ref } from 'firebase/database';

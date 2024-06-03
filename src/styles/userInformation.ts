@@ -22,6 +22,7 @@ export const UserInformationBox = styled.div`
 `;
 
 export const UserInformationSpan = styled.span`
+  margin-top: 1rem;
   border: 1px solid var(--color-gray-light);
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -39,12 +40,14 @@ export const BtnBox = styled.div`
  * 모달 스타일
  */
 
+// 레이블을 위한 컨테이너 스타일
 export const LabelBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
 `;
 
+// 사용자 정보 모달의 메인 컨테이너 스타일
 export const UserInformationModalBox = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
@@ -60,6 +63,7 @@ export const UserInformationModalBox = styled.div<UserModalBtnBoxProps>`
   height: auto;
 `;
 
+// 모달의 배경 스타일
 export const ModalBackgroundBox = styled.div<UserModalBtnBoxProps>`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;

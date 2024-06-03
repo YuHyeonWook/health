@@ -53,10 +53,21 @@ const UserInBody = () => {
         <main>
           <UserInformationH2>신체 정보</UserInformationH2>
           <UserInformationBox>
-            <UserInformationSpan>키: {userBodyData.height}</UserInformationSpan>
-            <UserInformationSpan>체중: {userBodyData.weight}</UserInformationSpan>
-            <UserInformationSpan>BMI: {userBodyData.bmi}</UserInformationSpan>
-            <UserInformationSpan>근육량: {userBodyData.muscleMass}</UserInformationSpan>
+            <p>
+              키<UserInformationSpan>{userBodyData.height}</UserInformationSpan>
+            </p>
+            <p>
+              체중
+              <UserInformationSpan>{userBodyData.weight}</UserInformationSpan>
+            </p>
+            <p>
+              BMI
+              <UserInformationSpan>{userBodyData.bmi}</UserInformationSpan>
+            </p>
+            <p>
+              근육량
+              <UserInformationSpan>{userBodyData.muscleMass}</UserInformationSpan>
+            </p>
           </UserInformationBox>
         </main>
         <BtnBox>

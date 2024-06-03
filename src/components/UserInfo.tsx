@@ -60,10 +60,22 @@ const UserInfo = () => {
             {userInfoData.photoURL && <ProfileImage src={userInfoData.photoURL} alt="프로필 이미지" />}
           </ProfileBox>
           <UserInformationBox>
-            <UserInformationSpan>닉네임: {userInfoData.userName}</UserInformationSpan>
-            <UserInformationSpan>이메일: {userInfoData.email}</UserInformationSpan>
-            <UserInformationSpan>생년월일: {userInfoData.birthday}</UserInformationSpan>
-            <UserInformationSpan>핸드폰 번호: {userInfoData.phoneNumber}</UserInformationSpan>
+            <p>
+              닉네임
+              <UserInformationSpan>{userInfoData.userName}</UserInformationSpan>
+            </p>
+            <p>
+              이메일
+              <UserInformationSpan>{userInfoData.email}</UserInformationSpan>
+            </p>
+            <p>
+              생년월일
+              <UserInformationSpan>{userInfoData.birthday}</UserInformationSpan>
+            </p>
+            <p>
+              핸드폰 번호
+              <UserInformationSpan>{userInfoData.phoneNumber}</UserInformationSpan>
+            </p>
           </UserInformationBox>
         </main>
         <BtnBox>
