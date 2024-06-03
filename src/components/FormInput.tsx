@@ -4,7 +4,7 @@ import styled from 'styled-components';
 interface InputProps {
   type: 'text' | 'number' | 'email' | 'password' | 'date';
   value: string | number;
-  label: string;
+  label?: string;
   name?: string;
   placeholder?: string;
   error?: boolean;
@@ -13,6 +13,7 @@ interface InputProps {
   readOnly?: boolean;
   min?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
 }
 
 const FormInput: FC<InputProps> = ({
@@ -27,6 +28,7 @@ const FormInput: FC<InputProps> = ({
   readOnly,
   min,
   onChange,
+  required,
 }) => {
   return (
     <InputBox>
@@ -39,6 +41,7 @@ const FormInput: FC<InputProps> = ({
         placeholder={placeholder}
         onChange={onChange}
         disabled={disabled}
+        required={required}
         readOnly={readOnly}
         min={min}
         onClick={(e) => e.currentTarget.focus()}

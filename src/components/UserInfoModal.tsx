@@ -20,14 +20,17 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const loadData = async () => {
     try {
       const userId = auth.currentUser?.uid;
-      const userRef = ref(db, `users/${userId}`);
-      const snapshot = await get(userRef);
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        setUserName(data.userName || '');
-        setEmail(data.email || '');
-        setBirthday(data.birthday || '');
-        setPhoneNumber(data.phoneNumber || '');
+      if (userId) {
+        const userRef = ref(db, `users/${userId}`);
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setUserName(data.userName || '');
+          setEmail(data.email || '');
+          setBirthday(data.birthday || '');
+          setPhoneNumber(data.phoneNumber || '');
+          setPreviewURL(data.photoURL || '');
+        }
       }
     } catch (error) {
       console.error(error, '데이터를 불러오는데 실패했습니다.');

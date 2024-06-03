@@ -4,9 +4,12 @@ import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.png';
-import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel } from '@/styles/commonSignStyle';
+import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/commonSignStyle';
 import Button from '@/components/Button';
 import { ref, set } from 'firebase/database';
+import FormInput from '@/components/FormInput';
+import { MdKeyboardBackspace } from 'react-icons/md';
+import styled from 'styled-components';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -62,16 +65,21 @@ const SignUp = () => {
     return () => unsubscribe();
   }, []);
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
       <SignForm onSubmit={handleSignUp}>
         <SignSection>
+          <BackIcon onClick={handleBack} />
           <LogoImg src={logo} alt="로고 이미지" />
           <h2>회원가입</h2>
           <SignLabel htmlFor="email">
             이메일(아이디)
-            <input
+            <FormInput
               type="email"
               placeholder="이메일(아이디)을 입력하세요"
               value={email}
@@ -85,7 +93,7 @@ const SignUp = () => {
           {error && <p>{error}</p>}
           <SignLabel htmlFor="password">
             비밀번호
-            <input
+            <FormInput
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={password}
@@ -96,10 +104,9 @@ const SignUp = () => {
               required
             />
           </SignLabel>
-          {passwordError && <p>{passwordError}</p>}
           <SignLabel htmlFor="password">
             비밀번호 확인
-            <input
+            <FormInput
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={confirmPassword}
@@ -111,7 +118,7 @@ const SignUp = () => {
             />
           </SignLabel>
           {passwordError && <p>{passwordError}</p>}
-
+          <BorderBox />
           <Button type="submit">회원가입</Button>
         </SignSection>
       </SignForm>
@@ -120,3 +127,11 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+const BackIcon = styled(MdKeyboardBackspace)`
+  position: absolute;
+  top: 2%;
+  right: 63%;
+  font-size: 2rem;
+  cursor: pointer;
+`;
