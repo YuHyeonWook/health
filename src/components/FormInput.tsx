@@ -31,9 +31,9 @@ const FormInput: FC<InputProps> = ({
   required,
 }) => {
   return (
-    <InputBox>
-      <Label htmlFor={name}>{label}</Label>
-      <Input
+    <>
+      <LabelStyled htmlFor={name}>{label}</LabelStyled>
+      <InputStyled
         type={type}
         id={name}
         value={value}
@@ -47,21 +47,17 @@ const FormInput: FC<InputProps> = ({
         onClick={(e) => e.currentTarget.focus()}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
-    </InputBox>
+    </>
   );
 };
 
-const InputBox = styled.div`
-  margin-bottom: 6rem;
-`;
-
-const Label = styled.label`
+const LabelStyled = styled.label`
   display: block;
   margin-bottom: 1.2rem;
   font-weight: 500;
 `;
 
-const Input = styled.input`
+const InputStyled = styled.input`
   display: block;
   width: 100%;
   height: 5rem;
