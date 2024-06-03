@@ -6,6 +6,7 @@ import SignIn from '@/pages/SignIn';
 import SignUp from '@/pages/SignUp';
 import Layout from '@/components/layout/Layout';
 import ApplyForm from '@/pages/ApplyForm';
+import ApplyList from '@/pages/ApplyList';
 
 export const routes = [
   {
@@ -37,5 +38,9 @@ export const routes = [
   {
     path: '/apply',
     element: <ApplyForm />,
+  },
+  {
+    path: '/applyList',
+    element: <ApplyList />,
   },
 ];
