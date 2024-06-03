@@ -22,7 +22,7 @@ const Pagination: React.FC<PaginationProps> = ({ itemsPerPage, totalItems, pagin
         <img src={iconChevronLeft} alt="왼쪽 화살표" />
       </ArrowBtn>
       {pageNumbers.map((number) => (
-        <PageItem key={number} onClick={() => paginate(number)} active={number === currentPage}>
+        <PageItem key={number} onClick={() => paginate(number)} data-active={number === currentPage}>
           {number}
         </PageItem>
       ))}
@@ -36,15 +36,15 @@ const Pagination: React.FC<PaginationProps> = ({ itemsPerPage, totalItems, pagin
 const PaginationList = styled.div`
   display: flex;
   justify-content: center;
-  margin: 2rem 0;
+  margin: 8rem 0 2rem;
 `;
 
-const PageItem = styled.button<{ active: boolean }>`
+const PageItem = styled.button<{ 'data-active': boolean }>`
   width: 3.6rem;
   height: 3.6rem;
   font-size: 1.4rem;
-  color: ${({ active }) => (active ? '#fff' : 'var(--color-black)')};
-  background-color: ${({ active }) => (active ? 'var(--color-primary)' : 'transparent')};
+  color: ${({ 'data-active': active }) => (active ? '#fff' : 'var(--color-black)')};
+  background-color: ${({ 'data-active': active }) => (active ? 'var(--color-primary)' : 'transparent')};
   cursor: pointer;
 `;
 
