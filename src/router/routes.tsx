@@ -7,6 +7,7 @@ import SignUp from '@/pages/SignUp';
 import Layout from '@/components/layout/Layout';
 import ApplyForm from '@/pages/ApplyForm';
 import ApplyList from '@/pages/ApplyList';
+import ProtectedRoute from './ProtectedRoute';
 
 export const routes = [
   {
@@ -20,27 +21,49 @@ export const routes = [
   },
   {
     path: '/calendar',
-    element: <Calendar />,
+    element: (
+      <ProtectedRoute>
+        <Calendar />
+      </ProtectedRoute>
+    ),
     errorElement: <NotFound />,
   },
   {
     path: '/home',
-    element: <Home />,
+    element: (
+      <ProtectedRoute>
+        <Home />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/mypage',
     element: (
-      <Layout>
-        <MyPage />
-      </Layout>
+      <ProtectedRoute>
+        <Layout>
+          <MyPage />
+        </Layout>
+      </ProtectedRoute>
     ),
   },
   {
     path: '/apply',
-    element: <ApplyForm />,
+    element: (
+      <ProtectedRoute>
+        <ApplyForm />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/applyList',
-    element: <ApplyList />,
+    element: (
+      <ProtectedRoute>
+        <ApplyList />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ];
