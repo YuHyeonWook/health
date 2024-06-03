@@ -3,7 +3,7 @@ import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import { userInBodyModalProps } from '@/lib/types/userInformation';
 import Button from '@/components/Button';
-import FormInput from '@/components/FormInput';
+import Input from '@/components/Input';
 import {
   LabelBox,
   ModalBackgroundBox,
@@ -85,24 +85,19 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
         <LabelBox>
           <label>
             키 (cm):
-            <FormInput type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="cm" />
+            <Input type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="cm" />
           </label>
           <label>
             체중 (kg):
-            <FormInput type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="kg" />
+            <Input type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="kg" />
           </label>
           <label>
             BMI (kg/㎡):
-            <FormInput type="text" value={bmi} onChange={(e) => setBmi(e.target.value)} placeholder="kg/㎡" />
+            <Input type="text" value={bmi} onChange={(e) => setBmi(e.target.value)} placeholder="kg/㎡" />
           </label>
           <label>
             근육량 (kg):
-            <FormInput
-              type="text"
-              value={muscleMass}
-              onChange={(e) => setMuscleMass(e.target.value)}
-              placeholder="kg"
-            />
+            <Input type="text" value={muscleMass} onChange={(e) => setMuscleMass(e.target.value)} placeholder="kg" />
           </label>
         </LabelBox>
         <UserInformationModalBtnBox>

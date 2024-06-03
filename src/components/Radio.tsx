@@ -11,7 +11,7 @@ interface RadioProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormRadio: FC<RadioProps> = ({ children, value, name, defaultChecked = false, disabled = false, onChange }) => {
+const Radio: FC<RadioProps> = ({ children, value, name, defaultChecked = false, disabled = false, onChange }) => {
   return (
     <Label>
       <RadioInput
@@ -51,4 +51,4 @@ const RadioInput = styled.input`
   }
 `;
 
-export default FormRadio;
+export default Radio;

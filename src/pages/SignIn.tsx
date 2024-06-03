@@ -8,7 +8,7 @@ import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from
 import logo from '@/assets/images/logo.png';
 import Button from '@/components/Button';
 import { get, ref } from 'firebase/database';
-import FormInput from '@/components/FormInput';
+import Input from '@/components/Input';
 import styled from 'styled-components';
 import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
 
@@ -142,7 +142,7 @@ const SignIn = () => {
           <h2>로그인</h2>
           <SignLabel htmlFor="email">
             이메일(아이디)
-            <FormInput
+            <Input
               type="email"
               placeholder="이메일(아이디)을 입력하세요"
               value={email}
@@ -152,7 +152,7 @@ const SignIn = () => {
           </SignLabel>
           <SignLabel htmlFor="password">
             비밀번호
-            <FormInput
+            <Input
               type="password"
               placeholder="비밀번호를 입력하세요"
               value={password}

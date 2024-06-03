@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import { CgProfile } from 'react-icons/cg';
-import FormInput from '@/components/FormInput';
+import Input from '@/components/Input';
 import {
   LabelBox,
   ModalBackgroundBox,
@@ -141,19 +141,19 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         <LabelBox>
           <label>
             이메일:
-            <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
           </label>
           <label>
             닉네임:
-            <FormInput type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+            <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
           </label>
           <label>
             생년월일:
-            <FormInput type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+            <Input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
           </label>
           <label>
             전화번호:
-            <FormInput
+            <Input
               type="tel"
               pattern="[0-9]{11}"
               value={phoneNumber}

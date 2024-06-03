@@ -18,7 +18,7 @@ interface InputProps {
   maxLength?: number;
 }
 
-const FormInput: FC<InputProps> = ({
+const Input: FC<InputProps> = ({
   type,
   label,
   value,
@@ -95,4 +95,4 @@ const ErrorText = styled.p`
   }
 `;
 
-export default FormInput;
+export default Input;

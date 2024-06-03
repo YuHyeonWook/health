@@ -2,9 +2,9 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { db } from '@/firebase';
 import { ref, set } from 'firebase/database';
 import Button from '@/components/Button';
-import FormInput from '@/components/FormInput';
-import FormRadio from '@/components/FormRadio';
-import FormRadioGroup from '@/components/FormRadioGroup';
+import Input from '@/components/Input';
+import Radio from '@/components/Radio';
+import RadioGroup from '@/components/RadioGroup';
 import Layout from '@/components/layout/Layout';
 import styled from 'styled-components';
 
@@ -61,44 +61,44 @@ const ApplyForm: React.FC = () => {
     <Layout>
       <TitleLayout>PT 신청</TitleLayout>
       <form onSubmit={handleSubmit}>
-        <FormInputBox>
-          <FormInput type="date" label="PT 시작 날짜" value={startDate} onChange={handleDateChange} min={minDate} />
-        </FormInputBox>
-        <FormRadioGroup label="퍼스널 트레이너">
-          <FormRadio name="trainer" value="trainer1" onChange={handleTrainerChange}>
+        <InputBox>
+          <Input type="date" label="PT 시작 날짜" value={startDate} onChange={handleDateChange} min={minDate} />
+        </InputBox>
+        <RadioGroup label="퍼스널 트레이너">
+          <Radio name="trainer" value="trainer1" onChange={handleTrainerChange}>
             박민주 T
-          </FormRadio>
-          <FormRadio name="trainer" value="trainer2" onChange={handleTrainerChange}>
+          </Radio>
+          <Radio name="trainer" value="trainer2" onChange={handleTrainerChange}>
             유현욱 T
-          </FormRadio>
-          <FormRadio name="trainer" value="trainer3" onChange={handleTrainerChange}>
+          </Radio>
+          <Radio name="trainer" value="trainer3" onChange={handleTrainerChange}>
             이동희 T
-          </FormRadio>
-          <FormRadio name="trainer" value="trainer4" onChange={handleTrainerChange}>
+          </Radio>
+          <Radio name="trainer" value="trainer4" onChange={handleTrainerChange}>
             정보현 T
-          </FormRadio>
-        </FormRadioGroup>
-        <FormRadioGroup label="횟수">
-          <FormRadio name="count" value="10" onChange={handleCountChange}>
+          </Radio>
+        </RadioGroup>
+        <RadioGroup label="횟수">
+          <Radio name="count" value="10" onChange={handleCountChange}>
             10회
-          </FormRadio>
-          <FormRadio name="count" value="15" onChange={handleCountChange}>
+          </Radio>
+          <Radio name="count" value="15" onChange={handleCountChange}>
             15회
-          </FormRadio>
-          <FormRadio name="count" value="20" onChange={handleCountChange}>
+          </Radio>
+          <Radio name="count" value="20" onChange={handleCountChange}>
             20회
-          </FormRadio>
-          <FormRadio name="count" value="25" onChange={handleCountChange}>
+          </Radio>
+          <Radio name="count" value="25" onChange={handleCountChange}>
             25회
-          </FormRadio>
-          <FormRadio name="count" value="30" onChange={handleCountChange}>
+          </Radio>
+          <Radio name="count" value="30" onChange={handleCountChange}>
             30회
-          </FormRadio>
-        </FormRadioGroup>
+          </Radio>
+        </RadioGroup>
 
-        <FormInputBox>
-          <FormInput type="text" label="비용 (1회 - 5만원)" value={cost} readOnly />
-        </FormInputBox>
+        <InputBox>
+          <Input type="text" label="비용 (1회 - 5만원)" value={cost} readOnly />
+        </InputBox>
         <ApplyBtn type="submit">신청하기</ApplyBtn>
       </form>
     </Layout>
@@ -111,7 +111,7 @@ const TitleLayout = styled.h2`
   font-weight: 700;
 `;
 
-const FormInputBox = styled.div`
+const InputBox = styled.div`
   margin-bottom: 6rem;
 `;
 
