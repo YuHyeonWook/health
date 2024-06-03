@@ -3,6 +3,14 @@ import { ref, get } from 'firebase/database';
 import styled from 'styled-components';
 import { auth, db } from '@/firebase';
 import UserInBodyModal from '@/components/UserInBobyModal';
+import {
+  BtnBox,
+  UserInformationBox,
+  UserInformationContainer,
+  UserInformationH2,
+  UserInformationSpan,
+} from '@/styles/userInformation';
+import Button from './Button';
 
 const UserInBody = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -42,24 +50,23 @@ const UserInBody = () => {
 
   return (
     <>
-      <UserBodyBox>
-        <h2>신체 정보</h2>
-        <p>근육량: {userBodyData.muscleMass}</p>
-        <p>BMI: {userBodyData.bmi}</p>
-        <p>키: {userBodyData.height}</p>
-        <p>체중: {userBodyData.weight}</p>
-      </UserBodyBox>
-      <button onClick={openModal}>수정</button>
+      <UserInformationContainer>
+        <main>
+          <UserInformationH2>신체 정보</UserInformationH2>
+          <UserInformationBox>
+            <UserInformationSpan>키: {userBodyData.height}</UserInformationSpan>
+            <UserInformationSpan>체중: {userBodyData.weight}</UserInformationSpan>
+            <UserInformationSpan>BMI: {userBodyData.bmi}</UserInformationSpan>
+            <UserInformationSpan>근육량: {userBodyData.muscleMass}</UserInformationSpan>
+          </UserInformationBox>
+        </main>
+        <BtnBox>
+          <Button onClick={openModal}>등록</Button>
+        </BtnBox>
+      </UserInformationContainer>
       <UserInBodyModal isOpen={isModalOpen} onClose={closeModal} setUserBodyData={setUserBodyData} />
     </>
   );
 };
 
 export default UserInBody;
-
-const UserBodyBox = styled.div`
-  margin-top: 10rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
