@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import UserInfoModal from './UserInfoModal';
+import UserInfoModal from '@/components/UserInfoModal';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import Button from '@/components/Button';
+import { UserInfoData } from '@/lib/types/userInformation';
 
 const UserInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [userInfoData, setUserInfoData] = useState({
+  const [userInfoData, setUserInfoData] = useState<UserInfoData>({
     photoURL: '',
     birthday: '',
     phoneNumber: '',

@@ -10,13 +10,20 @@ import Button from '@/components/Button';
 import { get, ref } from 'firebase/database';
 import FormInput from '@/components/FormInput';
 import styled from 'styled-components';
+import { UserInfoData } from '@/lib/types/userInformation';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
-  const [, setUserInfoData] = useState({});
+  const [, setUserInfoData] = useState<UserInfoData>({
+    photoURL: '',
+    birthday: '',
+    phoneNumber: '',
+    email: '',
+    userName: '',
+  });
 
   const navigate = useNavigate();
 

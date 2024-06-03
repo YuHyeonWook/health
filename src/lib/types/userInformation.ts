@@ -21,6 +21,14 @@ export interface UserModalBtnBoxProps {
   onClose: () => void;
 }
 
+export interface UserInfoData {
+  photoURL: string;
+  birthday: string;
+  phoneNumber: string;
+  email: string;
+  userName: string;
+}
+
 interface userModalProps {
   isOpen: boolean;
   onClose: () => void;
