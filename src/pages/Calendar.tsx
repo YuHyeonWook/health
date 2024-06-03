@@ -2,17 +2,30 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from '../components/calendarcrud/Modal';
 import Layout from '@/components/layout/Layout';
+import { db } from '../firebase';
+import { ref, onValue } from 'firebase/database';
+import EventList from '../components/calendarcrud/EventList';
 
 interface Day {
   day: number;
   isCurrentMonth: boolean;
 }
 
+interface Event {
+  endDate: string;
+  firstInput: string;
+  memoInput: string;
+  secondInput: string;
+  startDate: string;
+}
+
 const Calendar = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [ModalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
+  const today = new Date();
   const firstDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth(), 1);
   const lastDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const daysInMonth: Day[] = [];
@@ -33,16 +46,10 @@ const Calendar = () => {
     isCurrentMonth: false,
   }));
 
-  useEffect(() => {
-    const daysInMonth = [];
-    for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-      daysInMonth.push({ day: i, isCurrentMonth: true });
-    }
-  }, [date]);
-
   const handlePrevMonth = (): void => {
     setDate(new Date(date.getFullYear(), date.getMonth() - 1));
   };
+
   const handleNextMonth = (): void => {
     setDate(new Date(date.getFullYear(), date.getMonth() + 1));
   };
@@ -57,10 +64,34 @@ const Calendar = () => {
       setModalOpen(true);
       const clickedDate = new Date(date.getFullYear(), date.getMonth(), day);
       setStartDate(clickedDate);
+      setSelectedDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${day}.`);
     }
   };
 
   const months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  const [data, setData] = useState<{ [key: string]: Event }>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const dataRef = ref(db, 'NewEvent/');
+
+    const unsubscribe = onValue(dataRef, (snapshot) => {
+      const fetchedData = snapshot.val();
+      setData(fetchedData);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const getEventsForDate = (dateStr: string) => {
+    return Object.values(data).filter(event => event.startDate === dateStr);
+  };
 
   return (
     <Layout>
@@ -84,13 +115,12 @@ const Calendar = () => {
               </ChevronRightIcon>
             </RightSwiperBtn>
           </SwiperBox>
+          <TodayButton onClick={() => setDate(new Date())}>오늘</TodayButton>
           <MonthYearBox>{`${date.getFullYear()}. ${months[date.getMonth()]}`}</MonthYearBox>
           <EventRow>
             <EventBtn onClick={handleNewEventClick}>운동 추가</EventBtn>
           </EventRow>
-
           {ModalOpen && <Modal setModalOpen={setModalOpen} startDate={startDate} />}
-
           {week.map((day, index) => (
             <WeekBox key={index}>{day}</WeekBox>
           ))}
@@ -99,10 +129,15 @@ const Calendar = () => {
             return <Day key={`start-${index}`}>{dayObj.day}</Day>;
           })}
           {daysInMonth.map((dayObj, index) => {
-            const Day = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
+            const isToday =
+              dayObj.day === today.getDate() &&
+              date.getMonth() === today.getMonth() &&
+              date.getFullYear() === today.getFullYear();
+            const Day = dayObj.isCurrentMonth ? (isToday ? TodayDay : CurrentMonthDay) : OtherMonthDay;
             return (
               <Day key={index} onClick={() => handleDayClick(dayObj.day, dayObj.isCurrentMonth)}>
                 {dayObj.day}
+                <EventList events={getEventsForDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${dayObj.day}.`)} />
               </Day>
             );
           })}
@@ -191,7 +226,7 @@ const EventBtn = styled.button`
   width: 90px;
   height: 30px;
   margin-top: 30px;
-  color: white;
+  color: #fff;
   background-color: #4cd964;
   font-size: 14px;
   border: none;
@@ -210,18 +245,41 @@ const WeekBox = styled.div`
   text-align: center;
 `;
 const Day = styled.div`
+  position: relative;
   height: 117px;
   padding-top: 5px;
   padding-left: 5px;
   border: 1px solid #e8e8e8;
   border-radius: 5px;
   text-align: left;
+  &:hover {
+    background: #4cd964;
+    color: #000;
+    transition: 0.5s;
+    transform: scale(1.1);
+    cursor: pointer;
+    z-index: 1;
+  }
 `;
 const CurrentMonthDay = styled(Day)`
   color: #6e6e6e;
-  background-color: white;
+  background-color: #fff;
 `;
 const OtherMonthDay = styled(Day)`
   color: gray;
   background-color: #d3d3d3;
+`;
+const TodayDay = styled(CurrentMonthDay)`
+  color: red;
+`;
+
+const TodayButton = styled.button`
+  width: 60px;
+  height: 30px;
+  margin-top: 31px;
+  color: #fff;
+  background: #4cd964;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
 `;
