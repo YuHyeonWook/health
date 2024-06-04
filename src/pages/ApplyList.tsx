@@ -37,7 +37,6 @@ const ApplyList = () => {
   const handleDelete = async (id: string) => {
     try {
       await remove(ref(db, `applyForm/${userId}/${id}`));
-      setApplications(applications.filter((application) => application.id !== id));
     } catch (error) {
       console.error('Error deleting data from Firebase Database:', error);
       alert('삭제 중 오류가 발생했습니다. 다시 시도해주세요.');

@@ -1,13 +1,9 @@
-import React, { ReactNode } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate } from 'react-router-dom';
 import { auth } from '@/firebase';
+import { ProtectedRouteProps } from '@/lib/types/route';
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [user, loading] = useAuthState(auth);
 
   if (loading) {
@@ -19,6 +15,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   return <>{children}</>;
-};
+}
 
 export default ProtectedRoute;
