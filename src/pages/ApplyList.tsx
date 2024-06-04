@@ -10,10 +10,9 @@ import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
 
 const ApplyList = () => {
   const [applications, setApplications] = useState<Application[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
   const userId = auth.currentUser?.uid;
-
   const { userName } = useUserNameStore();
 
   useEffect(() => {
