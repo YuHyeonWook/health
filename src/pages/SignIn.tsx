@@ -11,7 +11,7 @@ import { get, ref } from 'firebase/database';
 import Input from '@/components/Input';
 import styled from 'styled-components';
 import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
-import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
+import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');

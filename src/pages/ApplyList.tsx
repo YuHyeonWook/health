@@ -6,7 +6,7 @@ import { onValue, ref, remove } from 'firebase/database';
 import { db, auth } from '@/firebase';
 import Pagination from '@/components/Pagination';
 import { Application } from '@/lib/types/application';
-import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
+import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
 const ApplyList = () => {
   const [applications, setApplications] = useState<Application[]>([]);

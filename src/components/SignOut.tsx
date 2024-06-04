@@ -1,4 +1,4 @@
-import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
+import { useUserNameStore } from '@/lib/store/useUserNameStore';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
