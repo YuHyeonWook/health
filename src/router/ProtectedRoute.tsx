@@ -1,17 +1,14 @@
-import React, { ReactNode } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Navigate } from 'react-router-dom';
 import { auth } from '@/firebase';
+import { ProtectedRouteProps } from '@/lib/types/route';
+import Loading from '@/pages/Loading';
 
-interface ProtectedRouteProps {
-  children: ReactNode;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+function ProtectedRoute({ children }: ProtectedRouteProps) {
   const [user, loading] = useAuthState(auth);
 
   if (loading) {
-    return <p>로딩중...</p>;
+    return <Loading />;
   }
 
   if (!user) {
@@ -19,6 +16,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   return <>{children}</>;
-};
+}
 
 export default ProtectedRoute;

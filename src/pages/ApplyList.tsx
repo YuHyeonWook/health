@@ -39,7 +39,6 @@ const ApplyList = () => {
   const handleDelete = async (id: string) => {
     try {
       await remove(ref(db, `applyForm/${userId}/${id}`));
-      setApplications(applications.filter((application) => application.id !== id));
     } catch (error) {
       console.error('Error deleting data from Firebase Database:', error);
       alert('삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -73,11 +72,11 @@ const ApplyList = () => {
       <TableLayout>
         <TheadLayout>
           <tr>
+            <th>닉네임</th>
             <th>PT 시작 날짜</th>
             <th>퍼스널 트레이너</th>
             <th>횟수</th>
             <th>비용</th>
-            <th>닉네임</th>
             <th></th>
           </tr>
         </TheadLayout>
@@ -85,13 +84,13 @@ const ApplyList = () => {
           {currentApplications.length > 0 ? (
             currentApplications.map((application) => (
               <tr key={application.id}>
+                <td>{userName}</td>
                 <td>{application.startDate}</td>
                 <td>
                   <TrainerText style={getTrainerColor(application.trainer)}>{application.trainer}</TrainerText>
                 </td>
                 <td>{application.count}</td>
                 <td>{application.cost}</td>
-                <td>{userName}</td>
                 <td>
                   <DeleteBtn onClick={() => handleDelete(application.id)}>
                     <DeleteImg src={iconTrash} alt="휴지통 이미지" />
@@ -131,24 +130,13 @@ const TableLayout = styled.table`
 
 const TheadLayout = styled.thead`
   th {
+    width: 15%;
     padding: 2.4rem 1.4rem;
     color: var(--color-gray-dark);
     border-bottom: 1px solid var(--color-primary);
 
-    &:nth-child(1) {
-      width: 20%;
-    }
-
-    &:nth-child(2) {
-      width: 25%;
-    }
-
-    &:nth-child(3) {
-      width: 20%;
-    }
-
-    &:nth-child(4) {
-      width: 25%;
+    &:last-child {
+      width: 10%;
     }
   }
 `;
