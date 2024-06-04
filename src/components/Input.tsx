@@ -1,39 +1,23 @@
-import { ChangeEvent, FC } from 'react';
 import styled from 'styled-components';
+import { InputProps } from '@/lib/types/input';
 
-interface InputProps {
-  type: 'text' | 'number' | 'email' | 'password' | 'date' | 'tel';
-  value: string | number;
-  label?: string;
-  name?: string;
-  placeholder?: string;
-  error?: boolean;
-  errorMessage?: string;
-  disabled?: boolean;
-  readOnly?: boolean;
-  min?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
-  pattern?: string;
-  maxLength?: number;
-}
-
-const Input: FC<InputProps> = ({
-  type,
-  label,
-  value,
-  name,
-  placeholder,
-  error,
-  errorMessage,
-  disabled,
-  readOnly,
-  min,
-  onChange,
-  required,
-  maxLength,
-  pattern,
-}) => {
+const Input = (props: InputProps) => {
+  const {
+    type,
+    label,
+    value,
+    name,
+    placeholder,
+    error,
+    errorMessage,
+    disabled,
+    readOnly,
+    min,
+    onChange,
+    required,
+    maxLength,
+    pattern,
+  } = props;
   return (
     <>
       <LabelStyled htmlFor={name}>{label}</LabelStyled>

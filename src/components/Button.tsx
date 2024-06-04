@@ -1,21 +1,13 @@
-import { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
+import { ButtonProps } from '@/lib/types/button';
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
-  mode?: 'primary' | 'white';
-  onClick?: () => void;
-}
-
-const Button = ({ mode = 'primary', children, ...props }: Props) => {
+const Button = ({ mode = 'primary', children, ...props }: ButtonProps) => {
   return (
     <ButtonStyled mode={mode} {...props}>
       {children}
     </ButtonStyled>
   );
 };
-
-export default Button;
 
 const ButtonStyled = styled.button<{ mode: 'primary' | 'white' }>`
   display: flex;
@@ -35,3 +27,5 @@ const ButtonStyled = styled.button<{ mode: 'primary' | 'white' }>`
     border-color: ${(props) => (props.mode === 'primary' ? 'var(--color-primary-dark)' : 'var(--color-primary)')};
   }
 `;
+
+export default Button;
