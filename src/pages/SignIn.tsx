@@ -11,6 +11,7 @@ import { get, ref } from 'firebase/database';
 import Input from '@/components/Input';
 import styled from 'styled-components';
 import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
+import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');
@@ -30,6 +31,7 @@ const SignIn = () => {
     height: '',
     weight: '',
   });
+  const setUserName = useUserNameStore((state) => state.setUserName);
 
   const navigate = useNavigate();
 
@@ -65,6 +67,7 @@ const SignIn = () => {
         console.log(snapshot.val());
         const privacyData = snapshot.val(); // 로그인 성공 후 데이터를 상태에 저장
         setUserInfoData(privacyData); // 개인정보 전역 상태 업데이트
+        setUserName(privacyData.userName); // 로컬스토리지 이름 저장함
         const userBodyRef = ref(db, 'users/' + auth.currentUser?.uid + '/body');
         const bodySnapshot = await get(userBodyRef);
         if (bodySnapshot.exists()) {

@@ -18,12 +18,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
+import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
   const [birthday, setBirthday] = useState<string>(new Date().toISOString().split('T')[0]);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
+  const { userName, setUserName } = useUserNameStore();
   const [previewURL, setPreviewURL] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
@@ -119,6 +120,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         birthday,
         phoneNumber,
         photoURL,
+      });
+      setUserName(userName); // store에 userName 저장함
+      toast.success('저장에 성공했습니다.', {
+        autoClose: 2000,
       });
       onClose();
     } catch (error) {

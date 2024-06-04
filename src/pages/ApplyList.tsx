@@ -6,12 +6,15 @@ import { onValue, ref, remove } from 'firebase/database';
 import { db, auth } from '@/firebase';
 import Pagination from '@/components/Pagination';
 import { Application } from '@/lib/types/application';
+import { useUserNameStore } from '@/lib/types/store/useUserNameStore';
 
 const ApplyList = () => {
   const [applications, setApplications] = useState<Application[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const userId = auth.currentUser?.uid;
+
+  const { userName } = useUserNameStore();
 
   useEffect(() => {
     if (!userId) return;
@@ -75,6 +78,7 @@ const ApplyList = () => {
             <th>퍼스널 트레이너</th>
             <th>횟수</th>
             <th>비용</th>
+            <th>닉네임</th>
             <th></th>
           </tr>
         </TheadLayout>
@@ -88,6 +92,7 @@ const ApplyList = () => {
                 </td>
                 <td>{application.count}</td>
                 <td>{application.cost}</td>
+                <td>{userName}</td>
                 <td>
                   <DeleteBtn onClick={() => handleDelete(application.id)}>
                     <DeleteImg src={iconTrash} alt="휴지통 이미지" />
