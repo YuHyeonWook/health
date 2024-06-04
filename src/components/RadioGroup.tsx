@@ -1,12 +1,7 @@
-import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
+import { RadioGroupProps } from '@/lib/types/radio';
 
-interface RadioGroupProps {
-  label: string;
-  children: ReactNode;
-}
-
-const RadioGroup: FC<RadioGroupProps> = ({ label, children }) => {
+const RadioGroup = ({ label, children }: RadioGroupProps) => {
   return (
     <FieldsetLayout>
       <LegendLayout>{label}</LegendLayout>
