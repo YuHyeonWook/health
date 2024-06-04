@@ -9,10 +9,10 @@ import Layout from '@/components/layout/Layout';
 import styled from 'styled-components';
 
 const ApplyForm = () => {
-  const [count, setCount] = useState('');
-  const [cost, setCost] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [trainer, setTrainer] = useState('');
+  const [count, setCount] = useState<string>('');
+  const [cost, setCost] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [trainer, setTrainer] = useState<string>('');
   const userId = auth.currentUser?.uid;
 
   const handleCountChange = (e: ChangeEvent<HTMLInputElement>) => {
