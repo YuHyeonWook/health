@@ -57,6 +57,7 @@ export interface userInfoModalProps extends userModalProps {
     React.SetStateAction<{
       photoURL: string;
       birthday: string;
+      // birthday: string;
       phoneNumber: string;
       email: string;
       userName: string;

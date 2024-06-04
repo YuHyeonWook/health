@@ -16,10 +16,12 @@ import {
 } from '@/styles/userInformation';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>('');
+  const [birthday, setBirthday] = useState<string>(new Date().toISOString().split('T')[0]);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [userName, setUserName] = useState<string>('');
   const [previewURL, setPreviewURL] = useState<string>('');
@@ -36,7 +38,11 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           const data = snapshot.val();
           setUserName(data.userName || '');
           setEmail(data.email || '');
-          setBirthday(data.birthday || '');
+          setBirthday(
+            data.birthday
+              ? new Date(data.birthday).toISOString().split('T')[0]
+              : new Date().toISOString().split('T')[0],
+          );
           setPhoneNumber(data.phoneNumber || '');
           setPreviewURL(data.photoURL || '');
         }
@@ -107,7 +113,13 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         photoURL,
       });
 
-      setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
+      setUserInfoData({
+        userName,
+        email,
+        birthday,
+        phoneNumber,
+        photoURL,
+      });
       onClose();
     } catch (error) {
       toast.error('저장하는데 실패했습니다.', {
@@ -167,7 +179,12 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           </label>
           <label>
             생년월일:
-            <Input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+            <DatePicker
+              selected={new Date(birthday)}
+              onChange={(date: Date) => setBirthday(date.toISOString().split('T')[0])}
+              dateFormat="yyyy-MM-dd"
+              placeholderText="생년월일을 선택해주세요"
+            />
           </label>
           <label>
             전화번호:
