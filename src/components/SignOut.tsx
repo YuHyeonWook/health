@@ -2,7 +2,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-const LoginOut = () => {
+const SignOut = () => {
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const LoginOut = () => {
   return <LogoutBtn onClick={handleLogOut}>로그아웃</LogoutBtn>;
 };
 
-export default LoginOut;
+export default SignOut;
 
 const LogoutBtn = styled.button`
   font-size: 1.8rem;
