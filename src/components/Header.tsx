@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import LoginOut from './LoginOut';
+import SignOut from '@/components/SignOut';
+
 import styled from 'styled-components';
 import logo from '@/assets/images/logo.svg';
 
@@ -21,7 +22,7 @@ const Header = () => {
         </NavItem>
       </NavList>
       <LogoutBox>
-        <LoginOut />
+        <SignOut />
       </LogoutBox>
     </NavContainer>
   );
