@@ -14,6 +14,8 @@ import {
   UserInformationModalBtnBox,
   UserModalInformationH2,
 } from '@/styles/userInformation';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
@@ -56,23 +58,33 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const handleSave = async () => {
     try {
       if (!userName) {
-        alert('닉네임을 입력해주세요');
+        toast.info('닉네임을 입력해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!birthday) {
-        alert('생년월일을 입력해주세요');
+        toast.info('생년월일을 입력해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (phoneNumber.length !== 11) {
-        alert('전화번호를 11자리를 눌러주세요');
+        toast.info('전화번호를 11자리를 눌러주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!file) {
-        alert('파일을 업로드해주세요');
+        toast.info('파일을 업로드해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!isFileUploaded) {
-        alert('파일 업로드 버튼을 클릭해주세요');
+        toast.info('파일 업로드 버튼을 클릭해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       setIsFileUploaded(false);
@@ -98,7 +110,9 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
       setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
       onClose();
     } catch (error) {
-      console.error(error, '저장에 실패했습니다.');
+      toast.error('저장하는데 실패했습니다.', {
+        autoClose: 2000,
+      });
     }
   };
 
@@ -120,9 +134,13 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         setPreviewURL(photoURL);
         setIsFileUploaded(true);
       }
-      alert('업로드에 성공했습니다.');
+      toast.success('업로드에 성공했습니다.', {
+        autoClose: 2000,
+      });
     } catch (error) {
-      console.error(error, '업로드에 실패했습니다.');
+      toast.error('업로드에 실패했습니다.', {
+        autoClose: 2000,
+      });
     }
   };
 
@@ -168,6 +186,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           <Button onClick={onClose}>취소</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
+      <ToastContainer />
     </>
   );
 };
