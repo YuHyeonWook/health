@@ -1,8 +1,8 @@
 export interface UpdatedInfo {
-  displayName?: string | null;
-  email?: string | null;
-  birthday?: string | null;
-  phoneNumber: string | null;
+  displayName?: string;
+  email?: string;
+  birthday?: string;
+  phoneNumber: string;
 }
 
 export interface ModalProps {
