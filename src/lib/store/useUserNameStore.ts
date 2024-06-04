@@ -1,11 +1,6 @@
 import create from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-
-export interface useUserName {
-  userName: string;
-  setUserName: (name: string) => void;
-  clearLocalStorage: () => void; // 로컬 스토리지 클리어 함수 추가
-}
+import { useUserName } from '../types/useUserName';
 
 export const useUserNameStore = create<useUserName>()(
   persist(
