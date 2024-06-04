@@ -13,14 +13,14 @@ const Footer = () => {
           </Logo>
           <InfoText>A personalized fitness training management platform.</InfoText>
           <CopyText>&copy; 2024 Team 5 of the Toy Project. All Rights Reserved.</CopyText>
-          <LinkBox>
+          {/* <LinkBox>
             <LinkLayout href="">
               <LinkImg src={iconGithub} alt="깃허브 아이콘" />
             </LinkLayout>
             <LinkLayout href="">
               <LinkImg src={iconbuilding} alt="빌딩 아이콘" />
             </LinkLayout>
-          </LinkBox>
+          </LinkBox> */}
         </InfoBox>
         <ContributorsBox>
           <Title>CONTRIBUTORS</Title>
