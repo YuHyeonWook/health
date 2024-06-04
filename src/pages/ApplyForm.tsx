@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { db } from '@/firebase';
+import { db, auth } from '@/firebase';
 import { ref, set } from 'firebase/database';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -13,6 +13,7 @@ const ApplyForm = () => {
   const [cost, setCost] = useState('');
   const [startDate, setStartDate] = useState('');
   const [trainer, setTrainer] = useState('');
+  const userId = auth.currentUser?.uid;
 
   const handleCountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newCount = e.target.nextSibling?.textContent || '';
@@ -36,13 +37,19 @@ const ApplyForm = () => {
       return;
     }
 
+    if (!userId) {
+      alert('사용자가 인증되지 않았습니다.');
+      return;
+    }
+
     try {
-      await set(ref(db, 'applyForm/' + new Date().getTime()), {
+      const newData = {
         startDate,
         trainer,
         count,
         cost,
-      });
+      };
+      await set(ref(db, `applyForm/${userId}/${new Date().getTime()}`), newData);
       alert('PT 신청이 완료되었습니다.');
       window.location.reload();
     } catch (error) {
