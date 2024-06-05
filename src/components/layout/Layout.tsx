@@ -19,9 +19,9 @@ export default Layout;
 const Container = styled.div`
   max-width: 126rem;
   margin: 0 auto;
-  padding: 14rem 3rem 10rem;
+  padding: 14rem 3rem 7rem;
 
   @media ${device.tablet} {
-    padding: 8rem 3rem 5rem;
+    padding: 9rem 3rem 5rem;
   }
 `;

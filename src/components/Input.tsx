@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { InputProps } from '@/lib/types/input';
+import { device } from '@/styles/media';
 
 const Input = (props: InputProps) => {
   const {
@@ -67,6 +68,10 @@ const InputStyled = styled.input`
 
   &:read-only {
     border: var(--border-gray);
+  }
+
+  @media ${device.tablet} {
+    height: 4.2rem;
   }
 `;
 
