@@ -151,8 +151,8 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
   return (
     <>
-      {isOpen && <ModalBackgroundBox isOpen={isOpen} onClose={onClose} onClick={onClose} />}
-      <UserInformationModalBox isOpen={isOpen} onClose={onClose}>
+      {isOpen && <ModalBackgroundBox $isOpen={isOpen} onClick={onClose} />}
+      <UserInformationModalBox $isOpen={isOpen}>
         <UserModalInformationH2>개인정보 수정</UserModalInformationH2>
         <ProfileLabel>
           {previewURL ? <ProfileImage src={previewURL} alt="프로필 이미지" /> : <ProfileIcon />}

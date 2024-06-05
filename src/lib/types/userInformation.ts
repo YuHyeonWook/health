@@ -16,11 +16,6 @@ export interface UserInfoModalType {
   user: UpdatedInfo | null;
 }
 
-export interface UserModalBtnBoxProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
 export interface UserInfoData {
   photoURL: string;
   birthday: string;

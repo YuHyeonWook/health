@@ -1,4 +1,3 @@
-import { UserModalBtnBoxProps } from '@/lib/types/userInformation';
 import styled from 'styled-components';
 
 export const UserInformationContainer = styled.div`
@@ -47,9 +46,14 @@ export const LabelBox = styled.div`
   gap: 1rem;
 `;
 
+export interface UserModalBtnBoxProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 // 사용자 정보 모달의 메인 컨테이너 스타일
-export const UserInformationModalBox = styled.div<UserModalBtnBoxProps>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+export const UserInformationModalBox = styled.div<{ $isOpen: boolean }>`
+  display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   position: fixed;
   top: 50%;
   left: 50%;
@@ -64,8 +68,8 @@ export const UserInformationModalBox = styled.div<UserModalBtnBoxProps>`
 `;
 
 // 모달의 배경 스타일
-export const ModalBackgroundBox = styled.div<UserModalBtnBoxProps>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
+export const ModalBackgroundBox = styled.div<{ $isOpen: boolean }>`
+  display: ${(props) => (props.$isOpen ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
