@@ -64,10 +64,6 @@ const Calendar = () => {
     setStartDate(new Date());
   };
 
-  const getEventsForDate = (dateStr: string) => {
-    return Object.values(data).filter((event) => event.startDate === dateStr);
-  };
-
   const handleDayClick = (day: number, isCurrentMonth: boolean) => {
     if (isCurrentMonth) {
       const clickedDate = new Date(date.getFullYear(), date.getMonth(), day);
@@ -100,6 +96,30 @@ const Calendar = () => {
 
     return () => unsubscribe();
   }, []);
+
+
+  const getDatesBetween = (start: Date, end: Date) => {
+    let dates: Date[] = [];
+    let currentDate = new Date(start);
+  
+    while (currentDate <= end) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return dates;
+  };
+
+  const formatDate = (date: Date): string => {
+    return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}.`
+  };
+  
+  const getEventsForDate = (dateStr: string) => {
+    return Object.values(data).filter(event => {
+      const eventDates = getDatesBetween(new Date(event.startDate), new Date(event.endDate));
+      return eventDates.some(eventDate => formatDate(eventDate) === dateStr);
+    });
+  };
 
   return (
     <Layout>

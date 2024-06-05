@@ -15,22 +15,32 @@ interface EventListProps {
   setUpdateModalOpen: (open: boolean) => void;
 }
 
+
 const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventListProps) => {
   const handleEventClick = (event: Event) => {
     if (event.id) {
       setSelectedEventId(event.id);
       setUpdateModalOpen(true);
     }
-  };
-
-  if (events.length === 0) {
+    if (events.length === 0) {
     return null;
   }
+  };
+
+const colors = [
+  '#FFB6C1',
+  '#ADD8E6',
+  '#90EE90',
+  '#FFD700',
+  '#FF6347',
+  '#8A2BE2',
+];
+
 
   return (
     <EventListContainer>
       {events.map((event) => (
-        <EventItem key={event.id} onClick={() => handleEventClick(event)}>
+        <EventItem key={event.id} onClick={() => handleEventClick(event)} color={colors[event.id % colors.length]}>
           <EventTitle>{event.firstInput}</EventTitle>
           <EventDescription>{event.memoInput}</EventDescription>
           <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
@@ -45,14 +55,17 @@ export default EventList;
 const EventListContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
+  left: -5px;
+  width: 105%;
 `;
 
-const EventItem = styled.div`
-  background-color: #f9f9f9;
+const EventItem = styled.div<{ color: string }>`
+  background-color: ${props => props.color};
   border: 1px solid #e8e8e8;
   border-radius: 5px;
-  margin: 5px 0;
-  padding: 3px;
+  margin: 3px 0;
+  padding: 5px;
   overflow: hidden;
 
   &:hover {
@@ -61,12 +74,12 @@ const EventItem = styled.div`
 `;
 
 const EventTitle = styled.div`
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
 `;
 
 const EventDescription = styled.div`
-  font-size: 14px;
+  font-size: 10px;
   color: #333;
   display: none;
   ${EventItem}:hover & {
@@ -75,7 +88,7 @@ const EventDescription = styled.div`
 `;
 
 const EventDetail = styled.div`
-  font-size: 12px;
+  font-size: 8px;
   color: #555;
   display: none;
   ${EventItem}:hover & {

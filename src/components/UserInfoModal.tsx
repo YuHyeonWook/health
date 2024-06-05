@@ -182,15 +182,15 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
             닉네임:
             <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
           </label>
-          <label>
-            생년월일:
-            <DatePicker
+          생년월일:
+          <DateLabel>
+            <DateLabelBox
               selected={new Date(birthday)}
               onChange={(date: Date) => setBirthday(date.toISOString().split('T')[0])}
               dateFormat="yyyy-MM-dd"
               placeholderText="생년월일을 선택해주세요"
             />
-          </label>
+          </DateLabel>
           <label>
             전화번호:
             <Input
@@ -253,4 +253,34 @@ const FileUploadBtn = styled.button`
   font-size: 1.6rem;
   font-weight: 600;
   padding: 0.5rem;
+`;
+
+const DateLabel = styled.label`
+  display: block;
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+  width: 100%;
+`;
+
+const DateLabelBox = styled(DatePicker)`
+  display: block;
+  width: 72rem;
+  height: 5rem;
+  padding: 0 1.5rem;
+  color: var(--color-black);
+  border-radius: 6px;
+  border: var(--border-gray);
+  background-color: var(--color-white);
+
+  &::placeholder {
+    color: var(--color-gray-light);
+  }
+
+  &:focus {
+    border: var(--border-primary);
+  }
+
+  &:read-only {
+    border: var(--border-gray);
+  }
 `;
