@@ -1,3 +1,4 @@
+import { set } from 'firebase/database';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
@@ -8,9 +9,10 @@ interface Day {
 
 interface MiniCalendarEndType {
   onDayClick: (day: Date) => void;
+  setMiniEndOpen: (open: boolean) => void;
 }
 
-const Calendar = ({ onDayClick }: MiniCalendarEndType) => {
+const Calendar = ({ onDayClick, setMiniEndOpen }: MiniCalendarEndType) => {
   const [date, setDate] = useState<Date>(new Date());
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const firstDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -44,6 +46,7 @@ const Calendar = ({ onDayClick }: MiniCalendarEndType) => {
     setSelectedDay(day);
     const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
     onDayClick(selectedDate);
+    setMiniEndOpen(false);
   };
 
   const handlePrevMonth = (): void => {
@@ -75,11 +78,7 @@ const Calendar = ({ onDayClick }: MiniCalendarEndType) => {
         {daysInMonth.map((dayObj, index) => {
           const MiniDay = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
           return (
-            <MiniDay
-              onClick={() => handleDayClick(dayObj.day)}
-              style={{ backgroundColor: dayObj.day === selectedDay ? '#F3E5AB' : '#FFF' }}
-              key={index}
-            >
+            <MiniDay onClick={() => handleDayClick(dayObj.day)} key={index}>
               {dayObj.day}
             </MiniDay>
           );
@@ -102,13 +101,14 @@ const MiniLayout = styled.div`
 `;
 const MiniCalendarBox = styled.div`
   position: absolute;
-  right: 22px;
+  right: 24px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  width: 305px;
+  width: 230px;
   margin: 3px 0 0 15px;
   padding: 0 10px 20px 10px;
-  background-color: #e0e0e0;
+  background-color: var(--color-white);
+  border: 1px solid #000;
   border-radius: 10px;
 `;
 const MiniSwiperBox = styled.div`
@@ -122,7 +122,6 @@ const MiniLeftSwiperBtn = styled.button`
   margin-top: 15px;
   padding-left: 6px;
   color: #585757;
-  background-color: #e0e0e0;
   font-size: 15px;
   border: none;
   cursor: pointer;
@@ -133,7 +132,6 @@ const MiniRightSwiperBtn = styled.button`
   margin-top: 15px;
   padding-left: 10px;
   color: #585757;
-  background-color: #e0e0e0;
   font-size: 15px;
   border: none;
   cursor: pointer;
@@ -142,7 +140,6 @@ const MiniMonthYearBox = styled.div`
   grid-column: 3 / 6;
   height: 30px;
   margin-top: 15px;
-  color: #4f4e4e;
   font-size: 14px;
   font-weight: 700;
   text-align: center;
@@ -154,28 +151,37 @@ const MiniRightBox = styled.div`
 `;
 const MiniWeekBox = styled.div`
   padding: 5px;
-  color: #969696;
-  background-color: #ffffff;
+  background-color: var(--color-white) fff;
   font-family: 'Inter-Medium', sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
   text-align: center;
 `;
 const MiniDay = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 30px;
-  padding-left: 2px;
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
-  text-align: left;
-  font-size: 10px;
+  font-size: 12px;
+
+  &: hover {
+    background-color: var(--chip-blue);
+    color: var(--color-white);
+    border: 2px solid var(--color-black);
+  }
 `;
 const CurrentMonthDay = styled(MiniDay)`
-  color: #6e6e6e;
+  color: var(--color-black);
   background-color: white;
 `;
 const OtherMonthDay = styled(MiniDay)`
-  color: gray;
-  background-color: #d3d3d3;
+  color: var(--color-gray);
+  background-color: var(--color-gray-light);
+  border: 1px solid var(--color-white);
+
+  &: hover {
+    color: var(--color-gray);
+    background-color: var(--color-gray-light);
+    border: 1px solid var(--color-white);
+  }
 `;

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from '../components/calendarcrud/Modal';
+import UpdateModal from '../components/calendarcrud/UpdateModal';
+import Button from '../components/Button';
 import Layout from '@/components/layout/Layout';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
@@ -12,6 +14,7 @@ interface Day {
 }
 
 interface Event {
+  id: string;
   endDate: string;
   firstInput: string;
   memoInput: string;
@@ -23,7 +26,9 @@ const Calendar = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [ModalOpen, setModalOpen] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const [, setSelectedDate] = useState<string>('');
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const today = new Date();
   const firstDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -61,17 +66,25 @@ const Calendar = () => {
 
   const handleDayClick = (day: number, isCurrentMonth: boolean) => {
     if (isCurrentMonth) {
-      setModalOpen(true);
       const clickedDate = new Date(date.getFullYear(), date.getMonth(), day);
+      const eventsForDate = getEventsForDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${day}.`);
+      if (eventsForDate.length > 0) {
+        return;
+      }
+      setModalOpen(true);
       setStartDate(clickedDate);
       setSelectedDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${day}.`);
     }
   };
 
+  const handleEventClick = (eventId: string) => {
+    setSelectedEventId(eventId);
+    setUpdateModalOpen(true);
+  };
+
   const months: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   const [data, setData] = useState<{ [key: string]: Event }>({});
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const dataRef = ref(db, 'NewEvent/');
@@ -79,15 +92,11 @@ const Calendar = () => {
     const unsubscribe = onValue(dataRef, (snapshot) => {
       const fetchedData = snapshot.val();
       setData(fetchedData);
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   const getDatesBetween = (start: Date, end: Date) => {
     let dates: Date[] = [];
@@ -140,6 +149,7 @@ const Calendar = () => {
             <EventBtn onClick={handleNewEventClick}>운동 추가</EventBtn>
           </EventRow>
           {ModalOpen && <Modal setModalOpen={setModalOpen} startDate={startDate} />}
+          {updateModalOpen && <UpdateModal setModalOpen={setUpdateModalOpen} eventId={selectedEventId} />}
           {week.map((day, index) => (
             <WeekBox key={index}>{day}</WeekBox>
           ))}
@@ -156,7 +166,11 @@ const Calendar = () => {
             return (
               <Day key={index} onClick={() => handleDayClick(dayObj.day, dayObj.isCurrentMonth)}>
                 {dayObj.day}
-                <EventList events={getEventsForDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${dayObj.day}.`)} />
+                <EventList
+                  events={getEventsForDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${dayObj.day}.`)}
+                  setSelectedEventId={handleEventClick}
+                  setUpdateModalOpen={setUpdateModalOpen}
+                />
               </Day>
             );
           })}
@@ -177,11 +191,8 @@ const Row = styled.div`
   justify-content: center;
 `;
 const CalendarBox = styled.div`
-  position: absolute;
-  top: 90px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  width: 900px;
   padding: 0 30px 30px 30px;
   border-radius: 40px;
 `;
@@ -192,9 +203,9 @@ const SwiperBox = styled.div`
   gap: 10px;
 `;
 const LeftSwiperBtn = styled.button`
-  width: 30px;
-  height: 30px;
-  margin-top: 30px;
+  width: 33px;
+  height: 33px;
+  margin-top: 31px;
   padding: 8px 16px;
   color: #4cd964;
   font-size: 40px;
@@ -203,9 +214,9 @@ const LeftSwiperBtn = styled.button`
   cursor: pointer;
 `;
 const RightSwiperBtn = styled.button`
-  width: 30px;
-  height: 30px;
-  margin-top: 30px;
+  width: 33px;
+  height: 33px;
+  margin-top: 31px;
   padding: 8px 16px;
   color: #4cd964;
   font-size: 40px;
@@ -215,14 +226,14 @@ const RightSwiperBtn = styled.button`
 `;
 const ChevronLeftIcon = styled.svg`
   position: absolute;
-  top: 32px;
+  top: 35px;
   left: 7px;
   width: 20px;
   height: 27px;
 `;
 const ChevronRightIcon = styled.svg`
   position: absolute;
-  top: 32px;
+  top: 35px;
   right: 48px;
   width: 20px;
   height: 27px;
@@ -241,16 +252,11 @@ const EventRow = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-const EventBtn = styled.button`
+const EventBtn = styled(Button)`
   width: 90px;
-  height: 30px;
+  height: 35px;
   margin-top: 30px;
-  color: #fff;
-  background-color: #4cd964;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  padding: 0px 3px;
 `;
 const WeekBox = styled.div`
   padding: 4px 0;
@@ -264,20 +270,16 @@ const WeekBox = styled.div`
   text-align: center;
 `;
 const Day = styled.div`
-  position: relative;
-  height: 117px;
+  width: 122px;
+  height: 128px;
   padding-top: 5px;
   padding-left: 5px;
   border: 1px solid #e8e8e8;
   border-radius: 5px;
   text-align: left;
+
   &:hover {
-    background: #4cd964;
-    color: #000;
-    transition: 0.5s;
-    transform: scale(1.1);
-    cursor: pointer;
-    z-index: 1;
+    border: 2px solid #4cd964;
   }
 `;
 const CurrentMonthDay = styled(Day)`
@@ -292,13 +294,9 @@ const TodayDay = styled(CurrentMonthDay)`
   color: red;
 `;
 
-const TodayButton = styled.button`
+const TodayButton = styled(Button)`
   width: 60px;
-  height: 30px;
-  margin-top: 31px;
-  color: #fff;
-  background: #4cd964;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 8px;
+  height: 35px;
+  margin-top: 30px;
+  padding: 0px 3px;
 `;

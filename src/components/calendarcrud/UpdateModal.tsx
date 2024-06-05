@@ -1,20 +1,18 @@
 import { useRef, useEffect, useState } from 'react';
 import { db } from '../../firebase';
-import { ref, set, push } from 'firebase/database';
-import Button from '../Button';
+import { get, ref, update, remove } from 'firebase/database';
 import MiniCalendarStart from '../../components/calendarcrud/MiniCalendarStart';
 import MiniCalendarEnd from '../../components/calendarcrud/MiniCalendarEnd';
 import styled from 'styled-components';
 
 interface ModalType {
   setModalOpen: (open: boolean) => void;
-  startDate: Date;
+  eventId: string | null;
 }
 
-const Modal = ({ setModalOpen, startDate }: ModalType) => {
-  const Today = startDate.toLocaleDateString();
-  const [selectStartDay, setSelectStartDay] = useState<Date>(startDate);
-  const [selectEndDay, setSelectEndDay] = useState<Date>(startDate);
+const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
+  const [selectStartDay, setSelectStartDay] = useState<Date>();
+  const [selectEndDay, setSelectEndDay] = useState<Date>();
   const [showMiniCalendarStart, setShowMiniCalendarStart] = useState(false);
   const [showMiniCalendarEnd, setShowMiniCalendarEnd] = useState(false);
   const [firstInputValue, setFirstInputValue] = useState('');
@@ -31,35 +29,28 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener('mousedown', onClickOutSide);
-    return () => {
-      document.removeEventListener('mousedown', onClickOutSide);
-    };
-  });
-
-  const closeModal = () => {
-    setModalOpen(false);
-    setSelectStartDay(startDate);
-    setSelectEndDay(startDate);
-  };
-
-  const handleCreateClick = async () => {
-    const newEventRef = push(ref(db, 'NewEvent'));
-    const id = newEventRef.key;
-    await set(newEventRef, {
-      id,
+  const handleUpdateClick = async () => {
+    const eventRef = ref(db, 'NewEvent/' + eventId);
+    await update(eventRef, {
       firstInput: firstInputValue,
       secondInput: secondInputValue,
       memoInput: memoInputValue,
       startDate: selectStartDay
         ? `${selectStartDay.getFullYear()}. ${selectStartDay.getMonth() + 1}. ${selectStartDay.getDate()}.`
-        : Today,
+        : '시작 날짜',
       endDate: selectEndDay
         ? `${selectEndDay.getFullYear()}. ${selectEndDay.getMonth() + 1}. ${selectEndDay.getDate()}.`
-        : Today,
+        : '종료 날짜',
     });
     setModalOpen(false);
+  };
+
+  const handleDeleteClick = async () => {
+    if (eventId) {
+      const deleteEventRef = ref(db, 'NewEvent/' + eventId);
+      await remove(deleteEventRef);
+      setModalOpen(false);
+    }
   };
 
   const handleStartButtonClick = () => {
@@ -72,17 +63,41 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
     setShowMiniCalendarStart(false);
   };
 
+  useEffect(() => {
+    document.addEventListener('mousedown', onClickOutSide);
+    return () => {
+      document.removeEventListener('mousedown', onClickOutSide);
+    };
+  });
+
+  useEffect(() => {
+    if (eventId) {
+      const fetchEventData = async () => {
+        const eventRef = ref(db, 'NewEvent/' + eventId);
+        const snapshot = await get(eventRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setFirstInputValue(data.firstInput || '');
+          setSecondInputValue(data.secondInput || '');
+          setMemoInputValue(data.memoInput || '');
+          setSelectStartDay(data.startDate ? new Date(data.startDate) : undefined);
+          setSelectEndDay(data.endDate ? new Date(data.endDate) : undefined);
+        }
+      };
+
+      fetchEventData();
+    }
+  }, [eventId]);
+
   return (
     <Backdrop>
       <ModalLayout>
         <ModalBox ref={modalRef}>
           <ModalBtn>
-            <XBtn mode="white" onClick={() => closeModal()}>
-              취소
-            </XBtn>
+            <XBtn onClick={handleDeleteClick}>삭제</XBtn>
             <NameBox>운동 일지</NameBox>
-            <CreateBtn onClick={handleCreateClick} disabled={CompareDate ?? undefined}>
-              추가
+            <CreateBtn onClick={handleUpdateClick} disabled={CompareDate ?? undefined}>
+              수정
             </CreateBtn>
           </ModalBtn>
           <FirstContext>운동</FirstContext>
@@ -103,7 +118,7 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
                 placeholder={
                   selectStartDay
                     ? `${selectStartDay.getFullYear()}. ${selectStartDay.getMonth() + 1}. ${selectStartDay.getDate()}.`
-                    : Today
+                    : '시작 날짜'
                 }
                 disabled
               ></StartInput>
@@ -135,7 +150,7 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
                 placeholder={
                   selectEndDay
                     ? `${selectEndDay.getFullYear()}. ${selectEndDay.getMonth() + 1}. ${selectEndDay.getDate()}.`
-                    : Today
+                    : '종료 날짜'
                 }
                 style={CompareDate ? { textDecoration: 'line-through', color: 'red' } : {}}
                 disabled
@@ -171,7 +186,7 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
   );
 };
 
-export default Modal;
+export default UpdateModal;
 
 const Backdrop = styled.div`
   position: fixed;
@@ -205,16 +220,26 @@ const ModalBtn = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const XBtn = styled(Button)`
+const XBtn = styled.button`
   height: 32px;
   margin: 36px 0 0 20px;
   padding: 0px 16px;
+  z-index: 1000;
   cursor: pointer;
+  border: 1px solid #4cd964;
+  border-radius: 5px;
+  color: #4cd964;
 `;
-const CreateBtn = styled(Button)`
+const CreateBtn = styled.button`
   height: 32px;
   margin: 36px 20px 0 0;
   padding: 0px 16px;
+  z-index: 1000;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #4cd964;
 `;
 const NameBox = styled.div`
   margin-top: 40px;

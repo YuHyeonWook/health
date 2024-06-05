@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 interface Event {
+  id: string;
   endDate: string;
   firstInput: string;
   memoInput: string;
@@ -10,7 +11,21 @@ interface Event {
 
 interface EventListProps {
   events: Event[];
+  setSelectedEventId: (id: string) => void;
+  setUpdateModalOpen: (open: boolean) => void;
 }
+
+
+const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventListProps) => {
+  const handleEventClick = (event: Event) => {
+    if (event.id) {
+      setSelectedEventId(event.id);
+      setUpdateModalOpen(true);
+    }
+    if (events.length === 0) {
+    return null;
+  }
+  };
 
 const colors = [
   '#FFB6C1',
@@ -21,15 +36,11 @@ const colors = [
   '#8A2BE2',
 ];
 
-const EventList = ({ events }: EventListProps) => {
-  if (events.length === 0) {
-    return null;
-  }
 
   return (
     <EventListContainer>
-      {events.map((event, index) => (
-        <EventItem key={index} color={colors[index % colors.length]}>
+      {events.map((event) => (
+        <EventItem key={event.id} onClick={() => handleEventClick(event)} color={colors[event.id % colors.length]}>
           <EventTitle>{event.firstInput}</EventTitle>
           <EventDescription>{event.memoInput}</EventDescription>
           <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
