@@ -118,8 +118,10 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
           </label>
         </LabelBox>
         <UserInformationModalBtnBox>
+          <Button onClick={onClose} mode="white">
+            취소
+          </Button>
           <Button onClick={handleSave}>저장</Button>
-          <Button onClick={onClose}>취소</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
       <ToastContainer />
