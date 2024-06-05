@@ -1,16 +1,9 @@
-import React from 'react';
 import styled from 'styled-components';
 import iconChevronLeft from '@/assets/images/icon-chevron-left.svg';
 import iconChevronRight from '@/assets/images/icon-chevron-right.svg';
+import { PaginationProps } from '@/lib/types/pagination';
 
-interface PaginationProps {
-  itemsPerPage: number;
-  currentPage: number;
-  totalItems: number;
-  paginate: (pageNumber: number) => void;
-}
-
-const Pagination: React.FC<PaginationProps> = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }: PaginationProps) => {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);

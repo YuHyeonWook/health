@@ -1,17 +1,8 @@
-import React, { FC, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import iconCheck from '@/assets/images/icon-check.svg';
+import { RadioProps } from '@/lib/types/radio';
 
-interface RadioProps {
-  value: string | number;
-  name: string;
-  defaultChecked?: boolean;
-  disabled?: boolean;
-  children: React.ReactNode;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-}
-
-const Radio: FC<RadioProps> = ({ children, value, name, defaultChecked = false, disabled = false, onChange }) => {
+const Radio = ({ children, value, name, defaultChecked = false, disabled = false, onChange }: RadioProps) => {
   return (
     <Label>
       <RadioInput

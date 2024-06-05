@@ -1,5 +1,5 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { db } from '@/firebase';
+import { useState, ChangeEvent, FormEvent } from 'react';
+import { db, auth } from '@/firebase';
 import { ref, set } from 'firebase/database';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -8,11 +8,12 @@ import RadioGroup from '@/components/RadioGroup';
 import Layout from '@/components/layout/Layout';
 import styled from 'styled-components';
 
-const ApplyForm: React.FC = () => {
-  const [count, setCount] = useState('');
-  const [cost, setCost] = useState('');
-  const [startDate, setStartDate] = useState('');
-  const [trainer, setTrainer] = useState('');
+const ApplyForm = () => {
+  const [count, setCount] = useState<string>('');
+  const [cost, setCost] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [trainer, setTrainer] = useState<string>('');
+  const userId = auth.currentUser?.uid;
 
   const handleCountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newCount = e.target.nextSibling?.textContent || '';
@@ -36,13 +37,19 @@ const ApplyForm: React.FC = () => {
       return;
     }
 
+    if (!userId) {
+      alert('사용자가 인증되지 않았습니다.');
+      return;
+    }
+
     try {
-      await set(ref(db, 'applyForm/' + new Date().getTime()), {
+      const newData = {
         startDate,
         trainer,
         count,
         cost,
-      });
+      };
+      await set(ref(db, `applyForm/${userId}/${new Date().getTime()}`), newData);
       alert('PT 신청이 완료되었습니다.');
       window.location.reload();
     } catch (error) {

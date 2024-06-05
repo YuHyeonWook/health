@@ -68,6 +68,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Pretendard", "Helvetica", "Arial", sans-serif;
     font-size: 1.6rem;
+    font-weight: 400;
     line-height: 1.25;
     color: var(--color-black);
     background-color: var(--color-primary-light);

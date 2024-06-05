@@ -11,6 +11,8 @@ import {
   UserInformationModalBtnBox,
   UserModalInformationH2,
 } from '@/styles/userInformation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
   const [muscleMass, setMuscleMass] = useState<string>('');
@@ -35,23 +37,33 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
   const handleSave = async () => {
     try {
       if (isNaN(Number(muscleMass)) || isNaN(Number(bmi)) || isNaN(Number(height)) || isNaN(Number(weight))) {
-        alert('숫자만 입력해주세요.');
+        toast.info('숫자만 입력해주세요.', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!muscleMass) {
-        alert('근육량을 입력해주세요.');
+        toast.info('근육량을 입력해주세요.', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!bmi) {
-        alert('BMI를 입력해주세요.');
+        toast.info('BMI를 입력해주세요.', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!height) {
-        alert('키를 입력해주세요.');
+        toast.info('키를 입력해주세요.', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!weight) {
-        alert('체중을 입력해주세요.');
+        toast.info('체중을 입력해주세요.', {
+          autoClose: 2000,
+        });
         return;
       }
 
@@ -65,9 +77,14 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
       });
 
       setUserBodyData({ muscleMass, bmi, height, weight });
+      toast.success('저장되었습니다.', {
+        autoClose: 2000,
+      });
       onClose();
     } catch (error) {
-      console.error(error, '저장하는데 실패했습니다.');
+      toast.error('저장하는데 실패했습니다.', {
+        autoClose: 2000,
+      });
     }
   };
 
@@ -105,6 +122,7 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
           <Button onClick={onClose}>취소</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
+      <ToastContainer />
     </>
   );
 };

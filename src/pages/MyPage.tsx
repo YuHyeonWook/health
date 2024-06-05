@@ -20,5 +20,5 @@ const UserInfomationBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10rem;
+  gap: 5rem;
 `;

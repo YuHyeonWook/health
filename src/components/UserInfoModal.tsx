@@ -14,12 +14,17 @@ import {
   UserInformationModalBtnBox,
   UserModalInformationH2,
 } from '@/styles/userInformation';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
+import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>('');
+  const [birthday, setBirthday] = useState<string>(new Date().toISOString().split('T')[0]);
   const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [userName, setUserName] = useState<string>('');
+  const { userName, setUserName } = useUserNameStore();
   const [previewURL, setPreviewURL] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
@@ -34,7 +39,11 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           const data = snapshot.val();
           setUserName(data.userName || '');
           setEmail(data.email || '');
-          setBirthday(data.birthday || '');
+          setBirthday(
+            data.birthday
+              ? new Date(data.birthday).toISOString().split('T')[0]
+              : new Date().toISOString().split('T')[0],
+          );
           setPhoneNumber(data.phoneNumber || '');
           setPreviewURL(data.photoURL || '');
         }
@@ -56,23 +65,33 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
   const handleSave = async () => {
     try {
       if (!userName) {
-        alert('닉네임을 입력해주세요');
+        toast.info('닉네임을 입력해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!birthday) {
-        alert('생년월일을 입력해주세요');
+        toast.info('생년월일을 입력해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (phoneNumber.length !== 11) {
-        alert('전화번호를 11자리를 눌러주세요');
+        toast.info('전화번호를 11자리를 눌러주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!file) {
-        alert('파일을 업로드해주세요');
+        toast.info('파일을 업로드해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       if (!isFileUploaded) {
-        alert('파일 업로드 버튼을 클릭해주세요');
+        toast.info('파일 업로드 버튼을 클릭해주세요', {
+          autoClose: 2000,
+        });
         return;
       }
       setIsFileUploaded(false);
@@ -95,10 +114,22 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         photoURL,
       });
 
-      setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
+      setUserInfoData({
+        userName,
+        email,
+        birthday,
+        phoneNumber,
+        photoURL,
+      });
+      setUserName(userName); // store에 userName 저장함
+      toast.success('저장에 성공했습니다.', {
+        autoClose: 2000,
+      });
       onClose();
     } catch (error) {
-      console.error(error, '저장에 실패했습니다.');
+      toast.error('저장하는데 실패했습니다.', {
+        autoClose: 2000,
+      });
     }
   };
 
@@ -120,9 +151,13 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         setPreviewURL(photoURL);
         setIsFileUploaded(true);
       }
-      alert('업로드에 성공했습니다.');
+      toast.success('업로드에 성공했습니다.', {
+        autoClose: 2000,
+      });
     } catch (error) {
-      console.error(error, '업로드에 실패했습니다.');
+      toast.error('업로드에 실패했습니다.', {
+        autoClose: 2000,
+      });
     }
   };
 
@@ -147,10 +182,15 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
             닉네임:
             <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
           </label>
-          <label>
-            생년월일:
-            <Input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-          </label>
+          생년월일:
+          <DateLabel>
+            <DateLabelBox
+              selected={new Date(birthday)}
+              onChange={(date: Date) => setBirthday(date.toISOString().split('T')[0])}
+              dateFormat="yyyy-MM-dd"
+              placeholderText="생년월일을 선택해주세요"
+            />
+          </DateLabel>
           <label>
             전화번호:
             <Input
@@ -168,6 +208,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           <Button onClick={onClose}>취소</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
+      <ToastContainer />
     </>
   );
 };
@@ -212,4 +253,34 @@ const FileUploadBtn = styled.button`
   font-size: 1.6rem;
   font-weight: 600;
   padding: 0.5rem;
+`;
+
+const DateLabel = styled.label`
+  display: block;
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+  width: 100%;
+`;
+
+const DateLabelBox = styled(DatePicker)`
+  display: block;
+  width: 72rem;
+  height: 5rem;
+  padding: 0 1.5rem;
+  color: var(--color-black);
+  border-radius: 6px;
+  border: var(--border-gray);
+  background-color: var(--color-white);
+
+  &::placeholder {
+    color: var(--color-gray-light);
+  }
+
+  &:focus {
+    border: var(--border-primary);
+  }
+
+  &:read-only {
+    border: var(--border-gray);
+  }
 `;

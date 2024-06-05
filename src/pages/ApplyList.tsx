@@ -3,34 +3,42 @@ import styled from 'styled-components';
 import iconTrash from '@/assets/images/icon-trash.svg';
 import { useEffect, useState } from 'react';
 import { onValue, ref, remove } from 'firebase/database';
-import { db } from '@/firebase';
+import { db, auth } from '@/firebase';
 import Pagination from '@/components/Pagination';
+import { Application } from '@/lib/types/application';
+import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
-const ApplyList: React.FC = () => {
-  const [applications, setApplications] = useState<Array<any>>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+const ApplyList = () => {
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
+  const userId = auth.currentUser?.uid;
+  const { userName } = useUserNameStore();
 
   useEffect(() => {
-    const applicationsRef = ref(db, 'applyForm/');
-    onValue(applicationsRef, (snapshot) => {
+    if (!userId) return;
+
+    const applicationsRef = ref(db, `applyForm/${userId}`);
+    const unsubscribe = onValue(applicationsRef, (snapshot) => {
       const data = snapshot.val();
+
       if (data) {
         const applicationList = Object.keys(data).map((key) => ({
           id: key,
           ...data[key],
-        }));
+        })) as Application[];
         setApplications(applicationList.reverse());
       } else {
         setApplications([]);
       }
     });
-  }, []);
+
+    return () => unsubscribe();
+  }, [userId]);
 
   const handleDelete = async (id: string) => {
     try {
-      await remove(ref(db, 'applyForm/' + id));
-      setApplications(applications.filter((application) => application.id !== id));
+      await remove(ref(db, `applyForm/${userId}/${id}`));
     } catch (error) {
       console.error('Error deleting data from Firebase Database:', error);
       alert('삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -64,6 +72,7 @@ const ApplyList: React.FC = () => {
       <TableLayout>
         <TheadLayout>
           <tr>
+            <th>닉네임</th>
             <th>PT 시작 날짜</th>
             <th>퍼스널 트레이너</th>
             <th>횟수</th>
@@ -72,29 +81,38 @@ const ApplyList: React.FC = () => {
           </tr>
         </TheadLayout>
         <TbodyLayout>
-          {currentApplications.map((application) => (
-            <tr key={application.id}>
-              <td>{application.startDate}</td>
-              <td>
-                <TrainerText style={getTrainerColor(application.trainer)}>{application.trainer}</TrainerText>
-              </td>
-              <td>{application.count}</td>
-              <td>{application.cost}</td>
-              <td>
-                <DeleteBtn onClick={() => handleDelete(application.id)}>
-                  <DeleteImg src={iconTrash} alt="휴지통 이미지" />
-                </DeleteBtn>
-              </td>
+          {currentApplications.length > 0 ? (
+            currentApplications.map((application) => (
+              <tr key={application.id}>
+                <td>{userName}</td>
+                <td>{application.startDate}</td>
+                <td>
+                  <TrainerText style={getTrainerColor(application.trainer)}>{application.trainer}</TrainerText>
+                </td>
+                <td>{application.count}</td>
+                <td>{application.cost}</td>
+                <td>
+                  <DeleteBtn onClick={() => handleDelete(application.id)}>
+                    <DeleteImg src={iconTrash} alt="휴지통 이미지" />
+                  </DeleteBtn>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={5}>신청 내역이 없습니다.</td>
             </tr>
-          ))}
+          )}
         </TbodyLayout>
       </TableLayout>
-      <Pagination
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        totalItems={applications.length}
-        paginate={paginate}
-      />
+      {applications.length > 0 && (
+        <Pagination
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          totalItems={applications.length}
+          paginate={paginate}
+        />
+      )}
     </Layout>
   );
 };
@@ -112,24 +130,13 @@ const TableLayout = styled.table`
 
 const TheadLayout = styled.thead`
   th {
+    width: 15%;
     padding: 2.4rem 1.4rem;
     color: var(--color-gray-dark);
     border-bottom: 1px solid var(--color-primary);
 
-    &:nth-child(1) {
-      width: 20%;
-    }
-
-    &:nth-child(2) {
-      width: 25%;
-    }
-
-    &:nth-child(3) {
-      width: 20%;
-    }
-
-    &:nth-child(4) {
-      width: 25%;
+    &:last-child {
+      width: 10%;
     }
   }
 `;
