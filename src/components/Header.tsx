@@ -76,6 +76,10 @@ const NavContainer = styled.nav`
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.03);
   background-color: var(--color-white);
 
+  @media ${device.desktop} {
+    padding: 0 3rem;
+  }
+
   @media ${device.tablet} {
     height: 6rem;
     padding: 0 3rem;
