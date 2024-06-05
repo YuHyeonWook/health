@@ -7,6 +7,7 @@ import Radio from '@/components/Radio';
 import RadioGroup from '@/components/RadioGroup';
 import Layout from '@/components/layout/Layout';
 import styled from 'styled-components';
+import { device } from '@/styles/media';
 
 const ApplyForm = () => {
   const [count, setCount] = useState<string>('');
@@ -116,14 +117,27 @@ const TitleLayout = styled.h2`
   margin-bottom: 4rem;
   font-size: 2.8rem;
   font-weight: 700;
+
+  @media ${device.tablet} {
+    margin-bottom: 3rem;
+    font-size: 2.6rem;
+  }
 `;
 
 const InputBox = styled.div`
   margin-bottom: 6rem;
+
+  @media ${device.tablet} {
+    margin-bottom: 4rem;
+  }
 `;
 
 const ApplyBtn = styled(Button)`
   margin: 6rem auto 0;
+
+  @media ${device.tablet} {
+    margin-top: 3rem;
+  }
 `;
 
 export default ApplyForm;
