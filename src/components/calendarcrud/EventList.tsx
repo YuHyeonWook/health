@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 interface Event {
+  id: string;
   endDate: string;
   firstInput: string;
   memoInput: string;
@@ -10,17 +11,26 @@ interface Event {
 
 interface EventListProps {
   events: Event[];
+  setSelectedEventId: (id: string) => void;
+  setUpdateModalOpen: (open: boolean) => void;
 }
 
-const EventList = ({ events }: EventListProps) => {
+const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventListProps) => {
+  const handleEventClick = (event: Event) => {
+    if (event.id) {
+      setSelectedEventId(event.id);
+      setUpdateModalOpen(true);
+    }
+  };
+
   if (events.length === 0) {
     return null;
   }
 
   return (
     <EventListContainer>
-      {events.map((event, index) => (
-        <EventItem key={index}>
+      {events.map((event) => (
+        <EventItem key={event.id} onClick={() => handleEventClick(event)}>
           <EventTitle>{event.firstInput}</EventTitle>
           <EventDescription>{event.memoInput}</EventDescription>
           <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
@@ -42,7 +52,7 @@ const EventItem = styled.div`
   border: 1px solid #e8e8e8;
   border-radius: 5px;
   margin: 5px 0;
-  padding: 10px;
+  padding: 3px;
   overflow: hidden;
 
   &:hover {
