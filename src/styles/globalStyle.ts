@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { device } from './media';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -56,6 +57,10 @@ const GlobalStyle = createGlobalStyle`
     --border-gray: 1px solid #c7c7c7; 
 
     font-size: 10px;
+
+    @media ${device.tablet} {
+      font-size: 9px;
+    }
   }
 
   * {
@@ -66,6 +71,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   body {
+    min-width: 320px;
     font-family: "Pretendard", "Helvetica", "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 400;
