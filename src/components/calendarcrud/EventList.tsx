@@ -12,6 +12,15 @@ interface EventListProps {
   events: Event[];
 }
 
+const colors = [
+  '#FFB6C1',
+  '#ADD8E6',
+  '#90EE90',
+  '#FFD700',
+  '#FF6347',
+  '#8A2BE2',
+];
+
 const EventList = ({ events }: EventListProps) => {
   if (events.length === 0) {
     return null;
@@ -20,7 +29,7 @@ const EventList = ({ events }: EventListProps) => {
   return (
     <EventListContainer>
       {events.map((event, index) => (
-        <EventItem key={index}>
+        <EventItem key={index} color={colors[index % colors.length]}>
           <EventTitle>{event.firstInput}</EventTitle>
           <EventDescription>{event.memoInput}</EventDescription>
           <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
@@ -35,14 +44,17 @@ export default EventList;
 const EventListContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
+  left: -5px;
+  width: 105%;
 `;
 
-const EventItem = styled.div`
-  background-color: #f9f9f9;
+const EventItem = styled.div<{ color: string }>`
+  background-color: ${props => props.color};
   border: 1px solid #e8e8e8;
   border-radius: 5px;
-  margin: 5px 0;
-  padding: 10px;
+  margin: 3px 0;
+  padding: 5px;
   overflow: hidden;
 
   &:hover {
@@ -51,12 +63,12 @@ const EventItem = styled.div`
 `;
 
 const EventTitle = styled.div`
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 600;
 `;
 
 const EventDescription = styled.div`
-  font-size: 14px;
+  font-size: 10px;
   color: #333;
   display: none;
   ${EventItem}:hover & {
@@ -65,7 +77,7 @@ const EventDescription = styled.div`
 `;
 
 const EventDetail = styled.div`
-  font-size: 12px;
+  font-size: 8px;
   color: #555;
   display: none;
   ${EventItem}:hover & {
