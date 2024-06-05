@@ -22,7 +22,7 @@ import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
 const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [birthday, setBirthday] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const { userName, setUserName } = useUserNameStore();
   const [previewURL, setPreviewURL] = useState<string>('');
@@ -39,11 +39,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           const data = snapshot.val();
           setUserName(data.userName || '');
           setEmail(data.email || '');
-          setBirthday(
-            data.birthday
-              ? new Date(data.birthday).toISOString().split('T')[0]
-              : new Date().toISOString().split('T')[0],
-          );
+          setBirthday(data.birthday || '');
           setPhoneNumber(data.phoneNumber || '');
           setPreviewURL(data.photoURL || '');
         }
@@ -114,13 +110,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         photoURL,
       });
 
-      setUserInfoData({
-        userName,
-        email,
-        birthday,
-        phoneNumber,
-        photoURL,
-      });
+      setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
       setUserName(userName); // store에 userName 저장함
       toast.success('저장에 성공했습니다.', {
         autoClose: 2000,
@@ -182,15 +172,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
             닉네임:
             <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
           </label>
-          생년월일:
-          <DateLabel>
-            <DateLabelBox
-              selected={new Date(birthday)}
-              onChange={(date: Date) => setBirthday(date.toISOString().split('T')[0])}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="생년월일을 선택해주세요"
-            />
-          </DateLabel>
+          <label>
+            생년월일:
+            <Input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+          </label>
           <label>
             전화번호:
             <Input
@@ -253,34 +238,4 @@ const FileUploadBtn = styled.button`
   font-size: 1.6rem;
   font-weight: 600;
   padding: 0.5rem;
-`;
-
-const DateLabel = styled.label`
-  display: block;
-  margin-bottom: 1.2rem;
-  font-weight: 500;
-  width: 100%;
-`;
-
-const DateLabelBox = styled(DatePicker)`
-  display: block;
-  width: 72rem;
-  height: 5rem;
-  padding: 0 1.5rem;
-  color: var(--color-black);
-  border-radius: 6px;
-  border: var(--border-gray);
-  background-color: var(--color-white);
-
-  &::placeholder {
-    color: var(--color-gray-light);
-  }
-
-  &:focus {
-    border: var(--border-primary);
-  }
-
-  &:read-only {
-    border: var(--border-gray);
-  }
 `;
