@@ -254,7 +254,7 @@ const FileUploadBtn = styled.button`
   font-size: 1.4rem;
   font-weight: 600;
   padding: 0.8rem 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   transition: background-color 0.2s;
 
   &:hover {

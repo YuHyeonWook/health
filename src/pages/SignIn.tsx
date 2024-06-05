@@ -3,15 +3,15 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
-import bgLogin from '@/assets/images/bg-login.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/AuthStyles';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.svg';
 import Button from '@/components/Button';
 import { get, ref } from 'firebase/database';
 import Input from '@/components/Input';
 import styled from 'styled-components';
 import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
+import { device } from '@/styles/media';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');
@@ -138,7 +138,7 @@ const SignIn = () => {
 
   return (
     <>
-      <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
+      <BgLoginImg />
       <SignForm onSubmit={handleSignIn}>
         <SignSection>
           <LogoImg src={logo} alt="로고 이미지" />
@@ -186,6 +186,10 @@ export default SignIn;
 
 const ButtonCompoent = styled(Button)`
   width: 70%;
+
+  @media ${device.mobile} {
+    width: 90%;
+  }
 `;
 
 const SignUpQuestionBox = styled.div`
