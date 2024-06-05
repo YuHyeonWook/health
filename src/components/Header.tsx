@@ -11,15 +11,15 @@ const Header = () => {
         <LogoImage src={logo} alt="health calendar" />
       </LogoLink>
       <NavList>
-        <NavItem>
+        <li>
           <NavLink to="/mypage">마이페이지</NavLink>
-        </NavItem>
-        <NavItem>
+        </li>
+        <li>
           <NavLink to="/apply">PT 신청</NavLink>
-        </NavItem>
-        <NavItem>
+        </li>
+        <li>
           <NavLink to="/applyList">PT 신청내역</NavLink>
-        </NavItem>
+        </li>
       </NavList>
       <LogoutBox>
         <SignOut />
@@ -60,8 +60,6 @@ const NavList = styled.ul`
   padding-left: 12rem;
   gap: 10rem;
 `;
-
-const NavItem = styled.li``;
 
 const NavLink = styled(Link)`
   font-size: 1.8rem;
