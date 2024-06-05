@@ -15,7 +15,6 @@ interface EventListProps {
   setUpdateModalOpen: (open: boolean) => void;
 }
 
-
 const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventListProps) => {
   const handleEventClick = (event: Event) => {
     if (event.id) {
@@ -23,19 +22,11 @@ const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventList
       setUpdateModalOpen(true);
     }
     if (events.length === 0) {
-    return null;
-  }
+      return null;
+    }
   };
 
-const colors = [
-  '#FFB6C1',
-  '#ADD8E6',
-  '#90EE90',
-  '#FFD700',
-  '#FF6347',
-  '#8A2BE2',
-];
-
+  const colors = ['#FFB6C1', '#ADD8E6', '#90EE90', '#FFD700', '#FF6347', '#8A2BE2'];
 
   return (
     <EventListContainer>
@@ -61,12 +52,14 @@ const EventListContainer = styled.div`
 `;
 
 const EventItem = styled.div<{ color: string }>`
-  background-color: ${props => props.color};
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
-  margin: 3px 0;
+  background-color: ${(props) => props.color};
+  border: 1px solid var(--color-gray-lighter);
+  border-radius: 4px;
+  margin: 3px;
   padding: 5px;
+  color: var(--color-gray-dark);
   overflow: hidden;
+  cursor: pointer;
 
   &:hover {
     height: auto;
@@ -80,7 +73,7 @@ const EventTitle = styled.div`
 
 const EventDescription = styled.div`
   font-size: 10px;
-  color: #333;
+  color: var(--color-gray);
   display: none;
   ${EventItem}:hover & {
     display: block;
@@ -89,7 +82,7 @@ const EventDescription = styled.div`
 
 const EventDetail = styled.div`
   font-size: 8px;
-  color: #555;
+  color: var(--color-gray);
   display: none;
   ${EventItem}:hover & {
     display: block;

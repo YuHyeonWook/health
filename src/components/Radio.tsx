@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import iconCheck from '@/assets/images/icon-check.svg';
 import { RadioProps } from '@/lib/types/radio';
+import { device } from '@/styles/media';
 
 const Radio = ({ children, value, name, defaultChecked = false, disabled = false, onChange }: RadioProps) => {
   return (
@@ -25,6 +26,10 @@ const Label = styled.label`
   margin-right: 4rem;
   font-weight: 600;
   cursor: pointer;
+
+  @media ${device.tablet} {
+    margin-bottom: 1rem;
+  }
 `;
 
 const RadioInput = styled.input`

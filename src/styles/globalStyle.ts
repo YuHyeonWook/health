@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { device } from './media';
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -39,6 +40,7 @@ const GlobalStyle = createGlobalStyle`
     --color-primary-dark: #30ac45;
     --color-gray: #969696;
     --color-gray-light: #c7c7c7;
+    --color-gray-lighter: #e8e8e8;
     --color-gray-dark: #5e5e5e;
     --color-black: #171717;
     --color-white: #ffffff;
@@ -56,6 +58,10 @@ const GlobalStyle = createGlobalStyle`
     --border-gray: 1px solid #c7c7c7; 
 
     font-size: 10px;
+
+    @media ${device.tablet} {
+      font-size: 9px;
+    }
   }
 
   * {
@@ -63,15 +69,21 @@ const GlobalStyle = createGlobalStyle`
       padding: 0;
       font-family: "Pretendard", "Helvetica", "Arial", sans-serif;
       box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
   }
   
   body {
+    min-width: 320px;
     font-family: "Pretendard", "Helvetica", "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 400;
     line-height: 1.25;
     color: var(--color-black);
     background-color: var(--color-primary-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth
   }
 
   a {
@@ -83,6 +95,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     border: 0;
     background: transparent;
+    appearance: none;
     cursor: pointer;
   }
 

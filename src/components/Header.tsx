@@ -1,30 +1,63 @@
 import { Link } from 'react-router-dom';
 import SignOut from '@/components/SignOut';
-
 import styled from 'styled-components';
 import logo from '@/assets/images/logo.svg';
+import { device } from '@/styles/media';
+import { useState } from 'react';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <NavContainer>
-      <LogoLink to="/calendar">
-        <LogoImage src={logo} alt="health calendar" />
-      </LogoLink>
-      <NavList>
-        <li>
-          <NavLink to="/mypage">마이페이지</NavLink>
-        </li>
-        <li>
-          <NavLink to="/apply">PT 신청</NavLink>
-        </li>
-        <li>
-          <NavLink to="/applyList">PT 신청내역</NavLink>
-        </li>
-      </NavList>
-      <LogoutBox>
-        <SignOut />
-      </LogoutBox>
-    </NavContainer>
+    <>
+      <NavContainer>
+        <LogoLink to="/calendar">
+          <LogoImage src={logo} alt="health calendar" />
+        </LogoLink>
+        <DesktopNavList>
+          <li>
+            <NavLink to="/mypage">마이페이지</NavLink>
+          </li>
+          <li>
+            <NavLink to="/apply">PT 신청</NavLink>
+          </li>
+          <li>
+            <NavLink to="/applyList">PT 신청내역</NavLink>
+          </li>
+        </DesktopNavList>
+        <LogoutBox>
+          <SignOut />
+        </LogoutBox>
+        <MobileMenuIcon onClick={toggleMenu}>{isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}</MobileMenuIcon>
+      </NavContainer>
+      {isOpen && (
+        <MobileNavList>
+          <li>
+            <NavLink to="/mypage" onClick={toggleMenu}>
+              마이페이지
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/apply" onClick={toggleMenu}>
+              PT 신청
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/applyList" onClick={toggleMenu}>
+              PT 신청내역
+            </NavLink>
+          </li>
+          <MobileLogoutBox onClick={toggleMenu}>
+            <SignOut />
+          </MobileLogoutBox>
+        </MobileNavList>
+      )}
+    </>
   );
 };
 
@@ -36,12 +69,21 @@ const NavContainer = styled.nav`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 50;
   height: 8rem;
   padding: 0 8rem;
   color: var(--color-gray-dark);
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.03);
   background-color: var(--color-white);
+
+  @media ${device.desktop} {
+    padding: 0 3rem;
+  }
+
+  @media ${device.tablet} {
+    height: 6rem;
+    padding: 0 3rem;
+  }
 `;
 
 const LogoLink = styled(Link)`
@@ -51,14 +93,27 @@ const LogoLink = styled(Link)`
 const LogoImage = styled.img`
   width: 6rem;
   height: auto;
+
+  @media ${device.tablet} {
+    width: 4rem;
+  }
 `;
 
-const NavList = styled.ul`
+const DesktopNavList = styled.ul`
   display: flex;
   align-items: center;
   margin-right: auto;
   padding-left: 12rem;
   gap: 10rem;
+
+  @media ${device.desktop} {
+    padding-left: 6rem;
+    gap: 5rem;
+  }
+
+  @media ${device.tablet} {
+    display: none;
+  }
 `;
 
 const NavLink = styled(Link)`
@@ -72,7 +127,47 @@ const NavLink = styled(Link)`
 `;
 
 const LogoutBox = styled.div`
-  font-size: 1.8rem;
+  color: var(--color-primary);
+  font-weight: 700;
+
+  @media ${device.tablet} {
+    display: none;
+  }
+`;
+
+const MobileMenuIcon = styled.div`
+  display: none;
+
+  @media ${device.tablet} {
+    display: block;
+    cursor: pointer;
+  }
+`;
+
+const MobileNavList = styled.ul`
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 6rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 2rem 0;
+  background-color: var(--color-white);
+  box-shadow: 0 10px 15px 0px rgba(0, 0, 0, 0.03);
+
+  li {
+    padding: 0.8rem 0;
+  }
+
+  @media ${device.tablet} {
+    display: flex;
+  }
+`;
+
+const MobileLogoutBox = styled.div`
+  margin-top: 1rem;
   color: var(--color-primary);
   font-weight: 700;
 `;

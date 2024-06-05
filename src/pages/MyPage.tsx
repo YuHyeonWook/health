@@ -1,5 +1,6 @@
 import UserInBody from '@/components/UserInBoby';
 import UserInfo from '@/components/UserInfo';
+import { device } from '@/styles/media';
 import styled from 'styled-components';
 
 const MyPage = () => {
@@ -17,8 +18,10 @@ export default MyPage;
 
 const UserInfomationBox = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5rem;
+  justify-content: space-between;
+  gap: 2rem;
+
+  @media ${device.tablet} {
+    display: block;
+  }
 `;
