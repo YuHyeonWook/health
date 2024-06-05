@@ -205,12 +205,13 @@ const ModalLayout = styled.div`
   inset: 0px;
   display: flex;
   justify-content: center;
+  align-items: center;
   z-index: 1200;
 `;
 const ModalBox = styled.div`
   width: 350px;
   height: 630px;
-  background-color: #fff;
+  background-color: var(--color-white);
   overflow: hidden;
   border-radius: 15px;
   margin-top: 180px;
@@ -226,9 +227,15 @@ const XBtn = styled.button`
   padding: 0px 16px;
   z-index: 1000;
   cursor: pointer;
-  border: 1px solid #4cd964;
+  border: var(--border-primary);
   border-radius: 5px;
-  color: #4cd964;
+  color: var(--color-primary);
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
 `;
 const CreateBtn = styled.button`
   height: 32px;
@@ -239,11 +246,16 @@ const CreateBtn = styled.button`
   border: none;
   border-radius: 5px;
   color: #fff;
-  background-color: #4cd964;
+  background-color: var(--color-primary);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
 `;
 const NameBox = styled.div`
   margin-top: 40px;
-  color: #000;
+  color: var(--color-black);
   font-size: 18px;
   font-weight: 700;
   text-align: center;
@@ -257,12 +269,12 @@ const FirstInput = styled.input`
   margin: 7px 0 0 23px;
   padding-left: 10px;
   width: 305px;
-  border: 1px solid #d7d7d7;
+  border: var(--border-gray);
   border-radius: 5px;
 
   &:focus {
     outline: none;
-    border: 1px solid #4cd964;
+    border: var(--border-primary);
   }
 `;
 const SecondContext = styled.div`
@@ -274,12 +286,12 @@ const SecondInput = styled.input`
   margin: 12px 0 0 23px;
   padding-left: 10px;
   width: 305px;
-  border: 1px solid #d7d7d7;
+  border: var(--border-gray);
   border-radius: 5px;
 
   &:focus {
     outline: none;
-    border: 1px solid #4cd964;
+    border: var(--border-primary);
   }
 `;
 const ContextBox = styled.div`
@@ -311,9 +323,9 @@ const StartInput = styled.input`
   margin: 5px 5px 5px 23px;
   padding-left: 13px;
   width: 142px;
-  border: 1px solid #e0e0e0;
+  border: var(--border-gray);
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--color-white);
 `;
 const CalendarIconStart = styled.svg`
   position: absolute;
@@ -322,6 +334,7 @@ const CalendarIconStart = styled.svg`
   width: 18px;
   height: 20px;
   z-index: 200;
+  cursor: pointer;
 `;
 const EndInputBox = styled.div`
   position: relative;
@@ -333,6 +346,7 @@ const CalendarIconEnd = styled.svg`
   width: 18px;
   height: 20px;
   z-index: 200;
+  cursor: pointer;
 `;
 const EndInput = styled.input`
   position: relative;
@@ -340,9 +354,9 @@ const EndInput = styled.input`
   margin: 5px 23px 5px 5px;
   padding-left: 13px;
   width: 142px;
-  border: 1px solid #e0e0e0;
+  border: var(--border-gray);
   border-radius: 5px;
-  background-color: #fff;
+  background-color: var(--color-white);
 `;
 const MemoContext = styled.div`
   margin: 23px 0 0 25px;
@@ -356,8 +370,12 @@ const MemoInput = styled.textarea`
   min-height: 180px;
   margin: 7px 0 0 23px;
   padding: 13px 0 120px 13px;
-  border: 1px solid #d7d7d7;
+  border: var(--border-gray);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--color-white);
   scrollbar-width: none;
+
+  &:focus {
+    border: var(--border-primary);
+  }
 `;
