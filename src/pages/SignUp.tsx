@@ -11,6 +11,7 @@ import Input from '@/components/Input';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
 import { device } from '@/styles/media';
+import { FirebaseError } from 'firebase/app';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -44,9 +45,14 @@ const SignUp = () => {
       alert('회원가입이 완료되었습니다.');
       navigate('/');
     } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-        console.log(error);
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            setError('이미 사용 중인 이메일입니다.');
+            break;
+          default:
+            setError(error.message);
+        }
       }
     }
   };
@@ -66,7 +72,7 @@ const SignUp = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleBack = () => {
+  const handleGoBack = () => {
     navigate(-1);
   };
 
@@ -75,7 +81,7 @@ const SignUp = () => {
       <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
       <SignForm onSubmit={handleSignUp}>
         <SignSection>
-          <BackIconBox onClick={handleBack}>
+          <BackIconBox onClick={handleGoBack}>
             <BackIcon />
             뒤로가기
           </BackIconBox>
