@@ -38,7 +38,13 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
 
   const handleSave = async () => {
     try {
-      if (isNaN(Number(muscleMass)) || isNaN(Number(bmi)) || isNaN(Number(height)) || isNaN(Number(weight))) {
+      if (
+        isNaN(Number(muscleMass)) ||
+        isNaN(Number(bmi)) ||
+        isNaN(Number(height)) ||
+        isNaN(Number(weight)) ||
+        isNaN(Number(fatPercentage))
+      ) {
         toast.info('숫자만 입력해주세요.', {
           autoClose: 2000,
         });
@@ -68,6 +74,12 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
         });
         return;
       }
+      if (!fatPercentage) {
+        toast.info('체지방률을 입력해주세요.', {
+          autoClose: 2000,
+        });
+        return;
+      }
 
       const userId = auth.currentUser?.uid;
       const userRef = ref(db, `users/${userId}/body`);
@@ -76,6 +88,7 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
         bmi,
         height,
         weight,
+        fatPercentage,
       });
 
       setUserBodyData({ muscleMass, bmi, height, weight, fatPercentage });
