@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import { userInBodyModalProps } from '@/lib/types/userInformation';
@@ -11,10 +11,9 @@ import {
   UserInformationModalBtnBox,
   UserModalInformationH2,
 } from '@/styles/userInformation';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
+const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
   const [muscleMass, setMuscleMass] = useState<number>(0);
   const [bmi, setBmi] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
@@ -38,18 +37,6 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
 
   const handleSave = async () => {
     try {
-      if (
-        isNaN(Number(muscleMass)) ||
-        isNaN(Number(bmi)) ||
-        isNaN(Number(height)) ||
-        isNaN(Number(weight)) ||
-        isNaN(Number(fatPercentage))
-      ) {
-        toast.info('숫자만 입력해주세요.', {
-          autoClose: 2000,
-        });
-        return;
-      }
       if (!muscleMass) {
         toast.info('근육량을 입력해주세요.', {
           autoClose: 2000,
@@ -153,9 +140,8 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
           <Button onClick={handleSave}>저장</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
-      <ToastContainer />
     </>
   );
-};
+});
 
 export default UserInBodyModal;

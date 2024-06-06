@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { auth, db, storage } from '@/firebase';
@@ -14,11 +14,10 @@ import {
   UserInformationModalBtnBox,
   UserModalInformationH2,
 } from '@/styles/userInformation';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
-const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
+const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
   const [birthday, setBirthday] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
@@ -110,14 +109,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
       setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
       setUserName(userName); // store에 userName 저장함
-      toast.success('저장에 성공했습니다.', {
-        autoClose: 2000,
-      });
+      alert('저장되었습니다.');
       onClose();
     } catch (error) {
-      toast.error('저장하는데 실패했습니다.', {
-        autoClose: 2000,
-      });
+      console.error(error, '저장에 실패했습니다.');
     }
   };
 
@@ -193,10 +188,9 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           <Button onClick={handleSave}>저장</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
-      <ToastContainer />
     </>
   );
-};
+});
 
 export default UserInfoModal;
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ref, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import UserInBodyModal from '@/components/UserInBobyModal';
@@ -22,15 +22,15 @@ const UserInBody = () => {
     fatPercentage: 0,
   });
 
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsModalOpen(false);
-  };
+  }, []);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     const userId = auth.currentUser?.uid;
     const userRef = ref(db, `users/${userId}/body`);
     const snapshot = await get(userRef);
@@ -44,11 +44,11 @@ const UserInBody = () => {
         fatPercentage: data.fatPercentage || 0,
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
   return (
     <>
