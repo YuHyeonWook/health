@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import logoWhite from '@/assets/images/logo-white.svg';
 import iconGithub from '@/assets/images/icon-github-white.svg';
 import iconbuilding from '@/assets/images/icon-building.svg';
+import { device } from '@/styles/media';
 
 const Footer = () => {
   return (
@@ -13,14 +14,6 @@ const Footer = () => {
           </Logo>
           <InfoText>A personalized fitness training management platform.</InfoText>
           <CopyText>&copy; 2024 Team 5 of the Toy Project. All Rights Reserved.</CopyText>
-          {/* <LinkBox>
-            <LinkLayout href="">
-              <LinkImg src={iconGithub} alt="깃허브 아이콘" />
-            </LinkLayout>
-            <LinkLayout href="">
-              <LinkImg src={iconbuilding} alt="빌딩 아이콘" />
-            </LinkLayout>
-          </LinkBox> */}
         </InfoBox>
         <ContributorsBox>
           <Title>CONTRIBUTORS</Title>
@@ -57,14 +50,22 @@ const FooterLayout = styled.footer`
   font-size: 1.4rem;
   color: var(--color-white);
   background-color: var(--color-gray-dark);
+
+  @media ${device.desktop} {
+    padding: 3rem 0;
+  }
 `;
 
 const InnerBox = styled.div`
   display: flex;
   justify-content: space-between;
-  max-width: 120rem;
-  width: 100%;
+  max-width: 126rem;
+  padding: 0 3rem;
   margin: 0 auto;
+
+  @media ${device.desktop} {
+    display: block;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -87,20 +88,10 @@ const InfoText = styled.span`
 const CopyText = styled.span`
   display: block;
   margin-bottom: 0.8rem;
-`;
 
-const LinkBox = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 0.8rem;
-`;
-
-const LinkLayout = styled.a`
-  display: block;
-`;
-
-const LinkImg = styled.img`
-  display: block;
+  @media ${device.desktop} {
+    margin-bottom: 3.2rem;
+  }
 `;
 
 const ContributorsBox = styled.div``;
@@ -108,17 +99,37 @@ const ContributorsBox = styled.div``;
 const Title = styled.h3`
   margin-bottom: 3.6rem;
   font-size: 2rem;
+
+  @media ${device.desktop} {
+    margin-bottom: 2rem;
+  }
 `;
 
 const ContributorList = styled.ul`
   display: flex;
   column-gap: 8rem;
+
+  @media ${device.tablet} {
+    flex-wrap: wrap;
+    column-gap: 0;
+  }
 `;
 
 const ContributorItem = styled.li`
   display: flex;
   flex-direction: column;
   row-gap: 0rem;
+
+  @media ${device.tablet} {
+    display: block;
+    width: 50%;
+    margin-bottom: 4rem;
+
+    &:nth-child(3),
+    &:nth-child(4) {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const NameText = styled.span`

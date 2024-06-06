@@ -3,13 +3,14 @@ import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/aut
 import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import bgLogin from '@/assets/images/bg-login.png';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.svg';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/AuthStyles';
 import Button from '@/components/Button';
 import { ref, set } from 'firebase/database';
 import Input from '@/components/Input';
 import { MdKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
+import { device } from '@/styles/media';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -74,7 +75,10 @@ const SignUp = () => {
       <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
       <SignForm onSubmit={handleSignUp}>
         <SignSection>
-          <BackIcon onClick={handleBack} />
+          <BackIconBox onClick={handleBack}>
+            <BackIcon />
+            뒤로가기
+          </BackIconBox>
           <LogoImg src={logo} alt="로고 이미지" />
           <h2>회원가입</h2>
           <SignLabel htmlFor="email">
@@ -119,7 +123,7 @@ const SignUp = () => {
           </SignLabel>
           {passwordError && <p>{passwordError}</p>}
           <BorderBox />
-          <Button type="submit">회원가입</Button>
+          <ButtonLayout type="submit">회원가입</ButtonLayout>
         </SignSection>
       </SignForm>
     </>
@@ -128,10 +132,25 @@ const SignUp = () => {
 
 export default SignUp;
 
-const BackIcon = styled(MdKeyboardBackspace)`
-  position: absolute;
-  top: 2%;
-  right: 63%;
-  font-size: 2rem;
+const BackIconBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: -4rem;
+  margin-right: auto;
+  color: var(--color-primary);
   cursor: pointer;
+`;
+
+const BackIcon = styled(MdKeyboardBackspace)`
+  margin-right: auto;
+  padding-right: 1rem;
+  font-size: 3rem;
+`;
+
+const ButtonLayout = styled(Button)`
+  width: 70%;
+
+  @media ${device.mobile} {
+    width: 90%;
+  }
 `;

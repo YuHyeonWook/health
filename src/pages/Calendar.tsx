@@ -7,6 +7,7 @@ import Layout from '@/components/layout/Layout';
 import { db } from '../firebase';
 import { ref, onValue } from 'firebase/database';
 import EventList from '../components/calendarcrud/EventList';
+import { device } from '@/styles/media';
 
 interface Day {
   day: number;
@@ -97,27 +98,26 @@ const Calendar = () => {
     return () => unsubscribe();
   }, []);
 
-
   const getDatesBetween = (start: Date, end: Date) => {
     let dates: Date[] = [];
     let currentDate = new Date(start);
-  
+
     while (currentDate <= end) {
       dates.push(new Date(currentDate));
       currentDate.setDate(currentDate.getDate() + 1);
     }
-  
+
     return dates;
   };
 
   const formatDate = (date: Date): string => {
-    return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}.`
+    return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}.`;
   };
-  
+
   const getEventsForDate = (dateStr: string) => {
-    return Object.values(data).filter(event => {
+    return Object.values(data).filter((event) => {
       const eventDates = getDatesBetween(new Date(event.startDate), new Date(event.endDate));
-      return eventDates.some(eventDate => formatDate(eventDate) === dateStr);
+      return eventDates.some((eventDate) => formatDate(eventDate) === dateStr);
     });
   };
 
@@ -193,57 +193,56 @@ const Row = styled.div`
 const CalendarBox = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 0 30px 30px 30px;
-  border-radius: 40px;
 `;
 const SwiperBox = styled.div`
   grid-column: 1 / 2;
   position: relative;
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 `;
 const LeftSwiperBtn = styled.button`
-  width: 33px;
-  height: 33px;
-  margin-top: 31px;
-  padding: 8px 16px;
-  color: #4cd964;
-  font-size: 40px;
-  border: 1px solid #4cd964;
+  position: relative;
+  width: 3.3rem;
+  height: 3.3rem;
+  padding: 0.08rem 1.6rem;
+  color: var(--color-primary);
+  font-size: 4rem;
+  border: 1px solid var(--color-primary);
   border-radius: 5px;
   cursor: pointer;
 `;
 const RightSwiperBtn = styled.button`
-  width: 33px;
-  height: 33px;
-  margin-top: 31px;
-  padding: 8px 16px;
-  color: #4cd964;
-  font-size: 40px;
-  border: 1px solid #4cd964;
+  position: relative;
+  width: 3.3rem;
+  height: 3.3rem;
+  padding: 0.08rem 1.6rem;
+  color: var(--color-primary);
+  font-size: 4rem;
+  border: 1px solid var(--color-primary);
   border-radius: 5px;
   cursor: pointer;
 `;
 const ChevronLeftIcon = styled.svg`
   position: absolute;
-  top: 35px;
-  left: 7px;
-  width: 20px;
-  height: 27px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2.7rem;
 `;
 const ChevronRightIcon = styled.svg`
   position: absolute;
-  top: 35px;
-  right: 48px;
-  width: 20px;
-  height: 27px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2.7rem;
 `;
 const MonthYearBox = styled.div`
   grid-column: 3 / 6;
-  height: 60px;
-  margin-top: 23px;
-  color: #4f4e4e;
-  font-size: 30px;
+  height: 6rem;
+  color: var(--color-gray-dark);
+  font-size: 3rem;
   font-weight: 700;
   text-align: center;
 `;
@@ -253,20 +252,17 @@ const EventRow = styled.div`
   justify-content: flex-end;
 `;
 const EventBtn = styled(Button)`
-  width: 90px;
-  height: 35px;
-  margin-top: 30px;
-  padding: 0px 3px;
+  width: 9rem;
+  height: 3.5rem;
+  padding: 0 0.3rem;
 `;
 const WeekBox = styled.div`
-  padding: 4px 0;
-  color: #969696;
-  background-color: #ffffff;
+  padding: 6px 0;
+  color: var(--color-white);
+  background-color: var(--color-primary);
   font-family: 'Inter-Medium', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
+  font-size: 1.6rem;
+  outline: 1px solid var(--color-gray-lighter);
   text-align: center;
 `;
 const Day = styled.div`
@@ -274,29 +270,54 @@ const Day = styled.div`
   height: 128px;
   padding-top: 5px;
   padding-left: 5px;
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
+  outline: 1px solid var(--color-gray-lighter);
   text-align: left;
+  color: var(--color-gray-dark);
+  cursor: pointer;
 
   &:hover {
-    border: 2px solid #4cd964;
+    border: 2px solid var(--color-primary);
+    offset: -2px;
+  }
+
+  @media ${device.desktop} {
+    width: 100px;
+    height: 120px;
+  }
+
+  @media ${device.tablet} {
+    width: 70px;
+    height: 100px;
+  }
+
+  @media ${device.mobile} {
+    width: 100%;
+    height: 80px;
   }
 `;
 const CurrentMonthDay = styled(Day)`
-  color: #6e6e6e;
-  background-color: #fff;
+  color: var(--color-gray-dark);
+  background-color: var(--color-white);
 `;
 const OtherMonthDay = styled(Day)`
-  color: gray;
-  background-color: #d3d3d3;
+  color: var(--color-gray-light);
+  background-color: var(--color-white);
+  &:hover {
+    border: none;
+    cursor: default;
+  }
 `;
 const TodayDay = styled(CurrentMonthDay)`
-  color: red;
+  color: var(--color-primary);
+  font-weight: 600;
 `;
 
 const TodayButton = styled(Button)`
-  width: 60px;
-  height: 35px;
-  margin-top: 30px;
-  padding: 0px 3px;
+  width: 6rem;
+  height: 3.5rem;
+  padding: 0px 0.03rem;
+
+  @media ${device.tablet} {
+    margin-left: 1rem;
+  }
 `;

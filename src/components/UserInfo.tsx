@@ -79,7 +79,7 @@ const UserInfo = () => {
           </UserInformationBox>
         </main>
         <BtnBox>
-          <Button onClick={openModal}>등록</Button>
+          <Button onClick={openModal}>개인정보 등록</Button>
         </BtnBox>
       </UserInformationContainer>
       <UserInfoModal isOpen={isModalOpen} onClose={closeModal} setUserInfoData={setUserInfoData} />
@@ -99,5 +99,5 @@ const ProfileImage = styled.img`
   width: 10rem;
   height: 10rem;
   border-radius: 20%;
-  margin: 2rem auto;
+  margin: -2rem auto 4rem;
 `;

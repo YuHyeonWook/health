@@ -159,7 +159,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           <ProfileInput type="file" onChange={handleFileChange} />
         </ProfileLabel>
         <FileUploadBox>
-          <FileUploadBtn onClick={handleUpload}>업로드</FileUploadBtn>
+          <FileUploadBtn onClick={handleUpload}>이미지 업로드</FileUploadBtn>
         </FileUploadBox>
         <LabelBox>
           <label>
@@ -187,8 +187,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           </label>
         </LabelBox>
         <UserInformationModalBtnBox>
+          <Button onClick={onClose} mode="white">
+            취소
+          </Button>
           <Button onClick={handleSave}>저장</Button>
-          <Button onClick={onClose}>취소</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
       <ToastContainer />
@@ -215,7 +217,7 @@ const ProfileImage = styled.img`
   width: 10rem;
   height: 10rem;
   border-radius: 20%;
-  margin: 2rem auto;
+  margin: 0 auto 1.6rem;
   cursor: pointer;
 `;
 
@@ -230,10 +232,15 @@ const FileUploadBox = styled.div`
 `;
 
 const FileUploadBtn = styled.button`
-  border: 1px solid var(--color-primary);
   background-color: var(--color-primary);
   color: var(--color-white);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  padding: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-primary-dark);
+  }
 `;

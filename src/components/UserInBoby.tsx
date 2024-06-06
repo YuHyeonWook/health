@@ -72,7 +72,7 @@ const UserInBody = () => {
           </UserInformationBox>
         </main>
         <BtnBox>
-          <Button onClick={openModal}>등록</Button>
+          <Button onClick={openModal}>신체정보 등록</Button>
         </BtnBox>
       </UserInformationContainer>
       <UserInBodyModal isOpen={isModalOpen} onClose={closeModal} setUserBodyData={setUserBodyData} />
