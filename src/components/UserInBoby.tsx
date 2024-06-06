@@ -15,10 +15,11 @@ import { UserInBodyData } from '@/lib/types/userInformation';
 const UserInBody = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [userBodyData, setUserBodyData] = useState<UserInBodyData>({
-    muscleMass: '',
-    bmi: '',
-    height: '',
-    weight: '',
+    muscleMass: 0,
+    bmi: 0,
+    height: 0,
+    weight: 0,
+    fatPercentage: 0,
   });
 
   const openModal = () => {
@@ -36,10 +37,11 @@ const UserInBody = () => {
     if (snapshot.exists()) {
       const data = snapshot.val();
       setUserBodyData({
-        muscleMass: data.muscleMass || '',
-        bmi: data.bmi || '',
-        height: data.height || '',
-        weight: data.weight || '',
+        muscleMass: data.muscleMass || 0,
+        bmi: data.bmi || 0,
+        height: data.height || 0,
+        weight: data.weight || 0,
+        fatPercentage: data.fatPercentage || 0,
       });
     }
   };
@@ -68,6 +70,10 @@ const UserInBody = () => {
             <p>
               근육량 (kg)
               <UserInformationSpan>{userBodyData.muscleMass}</UserInformationSpan>
+            </p>
+            <p>
+              체지방률 (%)
+              <UserInformationSpan>{userBodyData.fatPercentage}</UserInformationSpan>
             </p>
           </UserInformationBox>
         </main>

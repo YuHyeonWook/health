@@ -15,10 +15,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
-  const [muscleMass, setMuscleMass] = useState<string>('');
-  const [bmi, setBmi] = useState<string>('');
-  const [height, setHeight] = useState<string>('');
-  const [weight, setWeight] = useState<string>('');
+  const [muscleMass, setMuscleMass] = useState<number>(0);
+  const [bmi, setBmi] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+  const [weight, setWeight] = useState<number>(0);
+  const [fatPercentage, setFatPercentage] = useState<number>(0);
 
   const loadData = async () => {
     const userId = auth.currentUser?.uid;
@@ -27,10 +28,11 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
 
     if (snapshot.exists()) {
       const data = snapshot.val();
-      setMuscleMass(data.muscleMass || '');
-      setBmi(data.bmi || '');
-      setHeight(data.height || '');
-      setWeight(data.weight || '');
+      setMuscleMass(data.muscleMass || 0);
+      setBmi(data.bmi || 0);
+      setHeight(data.height || 0);
+      setWeight(data.weight || 0);
+      setFatPercentage(data.fatPercentage || 0);
     }
   };
 
@@ -76,7 +78,7 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
         weight,
       });
 
-      setUserBodyData({ muscleMass, bmi, height, weight });
+      setUserBodyData({ muscleMass, bmi, height, weight, fatPercentage });
       toast.success('저장되었습니다.', {
         autoClose: 2000,
       });
@@ -96,25 +98,39 @@ const UserInBodyModal = ({ isOpen, onClose, setUserBodyData }: userInBodyModalPr
 
   return (
     <>
-      {isOpen && <ModalBackgroundBox isOpen={isOpen} onClose={onClose} onClick={onClose} />}
-      <UserInformationModalBox isOpen={isOpen} onClose={onClose}>
+      {isOpen && <ModalBackgroundBox $isOpen={isOpen} onClick={onClose} />}
+      <UserInformationModalBox $isOpen={isOpen}>
         <UserModalInformationH2>신체정보 수정</UserModalInformationH2>
         <LabelBox>
-          <label>
+          <label htmlFor="height">
             키 (cm):
-            <Input type="text" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="cm" />
+            <Input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} placeholder="cm" />
           </label>
-          <label>
+          <label htmlFor="weight">
             체중 (kg):
-            <Input type="text" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="kg" />
+            <Input type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value))} placeholder="kg" />
           </label>
-          <label>
+          <label htmlFor="bmi">
             BMI (kg/㎡):
-            <Input type="text" value={bmi} onChange={(e) => setBmi(e.target.value)} placeholder="kg/㎡" />
+            <Input type="number" value={bmi} onChange={(e) => setBmi(Number(e.target.value))} placeholder="kg/㎡" />
           </label>
-          <label>
+          <label htmlFor="muscleMass">
             근육량 (kg):
-            <Input type="text" value={muscleMass} onChange={(e) => setMuscleMass(e.target.value)} placeholder="kg" />
+            <Input
+              type="number"
+              value={muscleMass}
+              onChange={(e) => setMuscleMass(Number(e.target.value))}
+              placeholder="kg"
+            />
+          </label>
+          <label htmlFor="fatPercentage">
+            체지방률:
+            <Input
+              type="number"
+              value={fatPercentage}
+              onChange={(e) => setFatPercentage(Number(e.target.value))}
+              placeholder="%"
+            />
           </label>
         </LabelBox>
         <UserInformationModalBtnBox>

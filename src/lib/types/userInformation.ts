@@ -25,10 +25,11 @@ export interface UserInfoData {
 }
 
 export interface UserInBodyData {
-  muscleMass: string;
-  bmi: string;
-  height: string;
-  weight: string;
+  muscleMass: number;
+  bmi: number;
+  height: number;
+  weight: number;
+  fatPercentage: number;
 }
 
 interface userModalProps {
@@ -39,10 +40,11 @@ interface userModalProps {
 export interface userInBodyModalProps extends userModalProps {
   setUserBodyData: React.Dispatch<
     React.SetStateAction<{
-      muscleMass: string;
-      bmi: string;
-      height: string;
-      weight: string;
+      muscleMass: number;
+      bmi: number;
+      height: number;
+      weight: number;
+      fatPercentage: number;
     }>
   >;
 }
