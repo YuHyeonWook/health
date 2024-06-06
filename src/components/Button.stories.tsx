@@ -17,21 +17,16 @@ export default {
 
 const Template: StoryFn<any> = (args) => <Button {...args} />;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Custom = Template.bind({});
+Custom.args = {
   mode: 'primary',
-  children: 'Button',
+  children: '저장',
+  onClick: () => alert('Button clicked!'),
 };
 
 export const White = Template.bind({});
 White.args = {
   mode: 'white',
-  children: 'White Button',
-};
-
-export const Custom = Template.bind({});
-Custom.args = {
-  mode: 'primary',
-  children: 'Custom Button',
+  children: '취소',
   onClick: () => alert('Button clicked!'),
 };

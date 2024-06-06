@@ -26,10 +26,11 @@ const SignIn = () => {
     userName: '',
   });
   const [, setUserInBodyData] = useState<UserInBodyData>({
-    muscleMass: '',
-    bmi: '',
-    height: '',
-    weight: '',
+    muscleMass: 0,
+    bmi: 0,
+    height: 0,
+    weight: 0,
+    fatPercentage: 0,
   });
   const setUserName = useUserNameStore((state) => state.setUserName);
 
@@ -121,10 +122,11 @@ const SignIn = () => {
               if (bodySnapshot.exists()) {
                 const bodyData = bodySnapshot.val();
                 setUserInBodyData({
-                  muscleMass: bodyData.muscleMass || '',
-                  bmi: bodyData.bmi || '',
-                  height: bodyData.height || '',
-                  weight: bodyData.weight || '',
+                  muscleMass: bodyData.muscleMass || 0,
+                  bmi: bodyData.bmi || 0,
+                  height: bodyData.height || 0,
+                  weight: bodyData.weight || 0,
+                  fatPercentage: bodyData.fatPercentage || 0,
                 });
               }
             });
