@@ -20,6 +20,7 @@ const NotFoundBox = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: center;
+  padding: 0 3rem;
   height: 100vh;
   color: var(--color-primary);
 
