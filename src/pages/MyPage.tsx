@@ -5,12 +5,10 @@ import styled from 'styled-components';
 
 const MyPage = () => {
   return (
-    <>
-      <UserInfomationBox>
-        <UserInfo />
-        <UserInBody />
-      </UserInfomationBox>
-    </>
+    <UserInfomationBox>
+      <UserInfo />
+      <UserInBody />
+    </UserInfomationBox>
   );
 };
 
