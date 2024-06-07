@@ -14,8 +14,8 @@ const ButtonStyled = styled.button<{ mode: 'primary' | 'white' }>`
   justify-content: center;
   align-items: center;
   padding: 1rem 3rem;
-  border-radius: 6px;
-  border: 1px solid var(--color-primary);
+  border-radius: 0.6rem;
+  border: 0.1rem solid var(--color-primary);
   background-color: ${(props) => (props.mode === 'primary' ? 'var(--color-primary)' : 'var(--color-white)')};
   color: ${(props) => (props.mode === 'primary' ? 'var(--color-white)' : 'var(--color-primary)')};
   font-size: 1.6rem;

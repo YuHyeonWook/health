@@ -17,7 +17,7 @@ export default MyPage;
 const UserInfomationBox = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 5rem;
 
   @media ${device.tablet} {
     display: block;
