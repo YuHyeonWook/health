@@ -34,7 +34,7 @@ export const SignSection = styled.section`
   border-radius: 1rem;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   min-width: 50rem;
-  height: 65rem;
+  height: 70rem;
   background-color: var(--color-white);
 
   h2 {
