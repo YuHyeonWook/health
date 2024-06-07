@@ -147,7 +147,7 @@ const TheadLayout = styled.thead`
     width: 15%;
     padding: 2.4rem 1.4rem;
     color: var(--color-gray-dark);
-    border-bottom: 1px solid var(--color-primary);
+    border-bottom: var(--border-primary);
 
     &:last-child {
       width: 10%;
@@ -183,7 +183,7 @@ const DeleteBtn = styled.button`
 `;
 
 const DeleteImg = styled.img`
-  width: 20px;
+  width: 2rem;
 `;
 
 const EmptyRow = styled.tr`

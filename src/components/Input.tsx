@@ -55,7 +55,7 @@ const InputStyled = styled.input`
   height: 5rem;
   padding: 0 1.5rem;
   color: var(--color-black);
-  border-radius: 6px;
+  border-radius: 0.6rem;
   border: var(--border-gray);
   background-color: var(--color-white);
 

@@ -57,8 +57,8 @@ const GlobalStyle = createGlobalStyle`
     --color-error: #ee5151;
     --color-success: #2bda90; 
 
-    --border-primary: 1px solid #4cd964; 
-    --border-gray: 1px solid #c7c7c7; 
+    --border-primary: .1rem solid #4cd964; 
+    --border-gray: .1rem solid #c7c7c7; 
 
     font-size: 10px;
 
@@ -77,7 +77,7 @@ const GlobalStyle = createGlobalStyle`
   }
   
   body {
-    min-width: 320px;
+    min-width: 32rem;
     font-family: "Pretendard", "Helvetica", "Arial", sans-serif;
     font-size: 1.6rem;
     font-weight: 400;
@@ -121,7 +121,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
     background-color: transparent;
     border: 0;
-    border-radius: 6px;
+    border-radius: 0.6rem;
 
     &:focus {
       outline: none;

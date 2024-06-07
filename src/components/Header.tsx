@@ -73,7 +73,7 @@ const NavContainer = styled.nav`
   height: 8rem;
   padding: 0 8rem;
   color: var(--color-gray-dark);
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 1.5rem 0.5rem rgba(0, 0, 0, 0.03);
   background-color: var(--color-white);
 
   @media ${device.desktop} {
@@ -155,7 +155,7 @@ const MobileNavList = styled.ul`
   z-index: 100;
   padding: 2rem 0;
   background-color: var(--color-white);
-  box-shadow: 0 10px 15px 0px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.03);
 
   li {
     padding: 0.8rem 0;
