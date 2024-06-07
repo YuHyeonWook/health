@@ -115,9 +115,13 @@ const Calendar = () => {
   };
   
   const getEventsForDate = (dateStr: string) => {
-    return Object.values(data).filter(event => {
+    if (!data) {
+      return [];
+    }
+
+    return Object.values(data).filter((event) => {
       const eventDates = getDatesBetween(new Date(event.startDate), new Date(event.endDate));
-      return eventDates.some(eventDate => formatDate(eventDate) === dateStr);
+      return eventDates.some((eventDate) => formatDate(eventDate) === dateStr);
     });
   };
 
@@ -277,7 +281,7 @@ const Day = styled.div`
   border: 1px solid #e8e8e8;
   border-radius: 5px;
   text-align: left;
-
+  
   &:hover {
     border: 2px solid #4cd964;
   }

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface Event {
@@ -15,18 +16,6 @@ interface EventListProps {
   setUpdateModalOpen: (open: boolean) => void;
 }
 
-
-const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventListProps) => {
-  const handleEventClick = (event: Event) => {
-    if (event.id) {
-      setSelectedEventId(event.id);
-      setUpdateModalOpen(true);
-    }
-    if (events.length === 0) {
-    return null;
-  }
-  };
-
 const colors = [
   '#FFB6C1',
   '#ADD8E6',
@@ -36,15 +25,95 @@ const colors = [
   '#8A2BE2',
 ];
 
+const colorMap: { [key: string]: string } = {};
+
+const getColorForEventId = (eventId: string): string => {
+  if (!colorMap[eventId]) {
+    const colorIndex = Object.keys(colorMap).length % colors.length;
+    colorMap[eventId] = colors[colorIndex];
+  }
+  return colorMap[eventId];
+};
+
+const sortEventsByDate = (events: Event[]) => {
+  return [...events].sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+};
+
+const groupEventsByDate = (events: Event[]) => {
+  const groupedEvents: { [date: string]: Event[] } = {};
+
+  events.forEach(event => {
+    let currentDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
+
+    while (currentDate <= endDate) {
+      const dateStr = currentDate.toISOString().split('T')[0];
+      if (!groupedEvents[dateStr]) {
+        groupedEvents[dateStr] = [];
+      }
+      groupedEvents[dateStr].push(event);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  });
+
+  return groupedEvents;
+};
+
+const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventListProps) => {
+  const sortedEvents = sortEventsByDate(events);
+  const groupedEvents = groupEventsByDate(sortedEvents);
+
+  const handleEventClick = (event: Event) => {
+    if (event.id) {
+      setSelectedEventId(event.id);
+      setUpdateModalOpen(true);
+    }
+  };
+
+  console.log(events);
+
+  const renderedEventIds: Set<string> = new Set();
+  const [expandedDates, setExpandedDates] = useState<Set<string>>(new Set());
+
+  const toggleExpand = (date: string) => {
+    const newExpandedDates = new Set(expandedDates);
+    if (newExpandedDates.has(date)) {
+      newExpandedDates.delete(date);
+    } else {
+      newExpandedDates.add(date);
+    }
+    setExpandedDates(newExpandedDates);
+  };
 
   return (
     <EventListContainer>
-      {events.map((event) => (
-        <EventItem key={event.id} onClick={() => handleEventClick(event)} color={colors[event.id % colors.length]}>
-          <EventTitle>{event.firstInput}</EventTitle>
-          <EventDescription>{event.memoInput}</EventDescription>
-          <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
-        </EventItem>
+      {Object.keys(groupedEvents).map(date => (
+        <DateGroup key={date}>
+          {groupedEvents[date].length > 3 && !expandedDates.has(date) && (
+            <MoreEventsButton onClick={() => toggleExpand(date)}>
+              {`+${groupedEvents[date].length - 3} more`}
+            </MoreEventsButton>
+          )}
+          {groupedEvents[date].map((event, index) => {
+            if (!renderedEventIds.has(event.id)) {
+              renderedEventIds.add(event.id);
+              if (index < 3 || expandedDates.has(date)) {
+                return (
+                  <EventItem
+                    key={event.id}
+                    onClick={() => handleEventClick(event)}
+                    color={getColorForEventId(event.id)}
+                  >
+                    <EventTitle>{event.firstInput}</EventTitle>
+                    <EventDescription>{event.memoInput}</EventDescription>
+                    <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
+                  </EventItem>
+                );
+              }
+            }
+            return null;
+          })}
+        </DateGroup>
       ))}
     </EventListContainer>
   );
@@ -58,6 +127,11 @@ const EventListContainer = styled.div`
   position: relative;
   left: -5px;
   width: 105%;
+`;
+
+const DateGroup = styled.div`
+  /* margin-bottom: 10px; */
+  position: relative;
 `;
 
 const EventItem = styled.div<{ color: string }>`
@@ -94,4 +168,17 @@ const EventDetail = styled.div`
   ${EventItem}:hover & {
     display: block;
   }
+`;
+
+const MoreEventsButton = styled.button`
+  background-color: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  margin: 3px 0;
+  padding: 5px;
+  font-size: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: -30px;
+  right: 0;
 `;
