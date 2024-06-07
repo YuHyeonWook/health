@@ -59,10 +59,6 @@ const InputStyled = styled.input`
   border: var(--border-gray);
   background-color: var(--color-white);
 
-  // 스토리북 색상 설정
-  color: ${(props) => (props.color === 'primary' ? 'var(--color-primary)' : 'var(--color-white)')};
-  border-color: ${(props) => (props.color === 'primary' ? 'var(--border-primary)' : 'var(--border-gray)')};
-
   &::placeholder {
     color: var(--color-gray-light);
   }

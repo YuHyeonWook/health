@@ -1,5 +1,5 @@
 import { InputProps } from '@/lib/types/input';
-import Input from './Input';
+import Input from '@/components/Input';
 import { Meta, StoryFn } from '@storybook/react';
 
 export default {
