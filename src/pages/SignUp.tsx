@@ -4,6 +4,7 @@ import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import bgLogin from '@/assets/images/bg-login.png';
 import logo from '@/assets/images/logo.svg';
+import iconArrow from '@/assets/images/icon-arrow.svg';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/AuthStyles';
 import Button from '@/components/Button';
 import { ref, set } from 'firebase/database';
@@ -83,7 +84,7 @@ const SignUp = () => {
       <SignForm onSubmit={handleSignUp}>
         <SignSection>
           <BackIconBox onClick={handleGoBack}>
-            <BackIcon />
+            <BackIcon src={iconArrow} alt="화살표 이미지" />
             뒤로가기
           </BackIconBox>
           <LogoImg src={logo} alt="로고 이미지" />
@@ -144,16 +145,16 @@ export default SignUp;
 const BackIconBox = styled.div`
   display: flex;
   align-items: center;
-  margin-top: -4rem;
+  margin-top: -2rem;
   margin-right: auto;
   color: var(--color-primary);
   cursor: pointer;
 `;
 
-const BackIcon = styled(MdKeyboardBackspace)`
+const BackIcon = styled.img`
   margin-right: auto;
   padding-right: 1rem;
-  font-size: 3rem;
+  width: 3rem;
 `;
 
 const ButtonLayout = styled(Button)`

@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import SignOut from '@/components/SignOut';
 import styled from 'styled-components';
 import logo from '@/assets/images/logo.svg';
+import iconMenu from '@/assets/images/icon-menu.svg';
+import iconClose from '@/assets/images/icon-close.svg';
 import { device } from '@/styles/media';
 import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,9 @@ const Header = () => {
         <LogoutBox>
           <SignOut />
         </LogoutBox>
-        <MobileMenuIcon onClick={toggleMenu}>{isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}</MobileMenuIcon>
+        <MobileMenuIcon onClick={toggleMenu}>
+          {isOpen ? <CloseIcon src={iconClose} alt="닫기 이미지" /> : <MenuIcon src={iconMenu} alt="메뉴 이미지" />}
+        </MobileMenuIcon>
       </NavContainer>
       {isOpen && (
         <MobileNavList>
@@ -142,6 +145,14 @@ const MobileMenuIcon = styled.div`
     display: block;
     cursor: pointer;
   }
+`;
+
+const CloseIcon = styled.img`
+  width: 2.4rem;
+`;
+
+const MenuIcon = styled.img`
+  width: 2.4rem;
 `;
 
 const MobileNavList = styled.ul`
