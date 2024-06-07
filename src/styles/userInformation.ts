@@ -31,10 +31,6 @@ export const UserInformationBox = styled.div`
       margin-bottom: 5rem;
     }
   }
-
-  /* display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem; */
 `;
 
 export const UserInformationSpan = styled.span`
