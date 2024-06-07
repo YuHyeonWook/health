@@ -13,7 +13,7 @@ interface MiniCalendarStartType {
 
 const MiniCalendarStart = ({ onDayClick, setMiniStartOpen }: MiniCalendarStartType) => {
   const [date, setDate] = useState<Date>(new Date());
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [, setSelectedDay] = useState<number | null>(null);
   const firstDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth(), 1);
   const lastDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth() + 1, 0);
   const daysInMonth: Day[] = [];
@@ -41,17 +41,17 @@ const MiniCalendarStart = ({ onDayClick, setMiniStartOpen }: MiniCalendarStartTy
     }
   }, [date]);
 
-  const handleDayClick = (day: number) => {
+  const dayClick = (day: number) => {
     setSelectedDay(day);
     const selectedDate = new Date(date.getFullYear(), date.getMonth(), day);
     onDayClick(selectedDate);
     setMiniStartOpen(false);
   };
 
-  const handlePrevMonth = (): void => {
+  const prevMonth = (): void => {
     setDate(new Date(date.getFullYear(), date.getMonth() - 1));
   };
-  const handleNextMonth = (): void => {
+  const nextMonth = (): void => {
     setDate(new Date(date.getFullYear(), date.getMonth() + 1));
   };
 
@@ -61,8 +61,8 @@ const MiniCalendarStart = ({ onDayClick, setMiniStartOpen }: MiniCalendarStartTy
     <MiniLayout>
       <MiniCalendarBox>
         <MiniSwiperBox>
-          <MiniLeftSwiperBtn onClick={handlePrevMonth}>{'<'}</MiniLeftSwiperBtn>
-          <MiniRightSwiperBtn onClick={handleNextMonth}>{'>'}</MiniRightSwiperBtn>
+          <MiniLeftSwiperBtn onClick={prevMonth}>{'<'}</MiniLeftSwiperBtn>
+          <MiniRightSwiperBtn onClick={nextMonth}>{'>'}</MiniRightSwiperBtn>
         </MiniSwiperBox>
         <MiniMonthYearBox>{`${date.getFullYear()}. ${months[date.getMonth()]}`}</MiniMonthYearBox>
         <MiniRightBox></MiniRightBox>
@@ -77,7 +77,7 @@ const MiniCalendarStart = ({ onDayClick, setMiniStartOpen }: MiniCalendarStartTy
         {daysInMonth.map((dayObj, index) => {
           const MiniDay = dayObj.isCurrentMonth ? CurrentMonthDay : OtherMonthDay;
           return (
-            <MiniDay onClick={() => handleDayClick(dayObj.day)} key={index}>
+            <MiniDay onClick={() => dayClick(dayObj.day)} key={index}>
               {dayObj.day}
             </MiniDay>
           );
@@ -106,7 +106,7 @@ const MiniCalendarBox = styled.div`
   width: 23rem;
   margin: 0.03rem 0 0 1.5rem;
   padding: 0 1rem 2rem;
-  border-radius: 8px;
+  border-radius: 0.8rem;
   border: 1px solid var(--color-gray-light);
   background-color: var(--color-white);
 `;
@@ -116,7 +116,7 @@ const MiniSwiperBox = styled.div`
   justify-content: space-between;
 `;
 const MiniLeftSwiperBtn = styled.button`
-  padding: 00.5rem;
+  padding: 0 0.5rem;
   color: var(--color-gray);
   font-size: 1.5rem;
   border: none;
@@ -158,7 +158,7 @@ const MiniDay = styled.div`
   font-size: 1.2rem;
 
   &:hover {
-    border-radius: 4px;
+    border-radius: 0.4rem;
     background-color: var(--color-primary);
     color: var(--color-white);
   }
@@ -173,6 +173,6 @@ const OtherMonthDay = styled(MiniDay)`
   &:hover {
     color: var(--color-gray-light);
     background-color: var(--color-white);
-    border: 1px solid var(--color-white);
+    border: 0.1rem solid var(--color-white);
   }
 `;
