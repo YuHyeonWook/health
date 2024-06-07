@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
 import { device } from '@/styles/media';
+import { ErrorMesBox } from '@/styles/errorMsg';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');
@@ -169,8 +170,10 @@ const SignIn = () => {
             />
           </SignLabel>
           <ButtonCompoent type="submit">로그인</ButtonCompoent>
-          {passwordError && <p>{passwordError}</p>}
-          {error && <p>{error}</p>}
+          <ErrorMesBox>
+            {passwordError && <p>{passwordError}</p>}
+            {error && <p>{error}</p>}
+          </ErrorMesBox>
           <BorderBox />
           <SignUpQuestionBox>
             <span>아직 계정이 없으신가요? </span>

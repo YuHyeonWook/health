@@ -12,6 +12,7 @@ import { MdKeyboardBackspace } from 'react-icons/md';
 import styled from 'styled-components';
 import { device } from '@/styles/media';
 import { FirebaseError } from 'firebase/app';
+import { ErrorMesBox } from '@/styles/errorMsg';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -100,7 +101,6 @@ const SignUp = () => {
               required
             />
           </SignLabel>
-          {error && <p>{error}</p>}
           <SignLabel htmlFor="password">
             비밀번호
             <Input
@@ -127,7 +127,10 @@ const SignUp = () => {
               required
             />
           </SignLabel>
-          {passwordError && <p>{passwordError}</p>}
+          <ErrorMesBox>
+            {error && <p>{error}</p>}
+            {passwordError && <p>{passwordError}</p>}
+          </ErrorMesBox>
           <BorderBox />
           <ButtonLayout type="submit">회원가입</ButtonLayout>
         </SignSection>
