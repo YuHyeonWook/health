@@ -9,7 +9,7 @@ import {
   UserInformationH2,
   UserInformationSpan,
 } from '@/styles/userInformation';
-import Button from './Button';
+import Button from '@/components/Button';
 import { UserInBodyData } from '@/lib/types/userInformation';
 
 const UserInBody = () => {

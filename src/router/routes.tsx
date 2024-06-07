@@ -29,14 +29,6 @@ export const routes = [
     errorElement: <NotFound />,
   },
   {
-    path: '/home',
-    element: (
-      <ProtectedRoute>
-        <Home />
-      </ProtectedRoute>
-    ),
-  },
-  {
     path: '/mypage',
     element: (
       <ProtectedRoute>

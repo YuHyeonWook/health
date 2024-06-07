@@ -15,4 +15,5 @@ export interface InputProps {
   required?: boolean;
   pattern?: string;
   maxLength?: number;
+  color?: 'primary' | 'white';
 }

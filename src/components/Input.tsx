@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { InputProps } from '@/lib/types/input';
 import { device } from '@/styles/media';
 
-const Input = (props: InputProps) => {
+const Input = ({ color = 'primary', ...props }: InputProps) => {
   const {
     type,
     label,
@@ -36,6 +36,7 @@ const Input = (props: InputProps) => {
         onClick={(e) => e.currentTarget.focus()}
         pattern={pattern}
         maxLength={maxLength}
+        color={color}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
     </>
@@ -57,6 +58,10 @@ const InputStyled = styled.input`
   border-radius: 6px;
   border: var(--border-gray);
   background-color: var(--color-white);
+
+  // 스토리북 색상 설정
+  color: ${(props) => (props.color === 'primary' ? 'var(--color-primary)' : 'var(--color-white)')};
+  border-color: ${(props) => (props.color === 'primary' ? 'var(--border-primary)' : 'var(--border-gray)')};
 
   &::placeholder {
     color: var(--color-gray-light);
