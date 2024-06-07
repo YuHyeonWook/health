@@ -4,7 +4,7 @@ import Modal from '../components/calendarcrud/Modal';
 import UpdateModal from '../components/calendarcrud/UpdateModal';
 import Button from '../components/Button';
 import Layout from '@/components/layout/Layout';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
 import { ref, onValue } from 'firebase/database';
 import EventList from '../components/calendarcrud/EventList';
 import { device } from '@/styles/media';
@@ -30,7 +30,7 @@ const Calendar = () => {
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [, setSelectedDate] = useState<string>('');
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-
+  const userId = auth.currentUser?.uid;
   const today = new Date();
   const firstDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth(), 1);
   const lastDayOfMonth: Date = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -52,20 +52,20 @@ const Calendar = () => {
     isCurrentMonth: false,
   }));
 
-  const handlePrevMonth = (): void => {
+  const prevMonth = (): void => {
     setDate(new Date(date.getFullYear(), date.getMonth() - 1));
   };
 
-  const handleNextMonth = (): void => {
+  const nextMonth = (): void => {
     setDate(new Date(date.getFullYear(), date.getMonth() + 1));
   };
 
-  const handleNewEventClick = (): void => {
+  const newEventClick = (): void => {
     setModalOpen(true);
     setStartDate(new Date());
   };
 
-  const handleDayClick = (day: number, isCurrentMonth: boolean) => {
+  const dayClick = (day: number, isCurrentMonth: boolean) => {
     if (isCurrentMonth) {
       const clickedDate = new Date(date.getFullYear(), date.getMonth(), day);
       const eventsForDate = getEventsForDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${day}.`);
@@ -78,7 +78,7 @@ const Calendar = () => {
     }
   };
 
-  const handleEventClick = (eventId: string) => {
+  const eventClick = (eventId: string) => {
     setSelectedEventId(eventId);
     setUpdateModalOpen(true);
   };
@@ -88,15 +88,17 @@ const Calendar = () => {
   const [data, setData] = useState<{ [key: string]: Event }>({});
 
   useEffect(() => {
-    const dataRef = ref(db, 'NewEvent/');
+    if (userId) {
+      const dataRef = ref(db, `NewEvent/${userId}`);
 
-    const unsubscribe = onValue(dataRef, (snapshot) => {
-      const fetchedData = snapshot.val();
-      setData(fetchedData);
-    });
+      const unsubscribe = onValue(dataRef, (snapshot) => {
+        const fetchedData = snapshot.val();
+        setData(fetchedData);
+      });
 
-    return () => unsubscribe();
-  }, []);
+      return () => unsubscribe();
+    }
+  }, [userId]);
 
   const getDatesBetween = (start: Date, end: Date) => {
     let dates: Date[] = [];
@@ -115,6 +117,10 @@ const Calendar = () => {
   };
 
   const getEventsForDate = (dateStr: string) => {
+    if (!data) {
+      return [];
+    }
+
     return Object.values(data).filter((event) => {
       const eventDates = getDatesBetween(new Date(event.startDate), new Date(event.endDate));
       return eventDates.some((eventDate) => formatDate(eventDate) === dateStr);
@@ -126,27 +132,27 @@ const Calendar = () => {
       <Row>
         <CalendarBox>
           <SwiperBox>
-            <LeftSwiperBtn onClick={handlePrevMonth}>
-              <ChevronLeftIcon viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <LeftSwiperBtn onClick={prevMonth}>
+              <LeftIcon viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M4.43937 14.5447C3.85354 15.1369 3.85354 16.0986 4.43937 16.6908L13.4376 25.7866C14.0234 26.3788 14.9748 26.3788 15.5606 25.7866C16.1465 25.1945 16.1465 24.2328 15.5606 23.6406L7.62156 15.6154L15.5559 7.59019C16.1418 6.99801 16.1418 6.03631 15.5559 5.44413C14.9701 4.85196 14.0187 4.85196 13.4329 5.44413L4.43468 14.54L4.43937 14.5447Z"
                   fill="#4CD964"
                 />
-              </ChevronLeftIcon>
+              </LeftIcon>
             </LeftSwiperBtn>
-            <RightSwiperBtn onClick={handleNextMonth}>
-              <ChevronRightIcon viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <RightSwiperBtn onClick={nextMonth}>
+              <RightIcon viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M15.5606 14.5447C16.1465 15.1369 16.1465 16.0986 15.5606 16.6908L6.56239 25.7866C5.97657 26.3788 5.02519 26.3788 4.43937 25.7866C3.85354 25.1945 3.85354 24.2328 4.43937 23.6406L12.3784 15.6154L4.44405 7.59019C3.85823 6.99801 3.85823 6.03631 4.44405 5.44413C5.02988 4.85196 5.98125 4.85196 6.56708 5.44413L15.5653 14.54L15.5606 14.5447Z"
                   fill="#4CD964"
                 />
-              </ChevronRightIcon>
+              </RightIcon>
             </RightSwiperBtn>
           </SwiperBox>
           <TodayButton onClick={() => setDate(new Date())}>오늘</TodayButton>
           <MonthYearBox>{`${date.getFullYear()}. ${months[date.getMonth()]}`}</MonthYearBox>
           <EventRow>
-            <EventBtn onClick={handleNewEventClick}>운동 추가</EventBtn>
+            <EventBtn onClick={newEventClick}>운동 추가</EventBtn>
           </EventRow>
           {ModalOpen && <Modal setModalOpen={setModalOpen} startDate={startDate} />}
           {updateModalOpen && <UpdateModal setModalOpen={setUpdateModalOpen} eventId={selectedEventId} />}
@@ -164,11 +170,11 @@ const Calendar = () => {
               date.getFullYear() === today.getFullYear();
             const Day = dayObj.isCurrentMonth ? (isToday ? TodayDay : CurrentMonthDay) : OtherMonthDay;
             return (
-              <Day key={index} onClick={() => handleDayClick(dayObj.day, dayObj.isCurrentMonth)}>
+              <Day key={index} onClick={() => dayClick(dayObj.day, dayObj.isCurrentMonth)}>
                 {dayObj.day}
                 <EventList
                   events={getEventsForDate(`${date.getFullYear()}. ${date.getMonth() + 1}. ${dayObj.day}.`)}
-                  setSelectedEventId={handleEventClick}
+                  setSelectedEventId={eventClick}
                   setUpdateModalOpen={setUpdateModalOpen}
                 />
               </Day>
@@ -207,8 +213,8 @@ const LeftSwiperBtn = styled.button`
   padding: 0.08rem 1.6rem;
   color: var(--color-primary);
   font-size: 4rem;
-  border: 1px solid var(--color-primary);
-  border-radius: 5px;
+  border: 0.1rem solid var(--color-primary);
+  border-radius: 0.5rem;
   cursor: pointer;
 `;
 const RightSwiperBtn = styled.button`
@@ -219,10 +225,10 @@ const RightSwiperBtn = styled.button`
   color: var(--color-primary);
   font-size: 4rem;
   border: 1px solid var(--color-primary);
-  border-radius: 5px;
+  border-radius: 0.5rem;
   cursor: pointer;
 `;
-const ChevronLeftIcon = styled.svg`
+const LeftIcon = styled.svg`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -230,7 +236,7 @@ const ChevronLeftIcon = styled.svg`
   width: 2rem;
   height: 2.7rem;
 `;
-const ChevronRightIcon = styled.svg`
+const RightIcon = styled.svg`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -257,42 +263,42 @@ const EventBtn = styled(Button)`
   padding: 0 0.3rem;
 `;
 const WeekBox = styled.div`
-  padding: 6px 0;
+  padding: 0.6rem 0;
   color: var(--color-white);
   background-color: var(--color-primary);
   font-family: 'Inter-Medium', sans-serif;
   font-size: 1.6rem;
-  outline: 1px solid var(--color-gray-lighter);
+  outline: 0.1rem solid var(--color-gray-lighter);
   text-align: center;
 `;
 const Day = styled.div`
-  width: 122px;
-  height: 128px;
-  padding-top: 5px;
-  padding-left: 5px;
-  outline: 1px solid var(--color-gray-lighter);
+  width: 12.2rem;
+  height: 12.8rem;
+  padding-top: 0.5rem;
+  padding-left: 0.5rem;
+  outline: 0.1rem solid var(--color-gray-lighter);
   text-align: left;
   color: var(--color-gray-dark);
   cursor: pointer;
 
   &:hover {
-    border: 2px solid var(--color-primary);
-    offset: -2px;
+    border: 0.2rem solid var(--color-primary);
+    offset: -0.2rem;
   }
 
   @media ${device.desktop} {
-    width: 100px;
-    height: 120px;
+    width: 10rem;
+    height: 12rem;
   }
 
   @media ${device.tablet} {
-    width: 70px;
-    height: 100px;
+    width: 7rem;
+    height: 10rem;
   }
 
   @media ${device.mobile} {
     width: 100%;
-    height: 80px;
+    height: 8rem;
   }
 `;
 const CurrentMonthDay = styled(Day)`
@@ -315,7 +321,7 @@ const TodayDay = styled(CurrentMonthDay)`
 const TodayButton = styled(Button)`
   width: 6rem;
   height: 3.5rem;
-  padding: 0px 0.03rem;
+  padding: 0 0.03rem;
 
   @media ${device.tablet} {
     margin-left: 1rem;

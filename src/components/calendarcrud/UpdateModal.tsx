@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
 import { get, ref, update, remove } from 'firebase/database';
 import MiniCalendarStart from '../../components/calendarcrud/MiniCalendarStart';
 import MiniCalendarEnd from '../../components/calendarcrud/MiniCalendarEnd';
@@ -18,62 +18,65 @@ const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
   const [firstInputValue, setFirstInputValue] = useState('');
   const [secondInputValue, setSecondInputValue] = useState('');
   const [memoInputValue, setMemoInputValue] = useState('');
+  const userId = auth.currentUser?.uid;
 
   const CompareDate = selectStartDay && selectEndDay && selectStartDay > selectEndDay;
 
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const onClickOutSide = (event: MouseEvent) => {
+  const clickOutSide = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       setModalOpen(false);
     }
   };
 
-  const handleUpdateClick = async () => {
-    const eventRef = ref(db, 'NewEvent/' + eventId);
-    await update(eventRef, {
-      firstInput: firstInputValue,
-      secondInput: secondInputValue,
-      memoInput: memoInputValue,
-      startDate: selectStartDay
-        ? `${selectStartDay.getFullYear()}. ${selectStartDay.getMonth() + 1}. ${selectStartDay.getDate()}.`
-        : '시작 날짜',
-      endDate: selectEndDay
-        ? `${selectEndDay.getFullYear()}. ${selectEndDay.getMonth() + 1}. ${selectEndDay.getDate()}.`
-        : '종료 날짜',
-    });
-    setModalOpen(false);
+  const updateClick = async () => {
+    if (userId && eventId) {
+      const eventRef = ref(db, `NewEvent/${userId}/${eventId}`);
+      await update(eventRef, {
+        firstInput: firstInputValue,
+        secondInput: secondInputValue,
+        memoInput: memoInputValue,
+        startDate: selectStartDay
+          ? `${selectStartDay.getFullYear()}. ${selectStartDay.getMonth() + 1}. ${selectStartDay.getDate()}.`
+          : '시작 날짜',
+        endDate: selectEndDay
+          ? `${selectEndDay.getFullYear()}. ${selectEndDay.getMonth() + 1}. ${selectEndDay.getDate()}.`
+          : '종료 날짜',
+      });
+      setModalOpen(false);
+    }
   };
 
-  const handleDeleteClick = async () => {
-    if (eventId) {
-      const deleteEventRef = ref(db, 'NewEvent/' + eventId);
+  const deleteClick = async () => {
+    if (userId && eventId) {
+      const deleteEventRef = ref(db, `NewEvent/${userId}/${eventId}`);
       await remove(deleteEventRef);
       setModalOpen(false);
     }
   };
 
-  const handleStartButtonClick = () => {
+  const startBtnClick = () => {
     setShowMiniCalendarStart(!showMiniCalendarStart);
     setShowMiniCalendarEnd(false);
   };
 
-  const handleEndButtonClick = () => {
+  const endBtnClick = () => {
     setShowMiniCalendarEnd(!showMiniCalendarEnd);
     setShowMiniCalendarStart(false);
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', onClickOutSide);
+    document.addEventListener('mousedown', clickOutSide);
     return () => {
-      document.removeEventListener('mousedown', onClickOutSide);
+      document.removeEventListener('mousedown', clickOutSide);
     };
   });
 
   useEffect(() => {
-    if (eventId) {
+    if (userId && eventId) {
       const fetchEventData = async () => {
-        const eventRef = ref(db, 'NewEvent/' + eventId);
+        const eventRef = ref(db, `NewEvent/${userId}/${eventId}`);
         const snapshot = await get(eventRef);
         if (snapshot.exists()) {
           const data = snapshot.val();
@@ -87,16 +90,16 @@ const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
 
       fetchEventData();
     }
-  }, [eventId]);
+  }, [eventId, userId]);
 
   return (
     <Backdrop>
       <ModalLayout>
         <ModalBox ref={modalRef}>
           <ModalBtn>
-            <XBtn onClick={handleDeleteClick}>삭제</XBtn>
+            <XBtn onClick={deleteClick}>삭제</XBtn>
             <NameBox>운동 일지</NameBox>
-            <CreateBtn onClick={handleUpdateClick} disabled={CompareDate ?? undefined}>
+            <CreateBtn onClick={updateClick} disabled={CompareDate ?? undefined}>
               수정
             </CreateBtn>
           </ModalBtn>
@@ -123,7 +126,7 @@ const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
                 disabled
               ></StartInput>
               <CalendarIconStart
-                onClick={handleStartButtonClick}
+                onClick={startBtnClick}
                 viewBox="0 0 22 26"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -155,12 +158,7 @@ const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
                 style={CompareDate ? { textDecoration: 'line-through', color: 'red' } : {}}
                 disabled
               />
-              <CalendarIconEnd
-                onClick={handleEndButtonClick}
-                viewBox="0 0 22 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+              <CalendarIconEnd onClick={endBtnClick} viewBox="0 0 22 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_101_1442)">
                   <path
                     d="M7.46429 1.17857C7.46429 0.525446 6.93884 0 6.28571 0C5.63259 0 5.10714 0.525446 5.10714 1.17857V3.14286H3.14286C1.40938 3.14286 0 4.55223 0 6.28571V7.07143V9.42857V22C0 23.7335 1.40938 25.1429 3.14286 25.1429H18.8571C20.5906 25.1429 22 23.7335 22 22V9.42857V7.07143V6.28571C22 4.55223 20.5906 3.14286 18.8571 3.14286H16.8929V1.17857C16.8929 0.525446 16.3674 0 15.7143 0C15.0612 0 14.5357 0.525446 14.5357 1.17857V3.14286H7.46429V1.17857ZM2.35714 9.42857H19.6429V22C19.6429 22.4321 19.2893 22.7857 18.8571 22.7857H3.14286C2.71071 22.7857 2.35714 22.4321 2.35714 22V9.42857Z"
@@ -209,28 +207,30 @@ const ModalLayout = styled.div`
   z-index: 1200;
 `;
 const ModalBox = styled.div`
-  width: 350px;
-  height: 630px;
+  width: 35rem;
+  height: 63rem;
   background-color: var(--color-white);
   overflow: hidden;
-  border-radius: 15px;
-  margin-top: 180px;
-  margin-bottom: 180px;
+  border-radius: 1.5rem;
+  margin-top: 18rem;
+  margin-bottom: 18rem;
 `;
 const ModalBtn = styled.div`
   display: flex;
   justify-content: space-between;
 `;
 const XBtn = styled.button`
-  height: 32px;
-  margin: 36px 0 0 20px;
-  padding: 0px 16px;
+  height: 3.2rem;
+  margin: 3.6rem 0 0 2rem;
+  padding: 0 1.6rem;
   z-index: 1000;
   cursor: pointer;
   border: var(--border-primary);
-  border-radius: 5px;
+  border-radius: 0.5rem;
   color: var(--color-primary);
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
 
   &:hover {
     background-color: var(--color-primary);
@@ -238,13 +238,13 @@ const XBtn = styled.button`
   }
 `;
 const CreateBtn = styled.button`
-  height: 32px;
-  margin: 36px 20px 0 0;
-  padding: 0px 16px;
+  height: 3.2rem;
+  margin: 3.6rem 2rem 0 0;
+  padding: 0 1.6rem;
   z-index: 1000;
   cursor: pointer;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   color: #fff;
   background-color: var(--color-primary);
   transition: background-color 0.2s;
@@ -254,23 +254,23 @@ const CreateBtn = styled.button`
   }
 `;
 const NameBox = styled.div`
-  margin-top: 40px;
+  margin-top: 4rem;
   color: var(--color-black);
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 700;
   text-align: center;
 `;
 const FirstContext = styled.div`
-  margin: 35px 0 0 25px;
-  font-size: 14px;
+  margin: 3.5rem 0 0 2.5rem;
+  font-size: 1.4rem;
 `;
 const FirstInput = styled.input`
-  height: 34px;
-  margin: 7px 0 0 23px;
-  padding-left: 10px;
-  width: 305px;
+  height: 3.4rem;
+  margin: 0.7rem 0 0 2.3rem;
+  padding-left: 1rem;
+  width: 30.5rem;
   border: var(--border-gray);
-  border-radius: 5px;
+  border-radius: 0.5rem;
 
   &:focus {
     outline: none;
@@ -278,16 +278,16 @@ const FirstInput = styled.input`
   }
 `;
 const SecondContext = styled.div`
-  margin: 25px 0 0 25px;
-  font-size: 14px;
+  margin: 2.5rem 0 0 2.5rem;
+  font-size: 1.4rem;
 `;
 const SecondInput = styled.input`
-  height: 34px;
-  margin: 12px 0 0 23px;
-  padding-left: 10px;
-  width: 305px;
+  height: 3.4rem;
+  margin: 1.2rem 0 0 2.3rem;
+  padding-left: 1rem;
+  width: 30.5rem;
   border: var(--border-gray);
-  border-radius: 5px;
+  border-radius: 0.5rem;
 
   &:focus {
     outline: none;
@@ -299,40 +299,40 @@ const ContextBox = styled.div`
   justify-content: space-between;
 `;
 const StartContext = styled.div`
-  margin: 29px 0 0 25px;
-  font-size: 14px;
-  width: 137px;
+  margin: 2.9rem 0 0 2.5rem;
+  font-size: 1.4rem;
+  width: 13.7rem;
 `;
 const EndContext = styled.div`
-  margin: 29px 21px 0 0;
-  font-size: 14px;
-  width: 137px;
+  margin: 2.9rem 2.1rem 0 0;
+  font-size: 1.4rem;
+  width: 13.7rem;
 `;
 const DateInputRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 305px;
+  width: 30.5rem;
 `;
 const StartInputBox = styled.div`
   position: relative;
 `;
 const StartInput = styled.input`
   position: relative;
-  height: 32px;
-  margin: 5px 5px 5px 23px;
-  padding-left: 13px;
-  width: 142px;
+  height: 3.2rem;
+  margin: 0.5rem 0.5rem 0.5rem 2.3rem;
+  padding-left: 1.3rem;
+  width: 14.2rem;
   border: var(--border-gray);
-  border-radius: 5px;
+  border-radius: 0.5rem;
   background-color: var(--color-white);
 `;
 const CalendarIconStart = styled.svg`
   position: absolute;
-  top: 11px;
-  right: 14px;
-  width: 18px;
-  height: 20px;
+  top: 1.1rem;
+  right: 1.4rem;
+  width: 1.8rem;
+  height: 2rem;
   z-index: 200;
   cursor: pointer;
 `;
@@ -341,37 +341,37 @@ const EndInputBox = styled.div`
 `;
 const CalendarIconEnd = styled.svg`
   position: absolute;
-  top: 11px;
-  right: 32px;
-  width: 18px;
-  height: 20px;
+  top: 1.1rem;
+  right: 3.2rem;
+  width: 1.8rem;
+  height: 2rem;
   z-index: 200;
   cursor: pointer;
 `;
 const EndInput = styled.input`
   position: relative;
-  height: 32px;
-  margin: 5px 23px 5px 5px;
-  padding-left: 13px;
-  width: 142px;
+  height: 3.2rem;
+  margin: 0.5rem 2.3rem 0.5rem 0.5rem;
+  padding-left: 1.3rem;
+  width: 14.2rem;
   border: var(--border-gray);
-  border-radius: 5px;
+  border-radius: 0.5rem;
   background-color: var(--color-white);
 `;
 const MemoContext = styled.div`
-  margin: 23px 0 0 25px;
-  font-size: 14px;
+  margin: 2.3rem 0 0 2.5rem;
+  font-size: 1.4rem;
 `;
 const MemoInput = styled.textarea`
-  width: 305px;
-  max-width: 305px;
-  min-width: 305px;
-  max-height: 180px;
-  min-height: 180px;
-  margin: 7px 0 0 23px;
-  padding: 13px 0 120px 13px;
+  width: 30.5rem;
+  max-width: 30.5rem;
+  min-width: 30.5rem;
+  max-height: 18rem;
+  min-height: 18rem;
+  margin: 0.7rem 0 0 2.3rem;
+  padding: 1.3rem 0 12rem 1.3rem;
   border: var(--border-gray);
-  border-radius: 8px;
+  border-radius: 0.8rem;
   background-color: var(--color-white);
   scrollbar-width: none;
 
