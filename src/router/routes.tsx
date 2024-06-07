@@ -1,4 +1,3 @@
-import Home from '@/pages/Home';
 import MyPage from '@/pages/MyPage';
 import NotFound from '@/pages/NotFound';
 import Calendar from '@/pages/Calendar';
