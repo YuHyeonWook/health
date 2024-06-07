@@ -37,6 +37,10 @@ export const SignSection = styled.section`
   height: 65rem;
   background-color: var(--color-white);
 
+  h2 {
+    margin-bottom: 2rem;
+  }
+
   @media ${device.mobile} {
     width: 85%;
     min-width: 32rem;
@@ -62,7 +66,7 @@ export const BgLoginImg = styled.img`
 `;
 
 export const LogoImg = styled.img`
-  width: 8rem;
+  width: 12rem;
 `;
 
 export const SignLabel = styled.label`
