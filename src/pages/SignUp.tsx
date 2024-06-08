@@ -9,11 +9,10 @@ import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from
 import Button from '@/components/Button';
 import { ref, set } from 'firebase/database';
 import Input from '@/components/Input';
-import { MdKeyboardBackspace } from 'react-icons/md';
-import styled from 'styled-components';
 import { device } from '@/styles/media';
 import { FirebaseError } from 'firebase/app';
 import { ErrorMesBox } from '@/styles/errorMsg';
+import styled from 'styled-components';
 
 const SignUp = () => {
   const navigate = useNavigate();

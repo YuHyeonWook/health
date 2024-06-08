@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import logoWhite from '@/assets/images/logo-white.svg';
-import iconGithub from '@/assets/images/icon-github-white.svg';
-import iconbuilding from '@/assets/images/icon-building.svg';
 import { device } from '@/styles/media';
 
 const Footer = () => {
