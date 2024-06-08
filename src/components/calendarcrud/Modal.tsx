@@ -45,23 +45,31 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
   };
 
   const createClick = async () => {
-    const userId = auth.currentUser?.uid;
-    if (userId) {
-      const newEventRef = push(ref(db, `NewEvent/${userId}`));
-      const id = newEventRef.key;
-      await set(newEventRef, {
-        id,
-        firstInput: firstInputValue,
-        secondInput: secondInputValue,
-        memoInput: memoInputValue,
-        startDate: selectStartDay
-          ? `${selectStartDay.getFullYear()}. ${selectStartDay.getMonth() + 1}. ${selectStartDay.getDate()}.`
-          : Today,
-        endDate: selectEndDay
-          ? `${selectEndDay.getFullYear()}. ${selectEndDay.getMonth() + 1}. ${selectEndDay.getDate()}.`
-          : Today,
-      });
-      setModalOpen(false);
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        throw new Error('사용자 정보가 없습니다.');
+      }
+
+      if (userId) {
+        const newEventRef = push(ref(db, `NewEvent/${userId}`));
+        const id = newEventRef.key;
+        await set(newEventRef, {
+          id,
+          firstInput: firstInputValue,
+          secondInput: secondInputValue,
+          memoInput: memoInputValue,
+          startDate: selectStartDay
+            ? `${selectStartDay.getFullYear()}. ${selectStartDay.getMonth() + 1}. ${selectStartDay.getDate()}.`
+            : Today,
+          endDate: selectEndDay
+            ? `${selectEndDay.getFullYear()}. ${selectEndDay.getMonth() + 1}. ${selectEndDay.getDate()}.`
+            : Today,
+        });
+        setModalOpen(false);
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 

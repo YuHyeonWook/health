@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import SignOut from '@/components/SignOut';
 import styled from 'styled-components';
 import logo from '@/assets/images/logo.svg';
+import iconMenu from '@/assets/images/icon-menu.svg';
+import iconClose from '@/assets/images/icon-close.svg';
 import { device } from '@/styles/media';
 import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,7 +34,9 @@ const Header = () => {
         <LogoutBox>
           <SignOut />
         </LogoutBox>
-        <MobileMenuIcon onClick={toggleMenu}>{isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}</MobileMenuIcon>
+        <MobileMenuIcon onClick={toggleMenu}>
+          {isOpen ? <CloseIcon src={iconClose} alt="닫기 이미지" /> : <MenuIcon src={iconMenu} alt="메뉴 이미지" />}
+        </MobileMenuIcon>
       </NavContainer>
       {isOpen && (
         <MobileNavList>
@@ -73,7 +76,7 @@ const NavContainer = styled.nav`
   height: 8rem;
   padding: 0 8rem;
   color: var(--color-gray-dark);
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 1.5rem 0.5rem rgba(0, 0, 0, 0.03);
   background-color: var(--color-white);
 
   @media ${device.desktop} {
@@ -144,6 +147,14 @@ const MobileMenuIcon = styled.div`
   }
 `;
 
+const CloseIcon = styled.img`
+  width: 2.4rem;
+`;
+
+const MenuIcon = styled.img`
+  width: 2.4rem;
+`;
+
 const MobileNavList = styled.ul`
   display: none;
   flex-direction: column;
@@ -155,7 +166,7 @@ const MobileNavList = styled.ul`
   z-index: 100;
   padding: 2rem 0;
   background-color: var(--color-white);
-  box-shadow: 0 10px 15px 0px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1rem 1.5rem 0 rgba(0, 0, 0, 0.03);
 
   li {
     padding: 0.8rem 0;

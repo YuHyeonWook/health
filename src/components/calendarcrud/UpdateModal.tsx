@@ -31,7 +31,13 @@ const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
   };
 
   const updateClick = async () => {
-    if (userId && eventId) {
+    try {
+      if (!userId) {
+        throw new Error('사용자 정보가 없습니다.');
+      }
+      if (!eventId) {
+        throw new Error('이벤트 정보가 없습니다.');
+      }
       const eventRef = ref(db, `NewEvent/${userId}/${eventId}`);
       await update(eventRef, {
         firstInput: firstInputValue,
@@ -45,14 +51,24 @@ const UpdateModal = ({ setModalOpen, eventId }: ModalType) => {
           : '종료 날짜',
       });
       setModalOpen(false);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const deleteClick = async () => {
-    if (userId && eventId) {
+    try {
+      if (!userId) {
+        throw new Error('사용자 정보가 없습니다.');
+      }
+      if (!eventId) {
+        throw new Error('이벤트 정보가 없습니다.');
+      }
       const deleteEventRef = ref(db, `NewEvent/${userId}/${eventId}`);
       await remove(deleteEventRef);
       setModalOpen(false);
+    } catch (error) {
+      console.error(error);
     }
   };
 

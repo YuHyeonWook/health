@@ -22,13 +22,13 @@ const UserInBody = () => {
     fatPercentage: 0,
   });
 
-  const openModal = useCallback(() => {
+  const openModal = () => {
     setIsModalOpen(true);
-  }, []);
+  };
 
-  const closeModal = useCallback(() => {
+  const closeModal = () => {
     setIsModalOpen(false);
-  }, []);
+  };
 
   const loadData = useCallback(async () => {
     const userId = auth.currentUser?.uid;

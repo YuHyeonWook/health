@@ -5,7 +5,7 @@ import { auth, db, storage } from '@/firebase';
 import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
-import { CgProfile } from 'react-icons/cg';
+import iconUser from '@/assets/images/icon-user.svg';
 import Input from '@/components/Input';
 import {
   LabelBox,
@@ -200,10 +200,11 @@ const ProfileLabel = styled.label`
   align-items: center;
 `;
 
-const ProfileIcon = styled(CgProfile)`
+const ProfileIcon = styled.div`
   width: 10rem;
   height: 10rem;
   margin: 2rem auto;
+  background: url(${iconUser}) no-repeat center / contain;
   cursor: pointer;
 `;
 
@@ -212,6 +213,7 @@ const ProfileImage = styled.img`
   height: 10rem;
   border-radius: 20%;
   margin: 0 auto 1.6rem;
+  object-fit: cover;
   cursor: pointer;
 `;
 

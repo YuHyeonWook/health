@@ -21,17 +21,27 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
   const [fatPercentage, setFatPercentage] = useState<number>(0);
 
   const loadData = async () => {
-    const userId = auth.currentUser?.uid;
-    const userRef = ref(db, `users/${userId}/body`);
-    const snapshot = await get(userRef);
+    try {
+      const userId = auth.currentUser?.uid;
+      if (!userId) {
+        throw new Error('사용자 정보를 찾을 수 없습니다.');
+      }
 
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      setMuscleMass(data.muscleMass || 0);
-      setBmi(data.bmi || 0);
-      setHeight(data.height || 0);
-      setWeight(data.weight || 0);
-      setFatPercentage(data.fatPercentage || 0);
+      const userRef = ref(db, `users/${userId}/body`);
+      const snapshot = await get(userRef);
+
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        setMuscleMass(data.muscleMass ?? 0);
+        setBmi(data.bmi ?? 0);
+        setHeight(data.height ?? 0);
+        setWeight(data.weight ?? 0);
+        setFatPercentage(data.fatPercentage ?? 0);
+      } else {
+        console.error('사용자 정보를 찾을 수 없습니다.');
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -124,7 +134,7 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
             />
           </label>
           <label htmlFor="fatPercentage">
-            체지방률:
+            체지방률 (%):
             <Input
               type="number"
               value={fatPercentage}
