@@ -7,6 +7,7 @@ import { db, auth } from '@/firebase';
 import Pagination from '@/components/Pagination';
 import { Application } from '@/lib/types/application';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
+import { device } from '@/styles/media';
 
 const ApplyList = () => {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -69,42 +70,44 @@ const ApplyList = () => {
   return (
     <Layout>
       <TitleLayout>PT 신청 내역</TitleLayout>
-      <TableLayout>
-        <TheadLayout>
-          <tr>
-            <th>닉네임</th>
-            <th>PT 시작 날짜</th>
-            <th>퍼스널 트레이너</th>
-            <th>횟수</th>
-            <th>비용</th>
-            <th></th>
-          </tr>
-        </TheadLayout>
-        <TbodyLayout>
-          {currentApplications.length > 0 ? (
-            currentApplications.map((application) => (
-              <tr key={application.id}>
-                <td>{userName}</td>
-                <td>{application.startDate}</td>
-                <td>
-                  <TrainerText style={getTrainerColor(application.trainer)}>{application.trainer}</TrainerText>
-                </td>
-                <td>{application.count}</td>
-                <td>{application.cost}</td>
-                <td>
-                  <DeleteBtn onClick={() => handleDelete(application.id)}>
-                    <DeleteImg src={iconTrash} alt="휴지통 이미지" />
-                  </DeleteBtn>
-                </td>
-              </tr>
-            ))
-          ) : (
+      <TableContainer>
+        <TableLayout>
+          <TheadLayout>
             <tr>
-              <td colSpan={5}>신청 내역이 없습니다.</td>
+              <th>닉네임</th>
+              <th>PT 시작 날짜</th>
+              <th>퍼스널 트레이너</th>
+              <th>횟수</th>
+              <th>비용</th>
+              <th></th>
             </tr>
-          )}
-        </TbodyLayout>
-      </TableLayout>
+          </TheadLayout>
+          <TbodyLayout>
+            {currentApplications.length > 0 ? (
+              currentApplications.map((application) => (
+                <tr key={application.id}>
+                  <td>{userName}</td>
+                  <td>{application.startDate}</td>
+                  <td>
+                    <TrainerText style={getTrainerColor(application.trainer)}>{application.trainer}</TrainerText>
+                  </td>
+                  <td>{application.count}</td>
+                  <td>{application.cost}</td>
+                  <td>
+                    <DeleteBtn onClick={() => handleDelete(application.id)}>
+                      <DeleteImg src={iconTrash} alt="휴지통 이미지" />
+                    </DeleteBtn>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <EmptyRow>
+                <td colSpan={6}>신청 내역이 없습니다.</td>
+              </EmptyRow>
+            )}
+          </TbodyLayout>
+        </TableLayout>
+      </TableContainer>
       {applications.length > 0 && (
         <Pagination
           itemsPerPage={itemsPerPage}
@@ -121,6 +124,17 @@ const TitleLayout = styled.h2`
   margin-bottom: 5rem;
   font-size: 2.8rem;
   font-weight: 700;
+
+  @media ${device.tablet} {
+    margin-bottom: 3rem;
+    font-size: 2.6rem;
+  }
+`;
+
+const TableContainer = styled.div`
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
 `;
 
 const TableLayout = styled.table`
@@ -170,6 +184,12 @@ const DeleteBtn = styled.button`
 
 const DeleteImg = styled.img`
   width: 20px;
+`;
+
+const EmptyRow = styled.tr`
+  td {
+    padding: 16rem 0;
+  }
 `;
 
 export default ApplyList;

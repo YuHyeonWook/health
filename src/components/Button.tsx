@@ -20,7 +20,9 @@ const ButtonStyled = styled.button<{ mode: 'primary' | 'white' }>`
   color: ${(props) => (props.mode === 'primary' ? 'var(--color-white)' : 'var(--color-primary)')};
   font-size: 1.6rem;
   font-weight: 600;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
   &:hover {
     color: var(--color-white);
     background-color: ${(props) => (props.mode === 'primary' ? 'var(--color-primary-dark)' : 'var(--color-primary)')};

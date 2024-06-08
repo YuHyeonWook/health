@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { auth, db, storage } from '@/firebase';
@@ -14,15 +14,12 @@ import {
   UserInformationModalBtnBox,
   UserModalInformationH2,
 } from '@/styles/userInformation';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from 'react-datepicker';
+import { toast } from 'react-toastify';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
-const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
+const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const [email, setEmail] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [birthday, setBirthday] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const { userName, setUserName } = useUserNameStore();
   const [previewURL, setPreviewURL] = useState<string>('');
@@ -39,11 +36,7 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           const data = snapshot.val();
           setUserName(data.userName || '');
           setEmail(data.email || '');
-          setBirthday(
-            data.birthday
-              ? new Date(data.birthday).toISOString().split('T')[0]
-              : new Date().toISOString().split('T')[0],
-          );
+          setBirthday(data.birthday || '');
           setPhoneNumber(data.phoneNumber || '');
           setPreviewURL(data.photoURL || '');
         }
@@ -114,22 +107,12 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
         photoURL,
       });
 
-      setUserInfoData({
-        userName,
-        email,
-        birthday,
-        phoneNumber,
-        photoURL,
-      });
+      setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
       setUserName(userName); // store에 userName 저장함
-      toast.success('저장에 성공했습니다.', {
-        autoClose: 2000,
-      });
+      alert('저장되었습니다.');
       onClose();
     } catch (error) {
-      toast.error('저장하는데 실패했습니다.', {
-        autoClose: 2000,
-      });
+      console.error(error, '저장에 실패했습니다.');
     }
   };
 
@@ -163,15 +146,15 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
 
   return (
     <>
-      {isOpen && <ModalBackgroundBox isOpen={isOpen} onClose={onClose} onClick={onClose} />}
-      <UserInformationModalBox isOpen={isOpen} onClose={onClose}>
+      {isOpen && <ModalBackgroundBox $isOpen={isOpen} onClick={onClose} />}
+      <UserInformationModalBox $isOpen={isOpen}>
         <UserModalInformationH2>개인정보 수정</UserModalInformationH2>
         <ProfileLabel>
           {previewURL ? <ProfileImage src={previewURL} alt="프로필 이미지" /> : <ProfileIcon />}
           <ProfileInput type="file" onChange={handleFileChange} />
         </ProfileLabel>
         <FileUploadBox>
-          <FileUploadBtn onClick={handleUpload}>업로드</FileUploadBtn>
+          <FileUploadBtn onClick={handleUpload}>이미지 업로드</FileUploadBtn>
         </FileUploadBox>
         <LabelBox>
           <label>
@@ -182,15 +165,10 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
             닉네임:
             <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
           </label>
-          생년월일:
-          <DateLabel>
-            <DateLabelBox
-              selected={new Date(birthday)}
-              onChange={(date: Date) => setBirthday(date.toISOString().split('T')[0])}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="생년월일을 선택해주세요"
-            />
-          </DateLabel>
+          <label>
+            생년월일:
+            <Input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
+          </label>
           <label>
             전화번호:
             <Input
@@ -204,14 +182,15 @@ const UserInfoModal = ({ isOpen, onClose, setUserInfoData }: userInfoModalProps)
           </label>
         </LabelBox>
         <UserInformationModalBtnBox>
+          <Button onClick={onClose} mode="white">
+            취소
+          </Button>
           <Button onClick={handleSave}>저장</Button>
-          <Button onClick={onClose}>취소</Button>
         </UserInformationModalBtnBox>
       </UserInformationModalBox>
-      <ToastContainer />
     </>
   );
-};
+});
 
 export default UserInfoModal;
 
@@ -232,7 +211,7 @@ const ProfileImage = styled.img`
   width: 10rem;
   height: 10rem;
   border-radius: 20%;
-  margin: 2rem auto;
+  margin: 0 auto 1.6rem;
   cursor: pointer;
 `;
 
@@ -247,40 +226,15 @@ const FileUploadBox = styled.div`
 `;
 
 const FileUploadBtn = styled.button`
-  border: 1px solid var(--color-primary);
   background-color: var(--color-primary);
   color: var(--color-white);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  padding: 0.5rem;
-`;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.2s;
 
-const DateLabel = styled.label`
-  display: block;
-  margin-bottom: 1.2rem;
-  font-weight: 500;
-  width: 100%;
-`;
-
-const DateLabelBox = styled(DatePicker)`
-  display: block;
-  width: 72rem;
-  height: 5rem;
-  padding: 0 1.5rem;
-  color: var(--color-black);
-  border-radius: 6px;
-  border: var(--border-gray);
-  background-color: var(--color-white);
-
-  &::placeholder {
-    color: var(--color-gray-light);
-  }
-
-  &:focus {
-    border: var(--border-primary);
-  }
-
-  &:read-only {
-    border: var(--border-gray);
+  &:hover {
+    background-color: var(--color-primary-dark);
   }
 `;

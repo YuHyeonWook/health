@@ -3,15 +3,16 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '@/firebase';
 import { useNavigate } from 'react-router-dom';
 import { FirebaseError } from 'firebase/app';
-import bgLogin from '@/assets/images/bg-login.png';
 import { BgLoginImg, LogoImg, SignForm, SignSection, SignLabel, BorderBox } from '@/styles/AuthStyles';
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.svg';
 import Button from '@/components/Button';
 import { get, ref } from 'firebase/database';
 import Input from '@/components/Input';
 import styled from 'styled-components';
 import { UserInBodyData, UserInfoData } from '@/lib/types/userInformation';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
+import { device } from '@/styles/media';
+import { ErrorMesBox } from '@/styles/errorMsg';
 
 const SignIn = () => {
   const [email, setEmail] = useState<string>('');
@@ -26,10 +27,11 @@ const SignIn = () => {
     userName: '',
   });
   const [, setUserInBodyData] = useState<UserInBodyData>({
-    muscleMass: '',
-    bmi: '',
-    height: '',
-    weight: '',
+    muscleMass: 0,
+    bmi: 0,
+    height: 0,
+    weight: 0,
+    fatPercentage: 0,
   });
   const setUserName = useUserNameStore((state) => state.setUserName);
 
@@ -121,10 +123,11 @@ const SignIn = () => {
               if (bodySnapshot.exists()) {
                 const bodyData = bodySnapshot.val();
                 setUserInBodyData({
-                  muscleMass: bodyData.muscleMass || '',
-                  bmi: bodyData.bmi || '',
-                  height: bodyData.height || '',
-                  weight: bodyData.weight || '',
+                  muscleMass: bodyData.muscleMass || 0,
+                  bmi: bodyData.bmi || 0,
+                  height: bodyData.height || 0,
+                  weight: bodyData.weight || 0,
+                  fatPercentage: bodyData.fatPercentage || 0,
                 });
               }
             });
@@ -138,7 +141,7 @@ const SignIn = () => {
 
   return (
     <>
-      <BgLoginImg src={bgLogin} alt="회원가입 화면 이미지" />
+      <BgLoginImg />
       <SignForm onSubmit={handleSignIn}>
         <SignSection>
           <LogoImg src={logo} alt="로고 이미지" />
@@ -167,8 +170,10 @@ const SignIn = () => {
             />
           </SignLabel>
           <ButtonCompoent type="submit">로그인</ButtonCompoent>
-          {passwordError && <p>{passwordError}</p>}
-          {error && <p>{error}</p>}
+          <ErrorMesBox>
+            {passwordError && <p>{passwordError}</p>}
+            {error && <p>{error}</p>}
+          </ErrorMesBox>
           <BorderBox />
           <SignUpQuestionBox>
             <span>아직 계정이 없으신가요? </span>
@@ -186,6 +191,10 @@ export default SignIn;
 
 const ButtonCompoent = styled(Button)`
   width: 70%;
+
+  @media ${device.mobile} {
+    width: 90%;
+  }
 `;
 
 const SignUpQuestionBox = styled.div`

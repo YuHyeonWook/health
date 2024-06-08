@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserInfoModal from '@/components/UserInfoModal';
 import { ref, get } from 'firebase/database';
@@ -23,15 +23,15 @@ const UserInfo = () => {
     userName: '',
   });
 
-  const openModal = () => {
+  const openModal = useCallback(() => {
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setIsModalOpen(false);
-  };
+  }, []);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     const userId = auth.currentUser?.uid;
     const userRef = ref(db, `users/${userId}`);
     const snapshot = await get(userRef);
@@ -45,11 +45,11 @@ const UserInfo = () => {
         userName: data.userName || '',
       });
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
 
   return (
     <>
@@ -79,7 +79,7 @@ const UserInfo = () => {
           </UserInformationBox>
         </main>
         <BtnBox>
-          <Button onClick={openModal}>등록</Button>
+          <Button onClick={openModal}>개인정보 등록</Button>
         </BtnBox>
       </UserInformationContainer>
       <UserInfoModal isOpen={isModalOpen} onClose={closeModal} setUserInfoData={setUserInfoData} />
@@ -99,5 +99,5 @@ const ProfileImage = styled.img`
   width: 10rem;
   height: 10rem;
   border-radius: 20%;
-  margin: 2rem auto;
+  margin: -2rem auto 4rem;
 `;

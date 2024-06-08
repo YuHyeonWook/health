@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { RadioGroupProps } from '@/lib/types/radio';
+import { device } from '@/styles/media';
 
 const RadioGroup = ({ label, children }: RadioGroupProps) => {
   return (
@@ -13,6 +14,10 @@ const RadioGroup = ({ label, children }: RadioGroupProps) => {
 const FieldsetLayout = styled.fieldset`
   border: none;
   margin-bottom: 6rem;
+
+  @media ${device.tablet} {
+    margin-bottom: 4rem;
+  }
 `;
 
 const LegendLayout = styled.legend`

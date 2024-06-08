@@ -125,9 +125,11 @@ const EventListContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  left: -5px;
+  left: -0.5rem;
   width: 105%;
 `;
+
+
 
 const DateGroup = styled.div`
   /* margin-bottom: 10px; */
@@ -136,11 +138,13 @@ const DateGroup = styled.div`
 
 const EventItem = styled.div<{ color: string }>`
   background-color: ${props => props.color};
-  border: 1px solid #e8e8e8;
-  border-radius: 5px;
-  margin: 3px 0;
-  padding: 5px;
+  border: 1px solid var(--color-gray-lighter);
+  border-radius: 0.4rem;
+  margin: 0.3rem;
+  padding: 0.5rem;
+  color: var(--color-gray-dark);
   overflow: hidden;
+  cursor: pointer;
 
   &:hover {
     height: auto;
@@ -148,13 +152,13 @@ const EventItem = styled.div<{ color: string }>`
 `;
 
 const EventTitle = styled.div`
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: 600;
 `;
 
 const EventDescription = styled.div`
-  font-size: 10px;
-  color: #333;
+  font-size: 1rem;
+  color: var(--color-gray);
   display: none;
   ${EventItem}:hover & {
     display: block;
@@ -162,8 +166,8 @@ const EventDescription = styled.div`
 `;
 
 const EventDetail = styled.div`
-  font-size: 8px;
-  color: #555;
+  font-size: 0.8rem;
+  color: var(--color-gray);
   display: none;
   ${EventItem}:hover & {
     display: block;

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import iconChevronLeft from '@/assets/images/icon-chevron-left.svg';
 import iconChevronRight from '@/assets/images/icon-chevron-right.svg';
 import { PaginationProps } from '@/lib/types/pagination';
+import { device } from '@/styles/media';
 
 const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }: PaginationProps) => {
   const pageNumbers = [];
@@ -30,6 +31,10 @@ const PaginationList = styled.div`
   display: flex;
   justify-content: center;
   margin: 8rem 0 2rem;
+
+  @media ${device.tablet} {
+    margin: 3rem 0 0rem;
+  }
 `;
 
 const PageItem = styled.button<{ 'data-active': boolean }>`

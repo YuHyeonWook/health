@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { InputProps } from '@/lib/types/input';
+import { device } from '@/styles/media';
 
-const Input = (props: InputProps) => {
+const Input = ({ color = 'primary', ...props }: InputProps) => {
   const {
     type,
     label,
@@ -35,6 +36,7 @@ const Input = (props: InputProps) => {
         onClick={(e) => e.currentTarget.focus()}
         pattern={pattern}
         maxLength={maxLength}
+        color={color}
       />
       {error && <ErrorText>{errorMessage}</ErrorText>}
     </>
@@ -67,6 +69,10 @@ const InputStyled = styled.input`
 
   &:read-only {
     border: var(--border-gray);
+  }
+
+  @media ${device.tablet} {
+    height: 4.2rem;
   }
 `;
 
