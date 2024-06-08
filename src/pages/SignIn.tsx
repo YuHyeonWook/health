@@ -66,7 +66,6 @@ const SignIn = () => {
       const userRef = ref(db, 'users/' + auth.currentUser?.uid);
       const snapshot = await get(userRef);
       if (snapshot.exists()) {
-        console.log(snapshot.val());
         const privacyData = snapshot.val(); // 로그인 성공 후 데이터를 상태에 저장
         setUserInfoData(privacyData); // 개인정보 전역 상태 업데이트
         setUserName(privacyData.userName); // 로컬스토리지 이름 저장함

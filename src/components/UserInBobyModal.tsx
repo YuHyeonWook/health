@@ -124,7 +124,7 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
             />
           </label>
           <label htmlFor="fatPercentage">
-            체지방률:
+            체지방률 (%):
             <Input
               type="number"
               value={fatPercentage}
