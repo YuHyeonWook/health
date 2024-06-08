@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import MiniModal from '../../components/calendarcrud/MiniModal';
 
 interface Event {
   id: string;
@@ -47,7 +48,7 @@ const groupEventsByDate = (events: Event[]) => {
     const endDate = new Date(event.endDate);
 
     while (currentDate <= endDate) {
-      const dateStr = currentDate.toISOString().split('T')[0];
+      const dateStr = currentDate.toISOString().split('T')[0];      
       if (!groupedEvents[dateStr]) {
         groupedEvents[dateStr] = [];
       }
@@ -69,31 +70,39 @@ const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventList
       setUpdateModalOpen(true);
     }
   };
-
-  console.log(events);
-
+  
+  const [MiniModalOpen, setMiniModalOpen] = useState<boolean>(false);
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
+  const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
   const renderedEventIds: Set<string> = new Set();
+  const renderedMoreButtons: Set<string> = new Set();
   const [expandedDates, setExpandedDates] = useState<Set<string>>(new Set());
 
-  const toggleExpand = (date: string) => {
-    const newExpandedDates = new Set(expandedDates);
-    if (newExpandedDates.has(date)) {
-      newExpandedDates.delete(date);
-    } else {
-      newExpandedDates.add(date);
-    }
-    setExpandedDates(newExpandedDates);
+  const moreButtonClick = (events: Event[], event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setModalPosition({ x: rect.left, y: rect.top + window.scrollY });
+    setSelectedEvents(events);
+    setMiniModalOpen(true);
   };
-
+  
   return (
     <EventListContainer>
       {Object.keys(groupedEvents).map(date => (
         <DateGroup key={date}>
-          {groupedEvents[date].length > 3 && !expandedDates.has(date) && (
-            <MoreEventsButton onClick={() => toggleExpand(date)}>
-              {`+${groupedEvents[date].length - 3} more`}
-            </MoreEventsButton>
-          )}
+          {groupedEvents[date].map((event) => {
+            if (!renderedMoreButtons.has(event.id)) {
+              renderedMoreButtons.add(event.id);
+              if (groupedEvents[date].length > 3 && !expandedDates.has(date)) {
+                return (
+                  <MoreEventsButton onClick={(e) => moreButtonClick(groupedEvents[date], e)} key={`more-${date}`}>
+                    {`+${groupedEvents[date].length - 3} more`}
+                    {MiniModalOpen && <MiniModal setMiniModalOpen={setMiniModalOpen} events={selectedEvents} getColorForEventId={getColorForEventId} handleEventClick={handleEventClick}/>}
+                  </MoreEventsButton>
+                );
+              }
+            }
+            return null;
+          })}
           {groupedEvents[date].map((event, index) => {
             if (!renderedEventIds.has(event.id)) {
               renderedEventIds.add(event.id);
@@ -129,10 +138,7 @@ const EventListContainer = styled.div`
   width: 105%;
 `;
 
-
-
 const DateGroup = styled.div`
-  /* margin-bottom: 10px; */
   position: relative;
 `;
 
@@ -183,6 +189,6 @@ const MoreEventsButton = styled.button`
   font-size: 10px;
   cursor: pointer;
   position: absolute;
-  top: -30px;
-  right: 0;
+  top: -25px;
+  right: 5px;
 `;
