@@ -23,7 +23,7 @@ const colors = [
   '#90EE90',
   '#FFD700',
   '#FF6347',
-  '#2ea4b9',
+  '#13879b',
 ];
 
 const colorMap: { [key: string]: string } = {};
@@ -72,11 +72,11 @@ const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventList
   };
   
   const [MiniModalOpen, setMiniModalOpen] = useState<boolean>(false);
-  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
+  const [, setModalPosition] = useState({ x: 0, y: 0 });
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
   const renderedEventIds: Set<string> = new Set();
   const renderedMoreButtons: Set<string> = new Set();
-  const [expandedDates, setExpandedDates] = useState<Set<string>>(new Set());
+  const [expandedDates, ] = useState<Set<string>>(new Set());
 
   const moreButtonClick = (events: Event[], event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const rect = event.currentTarget.getBoundingClientRect();
