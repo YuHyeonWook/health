@@ -50,7 +50,7 @@ const MiniModal = ({ setMiniModalOpen, events, getColorForEventId, handleEventCl
       }}
     >
       <ModalBtn>
-        <CloseBtn onClick={closeModal}>취소</CloseBtn>
+        <CloseBtn onClick={closeModal}>닫기</CloseBtn>
       </ModalBtn>
       <ContentBox>
         {events.map((event) => (
