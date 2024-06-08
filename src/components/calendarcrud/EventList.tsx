@@ -23,7 +23,7 @@ const colors = [
   '#90EE90',
   '#FFD700',
   '#FF6347',
-  '#8A2BE2',
+  '#2ea4b9',
 ];
 
 const colorMap: { [key: string]: string } = {};

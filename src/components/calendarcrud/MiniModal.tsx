@@ -12,7 +12,7 @@ interface Event {
 
 interface MiniModalProps {
   setMiniModalOpen: (open: boolean) => void;
-  getColorForEventId: (eventId: string) => void;
+  getColorForEventId: (eventId: string) => string;
   handleEventClick: (event: Event) => void;
   events: Event[];
 }
@@ -37,7 +37,7 @@ const MiniModal = ({ setMiniModalOpen, events, getColorForEventId, handleEventCl
     setMiniModalOpen(false);
   };
 
-  const stopPropagation = (event: MouseEvent) => {
+  const stopPropagation = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
   };
 
@@ -113,6 +113,8 @@ const EventItem = styled.div<{ color: string }>`
   padding: 0.5rem;
   color: var(--color-gray-dark);
   overflow: hidden;
+  width: 17rem;
+  height: 5rem;
 `;
 
 const EventTitle = styled.div`
