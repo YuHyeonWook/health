@@ -9,8 +9,8 @@ export const UserInformationContainer = styled.div`
   flex-grow: 1;
   padding: 5rem;
   background-color: var(--color-white);
-  border-radius: 8px;
-  box-shadow: 0 2px 15px 5px rgba(0, 0, 0, 0.03);
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem 1.5rem 0.5rem rgba(0, 0, 0, 0.03);
 
   @media ${device.tablet} {
     margin-bottom: 3rem;
@@ -35,7 +35,7 @@ export const UserInformationBox = styled.div`
 
 export const UserInformationSpan = styled.span`
   margin-top: 1rem;
-  border: 1px solid var(--color-gray-light);
+  border: 0.1rem solid var(--color-gray-light);
   border-radius: 0.5rem;
   background-color: var(--color-white);
   padding: 0.5rem;
@@ -86,8 +86,8 @@ export const UserInformationModalBox = styled.div<{ $isOpen: boolean }>`
   transform: translate(-50%, -50%);
   background-color: var(--color-white);
   padding: 3rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.8rem;
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
   z-index: 1000;
   width: 90%;
   max-width: 55rem;

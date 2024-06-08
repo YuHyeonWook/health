@@ -29,10 +29,10 @@ export const SignSection = styled.section`
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  border: 1px solid var(--color-white);
+  border: 0.1rem solid var(--color-white);
   padding: 3rem;
   border-radius: 1rem;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
   min-width: 50rem;
   height: 70rem;
   background-color: var(--color-white);
@@ -82,7 +82,7 @@ export const SignLabel = styled.label`
 export const BorderBox = styled.div`
   background: #ededf4;
   border: none;
-  height: 1px;
+  height: 0.1rem;
   width: 70%;
 
   @media ${device.mobile} {
