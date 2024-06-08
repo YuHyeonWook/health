@@ -316,6 +316,7 @@ const OtherMonthDay = styled(Day)`
 const TodayDay = styled(CurrentMonthDay)`
   color: var(--color-primary);
   font-weight: 600;
+  background-color: #fafafa;
 `;
 
 const TodayButton = styled(Button)`

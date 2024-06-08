@@ -148,7 +148,6 @@ const DateGroup = styled.div`
 const EventItem = styled.div<{ color: string }>`
   background-color: ${(props) => props.color};
   border: 0.1rem solid var(--color-gray-lighter);
-  border-radius: 0.4rem;
   margin: 0.3rem;
   padding: 0.5rem;
   color: var(--color-gray-dark);
@@ -184,9 +183,8 @@ const EventDetail = styled.div`
 `;
 
 const MoreEventsButton = styled.button`
-  background-color: #f0f0f0;
-  border: 0.1rem solid #e0e0e0;
-  border-radius: 0.5rem;
+  background-color: var(--color-gray-lighter);
+  border-radius: 0.4rem;
   margin: 0.3rem 0;
   padding: 0.5rem;
   font-size: 1rem;
@@ -194,4 +192,9 @@ const MoreEventsButton = styled.button`
   position: absolute;
   top: -2.5rem;
   right: 0.5rem;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-gray-light);
+  }
 `;
