@@ -31,7 +31,7 @@ PW : 12345678
 |          <img src="https://avatars.githubusercontent.com/u/157576281?v=4" width="150px"/>           | <img src="https://avatars.githubusercontent.com/u/110236953?v=4" width="150px" /> | <img src="https://avatars.githubusercontent.com/u/98334298?v=4" width="150px" /> | <img src="https://avatars.githubusercontent.com/u/133548706?v=4" width="150px" /> |
 | :-------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: | :------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------: |
 |                               [박민주](https://github.com/minnug-dev)                               |                     [유현욱](https://github.com/YuHyeonWook)                      |                       [이동희](https://github.com/ldh9669)                       |                    [정보현](https://github.com/jeongbohyeoun)                     |
-| 전체 디자인<br>로딩 페이지<br>PT신청 & 신청 내역 페이지<br> 공통 컴포넌트(Button, Input)<br> 반응형 |                                  초기 개발 세팅                                   |                                        3                                         |                                         4                                         |
+| 전체 디자인<br>로딩 페이지<br>PT신청 & 신청 내역 페이지<br> 공통 컴포넌트(Button, Input)<br> 반응형 |      초기 개발 세팅</br>로그인 회원가입 기능구현</br> 마이페이지 프로필 구현      |                                        3                                         |                                         4                                         |
 
 <br>
 
