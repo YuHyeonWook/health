@@ -224,7 +224,7 @@ const RightSwiperBtn = styled.button`
   padding: 0.08rem 1.6rem;
   color: var(--color-primary);
   font-size: 4rem;
-  border: 1px solid var(--color-primary);
+  border: 0.1rem solid var(--color-primary);
   border-radius: 0.5rem;
   cursor: pointer;
 `;

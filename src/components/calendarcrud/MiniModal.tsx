@@ -75,7 +75,7 @@ const ModalBox = styled.div`
   height: auto;
   background-color: white;
   border-radius: 1rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,7 +110,7 @@ const EventItemContainer = styled.div`
 
 const EventItem = styled.div<{ color: string }>`
   background-color: ${(props) => props.color};
-  border: 1px solid var(--color-gray-lighter);
+  border: 0.1rem solid var(--color-gray-lighter);
   border-radius: 0.4rem;
   margin: 0.3rem;
   padding: 0.5rem;

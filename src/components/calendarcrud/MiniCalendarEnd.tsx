@@ -107,7 +107,7 @@ const MiniCalendarBox = styled.div`
   margin: 0.03rem 0 0 1.5rem;
   padding: 0 1rem 2rem;
   border-radius: 0.8rem;
-  border: 1px solid var(--color-gray-light);
+  border: 0.1rem solid var(--color-gray-light);
   background-color: var(--color-white);
 `;
 const MiniSwiperBox = styled.div`
