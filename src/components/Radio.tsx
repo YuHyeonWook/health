@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import iconCheck from '@/assets/images/icon-check.svg';
+import iconCheck from '@/assets/images/icon-check.png';
 import { RadioProps } from '@/lib/types/radio';
 import { device } from '@/styles/media';
 
@@ -42,7 +42,9 @@ const RadioInput = styled.input`
   cursor: pointer;
 
   &:checked {
-    background: var(--color-primary) url(${iconCheck}) no-repeat center / contain;
+    background: url(${iconCheck}) no-repeat center;
+    background-size: 1.4rem 1.4rem;
+    background-color: var(--color-primary);
     border-color: var(--color-primary);
   }
 `;
