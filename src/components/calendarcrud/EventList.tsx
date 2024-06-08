@@ -17,14 +17,7 @@ interface EventListProps {
   setUpdateModalOpen: (open: boolean) => void;
 }
 
-const colors = [
-  '#FFB6C1',
-  '#ADD8E6',
-  '#90EE90',
-  '#FFD700',
-  '#FF6347',
-  '#13879b',
-];
+const colors = ['#FFB6C1', '#ADD8E6', '#90EE90', '#FFD700', '#FF6347', '#13879b'];
 
 const colorMap: { [key: string]: string } = {};
 
@@ -43,12 +36,12 @@ const sortEventsByDate = (events: Event[]) => {
 const groupEventsByDate = (events: Event[]) => {
   const groupedEvents: { [date: string]: Event[] } = {};
 
-  events.forEach(event => {
+  events.forEach((event) => {
     let currentDate = new Date(event.startDate);
     const endDate = new Date(event.endDate);
 
     while (currentDate <= endDate) {
-      const dateStr = currentDate.toISOString().split('T')[0];      
+      const dateStr = currentDate.toISOString().split('T')[0];
       if (!groupedEvents[dateStr]) {
         groupedEvents[dateStr] = [];
       }
@@ -70,13 +63,13 @@ const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventList
       setUpdateModalOpen(true);
     }
   };
-  
+
   const [MiniModalOpen, setMiniModalOpen] = useState<boolean>(false);
   const [, setModalPosition] = useState({ x: 0, y: 0 });
   const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
   const renderedEventIds: Set<string> = new Set();
   const renderedMoreButtons: Set<string> = new Set();
-  const [expandedDates, ] = useState<Set<string>>(new Set());
+  const [expandedDates] = useState<Set<string>>(new Set());
 
   const moreButtonClick = (events: Event[], event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -84,19 +77,29 @@ const EventList = ({ events, setSelectedEventId, setUpdateModalOpen }: EventList
     setSelectedEvents(events);
     setMiniModalOpen(true);
   };
-  
+
   return (
     <EventListContainer>
-      {Object.keys(groupedEvents).map(date => (
+      {Object.keys(groupedEvents).map((date) => (
         <DateGroup key={date}>
-          {groupedEvents[date].map((event) => {
+          {groupedEvents[date].map((event, index) => {
             if (!renderedMoreButtons.has(event.id)) {
               renderedMoreButtons.add(event.id);
               if (groupedEvents[date].length > 3 && !expandedDates.has(date)) {
                 return (
-                  <MoreEventsButton onClick={(e) => moreButtonClick(groupedEvents[date], e)} key={`more-${date}`}>
+                  <MoreEventsButton
+                    onClick={(e) => moreButtonClick(groupedEvents[date], e)}
+                    key={`more-${date}-${index}`}
+                  >
                     {`+${groupedEvents[date].length - 3} more`}
-                    {MiniModalOpen && <MiniModal setMiniModalOpen={setMiniModalOpen} events={selectedEvents} getColorForEventId={getColorForEventId} handleEventClick={handleEventClick}/>}
+                    {MiniModalOpen && (
+                      <MiniModal
+                        setMiniModalOpen={setMiniModalOpen}
+                        events={selectedEvents}
+                        getColorForEventId={getColorForEventId}
+                        handleEventClick={handleEventClick}
+                      />
+                    )}
                   </MoreEventsButton>
                 );
               }
@@ -143,7 +146,7 @@ const DateGroup = styled.div`
 `;
 
 const EventItem = styled.div<{ color: string }>`
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   border: 1px solid var(--color-gray-lighter);
   border-radius: 0.4rem;
   margin: 0.3rem;

@@ -42,17 +42,20 @@ const MiniModal = ({ setMiniModalOpen, events, getColorForEventId, handleEventCl
   };
 
   return (
-    <ModalBox ref={modalRef} onClick={stopPropagation} onMouseDown={(e) => { e.stopPropagation(); }}>
+    <ModalBox
+      ref={modalRef}
+      onClick={stopPropagation}
+      onMouseDown={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <ModalBtn>
         <CloseBtn onClick={closeModal}>취소</CloseBtn>
       </ModalBtn>
       <ContentBox>
-        {events.map(event => (
-          <EventItemContainer key={event.id} >
-            <EventItem
-              onClick={() => handleEventClick(event)}
-              color={getColorForEventId(event.id)}
-            >
+        {events.map((event) => (
+          <EventItemContainer key={event.id}>
+            <EventItem onClick={() => handleEventClick(event)} color={getColorForEventId(event.id)}>
               <EventTitle>{event.firstInput}</EventTitle>
               <EventDescription>{event.memoInput}</EventDescription>
               <EventDetail>횟수/세트: {event.secondInput}</EventDetail>
@@ -77,7 +80,7 @@ const ModalBox = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 9999;
 `;
 
 const ModalBtn = styled.div`
@@ -87,7 +90,7 @@ const ModalBtn = styled.div`
   padding: 0.5rem;
 `;
 
-const CloseBtn = styled.button`
+const CloseBtn = styled.div`
   background: none;
   border: none;
   color: red;
@@ -106,7 +109,7 @@ const EventItemContainer = styled.div`
 `;
 
 const EventItem = styled.div<{ color: string }>`
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   border: 1px solid var(--color-gray-lighter);
   border-radius: 0.4rem;
   margin: 0.3rem;
