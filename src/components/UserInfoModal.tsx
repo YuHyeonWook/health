@@ -5,7 +5,7 @@ import { auth, db, storage } from '@/firebase';
 import Button from '@/components/Button';
 import { userInfoModalProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
-import iconUser from '@/assets/images/icon-user.svg';
+import iconUser from '@/assets/images/icon-user.png';
 import Input from '@/components/Input';
 import {
   LabelBox,
