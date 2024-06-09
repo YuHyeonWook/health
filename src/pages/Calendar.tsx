@@ -214,7 +214,7 @@ const RightSwiperBtn = styled.button`
   width: 3.3rem;
   height: 3.3rem;
   padding: 0.08rem 1.6rem;
-  border: 1px solid var(--color-primary);
+  border: 0.1rem solid var(--color-primary);
   border-radius: 0.5rem;
   font-size: 4rem;
   color: var(--color-primary);
@@ -309,6 +309,7 @@ const OtherMonthDay = styled(Day)`
 const TodayDay = styled(CurrentMonthDay)`
   color: var(--color-primary);
   font-weight: 600;
+  background-color: #fafafa;
 `;
 
 const TodayButton = styled(Button)`
