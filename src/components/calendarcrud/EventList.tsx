@@ -145,7 +145,6 @@ const DateGroup = styled.div`
 const EventItem = styled.div<{ color: string }>`
   background-color: ${(props) => props.color};
   border: 0.1rem solid var(--color-gray-lighter);
-  border-radius: 0.4rem;
   margin: 0.3rem;
   padding: 0.5rem;
   color: var(--color-gray-dark);
