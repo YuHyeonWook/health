@@ -12,7 +12,6 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "datepicker": "^0.0.0",
     "firebase": "^10.12.2",
     "firebase-tools": "^13.10.1",
     "icons": "^1.0.0",
