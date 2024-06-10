@@ -72,7 +72,6 @@ const SignIn = () => {
         const userBodyRef = ref(db, 'users/' + auth.currentUser?.uid + '/body');
         const bodySnapshot = await get(userBodyRef);
         if (bodySnapshot.exists()) {
-          console.log(bodySnapshot.val());
           const bodyData = bodySnapshot.val();
           setUserInBodyData(bodyData); // 인바디정보 전역 상태 업데이트
         }
