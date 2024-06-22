@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { auth, db, storage } from '@/firebase';
-import Button from '@/components/Button';
 import { UserInfoData, userInfoModalProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import iconUser from '@/assets/images/icon-user.png';
@@ -17,6 +16,7 @@ import {
 import { toast } from 'react-toastify';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
 import { Controller, useForm } from 'react-hook-form';
+import Button from './Button';
 
 const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
   const { userName, setUserName } = useUserNameStore();

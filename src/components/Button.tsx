@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ButtonProps } from '@/lib/types/button';
+import { ButtonProps, ButtonStyledProps } from '@/lib/types/button';
 
 const Button = ({ variant = 'primary', children, ...props }: ButtonProps) => {
   return (
@@ -9,15 +9,39 @@ const Button = ({ variant = 'primary', children, ...props }: ButtonProps) => {
   );
 };
 
-const ButtonStyled = styled.button<{ variant: 'primary' | 'white' }>`
+const ButtonStyled = styled.button<ButtonStyledProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 1rem 3rem;
-  border-radius: 0.6rem;
+
   border: 0.1rem solid var(--color-primary);
-  background-color: ${(props) => (props.variant === 'primary' ? 'var(--color-primary)' : 'var(--color-white)')};
-  color: ${(props) => (props.variant === 'primary' ? 'var(--color-white)' : 'var(--color-primary)')};
+  border-radius: 0.6rem;
+  background-color: ${(props) => {
+    switch (props.variant) {
+      case 'primary':
+        return 'var(--color-primary)';
+      case 'white':
+        return 'var(--color-white)';
+      case 'secondary':
+        return 'var(--color-secondary)';
+      default:
+        return 'var(--color-primary)';
+    }
+  }};
+  color: ${(props) => {
+    switch (props.variant) {
+      case 'primary':
+      case 'secondary':
+        return 'var(--color-white)';
+      case 'white':
+        return 'var(--color-primary)';
+      default:
+        return 'var(--color-white)';
+    }
+  }};
+
   font-size: 1.6rem;
   font-weight: 600;
   transition:
@@ -25,9 +49,30 @@ const ButtonStyled = styled.button<{ variant: 'primary' | 'white' }>`
     color 0.2s;
   &:hover {
     color: var(--color-white);
-    background-color: ${(props) =>
-      props.variant === 'primary' ? 'var(--color-primary-dark)' : 'var(--color-primary)'};
-    border-color: ${(props) => (props.variant === 'primary' ? 'var(--color-primary-dark)' : 'var(--color-primary)')};
+    background-color: ${(props) => {
+      switch (props.variant) {
+        case 'primary':
+          return 'var(--color-primary-dark)';
+        case 'white':
+          return 'var(--color-primary)';
+        case 'secondary':
+          return 'var(--color-secondary-dark)';
+        default:
+          return 'var(--color-primary-dark)';
+      }
+    }};
+    border-color: ${(props) => {
+      switch (props.variant) {
+        case 'primary':
+          return 'var(--color-primary-dark)';
+        case 'white':
+          return 'var(--color-primary)';
+        case 'secondary':
+          return 'var(--color-secondary-dark)';
+        default:
+          return 'var(--color-primary-dark)';
+      }
+    }};
   }
 `;
 
