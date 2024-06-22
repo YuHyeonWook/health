@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
-import { userInBodyModalProps } from '@/lib/types/userInformation';
+import { UserInBodyData, userInBodyModalProps } from '@/lib/types/userInformation';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import {
@@ -12,13 +12,23 @@ import {
   UserModalInformationH2,
 } from '@/styles/userInformation';
 import { toast } from 'react-toastify';
+import { useForm, Controller } from 'react-hook-form';
 
 const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userInBodyModalProps) => {
-  const [muscleMass, setMuscleMass] = useState<number>(0);
-  const [bmi, setBmi] = useState<number>(0);
-  const [height, setHeight] = useState<number>(0);
-  const [weight, setWeight] = useState<number>(0);
-  const [fatPercentage, setFatPercentage] = useState<number>(0);
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      muscleMass: 0,
+      bmi: 0,
+      height: 0,
+      weight: 0,
+      fatPercentage: 0,
+    },
+  });
 
   const loadData = async () => {
     try {
@@ -32,11 +42,13 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
 
       if (snapshot.exists()) {
         const data = snapshot.val();
-        setMuscleMass(data.muscleMass ?? 0);
-        setBmi(data.bmi ?? 0);
-        setHeight(data.height ?? 0);
-        setWeight(data.weight ?? 0);
-        setFatPercentage(data.fatPercentage ?? 0);
+        reset({
+          muscleMass: data.muscleMass ?? 0,
+          bmi: data.bmi ?? 0,
+          height: data.height ?? 0,
+          weight: data.weight ?? 0,
+          fatPercentage: data.fatPercentage ?? 0,
+        });
       } else {
         console.error('사용자 정보를 찾을 수 없습니다.');
       }
@@ -45,50 +57,13 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
     }
   };
 
-  const handleSave = async () => {
+  const onSubmit = async (data: UserInBodyData) => {
     try {
-      if (!muscleMass) {
-        toast.info('근육량을 입력해주세요.', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      if (!bmi) {
-        toast.info('BMI를 입력해주세요.', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      if (!height) {
-        toast.info('키를 입력해주세요.', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      if (!weight) {
-        toast.info('체중을 입력해주세요.', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      if (!fatPercentage) {
-        toast.info('체지방률을 입력해주세요.', {
-          autoClose: 2000,
-        });
-        return;
-      }
-
       const userId = auth.currentUser?.uid;
       const userRef = ref(db, `users/${userId}/body`);
-      await set(userRef, {
-        muscleMass,
-        bmi,
-        height,
-        weight,
-        fatPercentage,
-      });
+      await set(userRef, data);
 
-      setUserBodyData({ muscleMass, bmi, height, weight, fatPercentage });
+      setUserBodyData(data);
       toast.success('저장되었습니다.', {
         autoClose: 2000,
       });
@@ -111,44 +86,86 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
       {isOpen && <ModalBackgroundBox $isOpen={isOpen} onClick={onClose} />}
       <UserInformationModalBox $isOpen={isOpen}>
         <UserModalInformationH2>신체정보 수정</UserModalInformationH2>
-        <LabelBox>
-          <label htmlFor="height">
-            키 (cm):
-            <Input type="number" value={height} onChange={(e) => setHeight(Number(e.target.value))} placeholder="cm" />
-          </label>
-          <label htmlFor="weight">
-            체중 (kg):
-            <Input type="number" value={weight} onChange={(e) => setWeight(Number(e.target.value))} placeholder="kg" />
-          </label>
-          <label htmlFor="bmi">
-            BMI (kg/㎡):
-            <Input type="number" value={bmi} onChange={(e) => setBmi(Number(e.target.value))} placeholder="kg/㎡" />
-          </label>
-          <label htmlFor="muscleMass">
-            근육량 (kg):
-            <Input
-              type="number"
-              value={muscleMass}
-              onChange={(e) => setMuscleMass(Number(e.target.value))}
-              placeholder="kg"
-            />
-          </label>
-          <label htmlFor="fatPercentage">
-            체지방률 (%):
-            <Input
-              type="number"
-              value={fatPercentage}
-              onChange={(e) => setFatPercentage(Number(e.target.value))}
-              placeholder="%"
-            />
-          </label>
-        </LabelBox>
-        <UserInformationModalBtnBox>
-          <Button onClick={onClose} mode="white">
-            취소
-          </Button>
-          <Button onClick={handleSave}>저장</Button>
-        </UserInformationModalBtnBox>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <LabelBox>
+            <label htmlFor="height">
+              키 (cm):
+              <Controller
+                name="height"
+                control={control}
+                rules={{ required: '키를 입력해주세요.' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="number" {...field} placeholder="cm" />
+                    {errors.height && <span>{errors.height.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+            <label htmlFor="weight">
+              체중 (kg):
+              <Controller
+                name="weight"
+                control={control}
+                rules={{ required: '체중을 입력해주세요.' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="number" {...field} placeholder="kg" />
+                    {errors.weight && <span>{errors.weight.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+            <label htmlFor="bmi">
+              BMI (kg/㎡):
+              <Controller
+                name="bmi"
+                control={control}
+                rules={{ required: 'BMI를 입력해주세요.' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="number" {...field} placeholder="kg/㎡" />
+                    {errors.bmi && <span>{errors.bmi.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+            <label htmlFor="muscleMass">
+              근육량 (kg):
+              <Controller
+                name="muscleMass"
+                control={control}
+                rules={{ required: '근육량을 입력해주세요.' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="number" {...field} placeholder="kg" />
+                    {errors.muscleMass && <span>{errors.muscleMass.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+            <label htmlFor="fatPercentage">
+              체지방률 (%):
+              <Controller
+                name="fatPercentage"
+                control={control}
+                rules={{ required: '체지방률을 입력해주세요.' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="number" {...field} placeholder="%" />
+                    {errors.fatPercentage && <span>{errors.fatPercentage.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+          </LabelBox>
+          <UserInformationModalBtnBox>
+            <Button onClick={onClose} mode="white" type="button">
+              취소
+            </Button>
+            <Button type="submit">저장</Button>
+          </UserInformationModalBtnBox>
+        </form>
       </UserInformationModalBox>
     </>
   );

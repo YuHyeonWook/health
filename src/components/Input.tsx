@@ -1,28 +1,32 @@
 import styled from 'styled-components';
 import { InputProps } from '@/lib/types/input';
 import { device } from '@/styles/media';
+import { forwardRef } from 'react';
 
-const Input = ({ color = 'primary', ...props }: InputProps) => {
+const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
-    type,
     label,
-    value,
     name,
+    type,
+    value,
     placeholder,
-    error,
-    errorMessage,
+    onChange,
     disabled,
+    required,
     readOnly,
     min,
-    onChange,
-    required,
-    maxLength,
     pattern,
+    maxLength,
+    color,
+    error,
+    errorMessage,
   } = props;
+
   return (
     <>
       <LabelStyled htmlFor={name}>{label}</LabelStyled>
       <InputStyled
+        ref={ref}
         type={type}
         id={name}
         value={value}
@@ -41,7 +45,7 @@ const Input = ({ color = 'primary', ...props }: InputProps) => {
       {error && <ErrorText>{errorMessage}</ErrorText>}
     </>
   );
-};
+});
 
 const LabelStyled = styled.label`
   display: block;
