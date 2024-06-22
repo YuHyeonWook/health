@@ -88,7 +88,7 @@ const Modal = ({ setModalOpen, startDate }: ModalType) => {
       <ModalLayout>
         <ModalBox ref={modalRef}>
           <ModalBtn>
-            <XBtn mode="white" onClick={() => closeModal()}>
+            <XBtn variant="white" onClick={() => closeModal()}>
               취소
             </XBtn>
             <NameBox>운동 일지</NameBox>

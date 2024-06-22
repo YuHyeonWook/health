@@ -13,31 +13,29 @@ const Footer = () => {
           <InfoText>A personalized fitness training management platform.</InfoText>
           <CopyText>&copy; 2024 Team 5 of the Toy Project. All Rights Reserved.</CopyText>
         </InfoBox>
-        <ContributorsBox>
-          <Title>CONTRIBUTORS</Title>
-          <ContributorList>
-            <ContributorItem>
-              <NameText>박민주</NameText>
-              <ContributorLink href="https://github.com/minnug-dev">GitRepository</ContributorLink>
-              <ContributorLink href="https://velog.io/@minnug/posts">Blog</ContributorLink>
-            </ContributorItem>
-            <ContributorItem>
-              <NameText>유현욱</NameText>
-              <ContributorLink href="https://github.com/YuHyeonWook">GitRepository</ContributorLink>
-              <ContributorLink href="https://yho7955.tistory.com/">Blog</ContributorLink>
-            </ContributorItem>
-            <ContributorItem>
-              <NameText>이동희</NameText>
-              <ContributorLink href="https://github.com/ldh9669">GitRepository</ContributorLink>
-              <ContributorLink href="https://velog.io/@ldh96/posts">Blog</ContributorLink>
-            </ContributorItem>
-            <ContributorItem>
-              <NameText>정보현</NameText>
-              <ContributorLink href="https://github.com/jeongbohyeoun">GitRepository</ContributorLink>
-              <ContributorLink href="https://velog.io/@wjdfksdl4756/posts">Blog</ContributorLink>
-            </ContributorItem>
-          </ContributorList>
-        </ContributorsBox>
+        <Title>CONTRIBUTORS</Title>
+        <ContributorList>
+          <ContributorItem>
+            <NameText>박민주</NameText>
+            <ContributorLink href="https://github.com/minnug-dev">GitRepository</ContributorLink>
+            <ContributorLink href="https://velog.io/@minnug/posts">Blog</ContributorLink>
+          </ContributorItem>
+          <ContributorItem>
+            <NameText>유현욱</NameText>
+            <ContributorLink href="https://github.com/YuHyeonWook">GitRepository</ContributorLink>
+            <ContributorLink href="https://yho7955.tistory.com/">Blog</ContributorLink>
+          </ContributorItem>
+          <ContributorItem>
+            <NameText>이동희</NameText>
+            <ContributorLink href="https://github.com/ldh9669">GitRepository</ContributorLink>
+            <ContributorLink href="https://velog.io/@ldh96/posts">Blog</ContributorLink>
+          </ContributorItem>
+          <ContributorItem>
+            <NameText>정보현</NameText>
+            <ContributorLink href="https://github.com/jeongbohyeoun">GitRepository</ContributorLink>
+            <ContributorLink href="https://velog.io/@wjdfksdl4756/posts">Blog</ContributorLink>
+          </ContributorItem>
+        </ContributorList>
       </InnerBox>
     </FooterLayout>
   );
@@ -91,8 +89,6 @@ const CopyText = styled.span`
     margin-bottom: 3.2rem;
   }
 `;
-
-const ContributorsBox = styled.div``;
 
 const Title = styled.h3`
   margin-bottom: 3.6rem;

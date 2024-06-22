@@ -20,14 +20,14 @@ const Template: StoryFn<ButtonProps> = (args) => <Button {...args} />;
 
 export const Custom = Template.bind({});
 Custom.args = {
-  mode: 'primary',
+  variant: 'primary',
   children: '저장',
   onClick: () => alert('Button clicked!'),
 };
 
 export const White = Template.bind({});
 White.args = {
-  mode: 'white',
+  variant: 'white',
   children: '취소',
   onClick: () => alert('Button clicked!'),
 };
