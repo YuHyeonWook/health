@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ref, set, get } from 'firebase/database';
 import { auth, db, storage } from '@/firebase';
 import Button from '@/components/Button';
-import { userInfoModalProps } from '@/lib/types/userInformation';
+import { UserInfoData, userInfoModalProps } from '@/lib/types/userInformation';
 import { uploadBytes, ref as storageRef, getDownloadURL } from 'firebase/storage';
 import iconUser from '@/assets/images/icon-user.png';
 import Input from '@/components/Input';
@@ -16,15 +16,26 @@ import {
 } from '@/styles/userInformation';
 import { toast } from 'react-toastify';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
+import { Controller, useForm } from 'react-hook-form';
 
 const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
-  const [email, setEmail] = useState<string>('');
-  const [birthday, setBirthday] = useState<string>('');
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
   const { userName, setUserName } = useUserNameStore();
   const [previewURL, setPreviewURL] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      birthday: '',
+      phoneNumber: '',
+    },
+  });
 
   const loadData = async () => {
     try {
@@ -35,10 +46,14 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
         if (snapshot.exists()) {
           const data = snapshot.val();
           setUserName(data.userName || '');
-          setEmail(data.email || '');
-          setBirthday(data.birthday || '');
-          setPhoneNumber(data.phoneNumber || '');
           setPreviewURL(data.photoURL || '');
+          reset({
+            email: data.email || '',
+            birthday: data.birthday || '',
+            phoneNumber: data.phoneNumber || '',
+          });
+        } else {
+          console.error('사용자 정보를 찾을 수 없습니다.');
         }
       }
     } catch (error) {
@@ -55,26 +70,8 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
     }
   };
 
-  const handleSave = async () => {
+  const onSubmit = async (data) => {
     try {
-      if (!userName) {
-        toast.info('닉네임을 입력해주세요', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      if (!birthday) {
-        toast.info('생년월일을 입력해주세요', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      if (phoneNumber.length !== 11) {
-        toast.info('전화번호를 11자리를 눌러주세요', {
-          autoClose: 2000,
-        });
-        return;
-      }
       if (!file) {
         toast.info('파일을 업로드해주세요', {
           autoClose: 2000,
@@ -101,13 +98,11 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
 
       await set(userRef, {
         userName,
-        email,
-        birthday,
-        phoneNumber,
         photoURL,
+        ...data,
       });
 
-      setUserInfoData({ userName, email, birthday, phoneNumber, photoURL });
+      setUserInfoData({ userName, photoURL, ...data });
       setUserName(userName); // store에 userName 저장함
       alert('저장되었습니다.');
       onClose();
@@ -156,37 +151,65 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
         <FileUploadBox>
           <FileUploadBtn onClick={handleUpload}>이미지 업로드</FileUploadBtn>
         </FileUploadBox>
-        <LabelBox>
-          <label>
-            이메일:
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} readOnly />
-          </label>
-          <label>
-            닉네임:
-            <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
-          </label>
-          <label>
-            생년월일:
-            <Input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} />
-          </label>
-          <label>
-            전화번호:
-            <Input
-              type="tel"
-              pattern="[0-9]{11}"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder=" -없이 입력해주세요"
-              maxLength={11}
-            />
-          </label>
-        </LabelBox>
-        <UserInformationModalBtnBox>
-          <Button onClick={onClose} mode="white">
-            취소
-          </Button>
-          <Button onClick={handleSave}>저장</Button>
-        </UserInformationModalBtnBox>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <LabelBox>
+            <label>
+              이메일:
+              <Controller
+                name="email"
+                control={control}
+                rules={{ required: '이메일을 입력해주세요' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="email" {...field} readOnly />
+                    {errors.email && <span>{errors.email.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+            <label>
+              닉네임:
+              <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+            </label>
+            <label>
+              생년월일:
+              <Controller
+                name="birthday"
+                control={control}
+                rules={{ required: '생년월일을 입력해주세요' }}
+                render={({ field }) => (
+                  <>
+                    <Input type="date" {...field} />
+                    {errors.birthday && <span>{errors.birthday.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+            <label>
+              전화번호:
+              <Controller
+                name="phoneNumber"
+                control={control}
+                rules={{
+                  required: '전화번호를 입력해주세요',
+                  pattern: { value: /^[0-9]{11}$/, message: '전화번호를 11자리를 입력해주세요' },
+                }}
+                render={({ field }) => (
+                  <>
+                    <Input type="tel" {...field} placeholder=" -없이 입력해주세요" />
+                    {errors.phoneNumber && <span>{errors.phoneNumber.message}</span>}
+                  </>
+                )}
+              />
+            </label>
+          </LabelBox>
+          <UserInformationModalBtnBox>
+            <Button type="button" onClick={onClose} mode="white">
+              취소
+            </Button>
+            <Button type="submit">저장</Button>
+          </UserInformationModalBtnBox>
+        </form>
       </UserInformationModalBox>
     </>
   );

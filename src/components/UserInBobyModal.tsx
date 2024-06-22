@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ref, set, get } from 'firebase/database';
 import { auth, db } from '@/firebase';
 import { UserInBodyData, userInBodyModalProps } from '@/lib/types/userInformation';
