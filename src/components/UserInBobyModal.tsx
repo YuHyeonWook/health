@@ -160,7 +160,7 @@ const UserInBodyModal = React.memo(({ isOpen, onClose, setUserBodyData }: userIn
             </label>
           </LabelBox>
           <UserInformationModalBtnBox>
-            <Button onClick={onClose} mode="white" type="button">
+            <Button onClick={onClose} variant="white" type="button">
               취소
             </Button>
             <Button type="submit">저장</Button>

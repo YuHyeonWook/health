@@ -204,7 +204,7 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
             </label>
           </LabelBox>
           <UserInformationModalBtnBox>
-            <Button onClick={onClose} mode="white">
+            <Button onClick={onClose} variant="white">
               취소
             </Button>
             <Button type="submit">저장</Button>
