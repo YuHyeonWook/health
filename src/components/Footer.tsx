@@ -110,10 +110,6 @@ const ContributorList = styled.ul`
 `;
 
 const ContributorItem = styled.li`
-  display: flex;
-  flex-direction: column;
-  row-gap: 0rem;
-
   @media ${device.tablet} {
     display: block;
     width: 50%;
