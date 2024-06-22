@@ -1,43 +1,43 @@
-export interface UpdatedInfo {
+export type UpdatedInfo = {
   displayName?: string;
   email?: string;
   birthday?: string;
   phoneNumber: string;
-}
+};
 
-export interface ModalProps {
+export type ModalProps = {
   isOpen: boolean;
-}
+};
 
-export interface UserInfoModalType {
+export type UserInfoModalType = {
   isOpen: boolean;
   onClose: () => void;
   onSave: (updatedInfo: UpdatedInfo) => void;
   user: UpdatedInfo | null;
-}
+};
 
-export interface UserInfoData {
+export type UserInfoData = {
   photoURL: string;
-  birthday: string;
-  phoneNumber: string;
-  email: string;
   userName: string;
-}
+  phoneNumber: string;
+  birthday: string;
+  email: string;
+};
 
-export interface UserInBodyData {
+export type UserInBodyData = {
   muscleMass: number;
   bmi: number;
   height: number;
   weight: number;
   fatPercentage: number;
-}
+};
 
-interface userModalProps {
+type UserModalProps = {
   isOpen: boolean;
   onClose: () => void;
-}
+};
 
-export interface userInBodyModalProps extends userModalProps {
+export interface userInBodyModalProps extends UserModalProps {
   setUserBodyData: React.Dispatch<
     React.SetStateAction<{
       muscleMass: number;
@@ -49,12 +49,11 @@ export interface userInBodyModalProps extends userModalProps {
   >;
 }
 
-export interface userInfoModalProps extends userModalProps {
+export interface userInfoModalProps extends UserModalProps {
   setUserInfoData: React.Dispatch<
     React.SetStateAction<{
       photoURL: string;
       birthday: string;
-      // birthday: string;
       phoneNumber: string;
       email: string;
       userName: string;

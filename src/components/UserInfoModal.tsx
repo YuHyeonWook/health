@@ -29,11 +29,13 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<UserInfoData>({
     defaultValues: {
       email: '',
       birthday: '',
       phoneNumber: '',
+      photoURL: '',
+      userName: '',
     },
   });
 
@@ -51,6 +53,8 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
             email: data.email || '',
             birthday: data.birthday || '',
             phoneNumber: data.phoneNumber || '',
+            photoURL: data.photoURL || '',
+            userName: data.userName || '',
           });
         } else {
           console.error('사용자 정보를 찾을 수 없습니다.');
@@ -70,7 +74,7 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: UserInfoData) => {
     try {
       if (!file) {
         toast.info('파일을 업로드해주세요', {
@@ -96,13 +100,9 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
         photoURL = await getDownloadURL(fileRef);
       }
 
-      await set(userRef, {
-        userName,
-        photoURL,
-        ...data,
-      });
+      await set(userRef, data);
 
-      setUserInfoData({ userName, photoURL, ...data });
+      setUserInfoData(data);
       setUserName(userName); // store에 userName 저장함
       alert('저장되었습니다.');
       onClose();
@@ -204,7 +204,7 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
             </label>
           </LabelBox>
           <UserInformationModalBtnBox>
-            <Button type="button" onClick={onClose} mode="white">
+            <Button onClick={onClose} mode="white">
               취소
             </Button>
             <Button type="submit">저장</Button>
