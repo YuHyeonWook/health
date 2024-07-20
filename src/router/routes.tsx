@@ -1,28 +1,40 @@
-import MyPage from '@/pages/MyPage';
-import NotFound from '@/pages/NotFound';
-import Calendar from '@/pages/Calendar';
-import SignIn from '@/pages/SignIn';
-import SignUp from '@/pages/SignUp';
-import Layout from '@/components/layout/Layout';
-import ApplyForm from '@/pages/ApplyForm';
-import ApplyList from '@/pages/ApplyList';
+import { lazy, Suspense } from 'react';
+import Loading from '@/pages/Loading';
 import ProtectedRoute from './ProtectedRoute';
+
+const MyPage = lazy(() => import('@/pages/MyPage'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
+const Calendar = lazy(() => import('@/pages/Calendar'));
+const SignIn = lazy(() => import('@/pages/SignIn'));
+const SignUp = lazy(() => import('@/pages/SignUp'));
+const Layout = lazy(() => import('@/components/layout/Layout'));
+const ApplyForm = lazy(() => import('@/pages/ApplyForm'));
+const ApplyList = lazy(() => import('@/pages/ApplyList'));
 
 export const routes = [
   {
     path: '/',
-    element: <SignIn />,
-    errorElement: <NotFound />,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <SignIn />,
+      </Suspense>
+    ),
   },
   {
     path: '/signup',
-    element: <SignUp />,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <SignUp />
+      </Suspense>
+    ),
   },
   {
     path: '/calendar',
     element: (
       <ProtectedRoute>
-        <Calendar />
+        <Suspense fallback={<Loading />}>
+          <Calendar />
+        </Suspense>
       </ProtectedRoute>
     ),
     errorElement: <NotFound />,
@@ -31,9 +43,11 @@ export const routes = [
     path: '/mypage',
     element: (
       <ProtectedRoute>
-        <Layout>
-          <MyPage />
-        </Layout>
+        <Suspense fallback={<Loading />}>
+          <Layout>
+            <MyPage />
+          </Layout>
+        </Suspense>
       </ProtectedRoute>
     ),
   },
@@ -41,7 +55,9 @@ export const routes = [
     path: '/apply',
     element: (
       <ProtectedRoute>
-        <ApplyForm />
+        <Suspense fallback={<Loading />}>
+          <ApplyForm />
+        </Suspense>
       </ProtectedRoute>
     ),
   },
@@ -49,7 +65,9 @@ export const routes = [
     path: '/applyList',
     element: (
       <ProtectedRoute>
-        <ApplyList />
+        <Suspense fallback={<Loading />}>
+          <ApplyList />
+        </Suspense>
       </ProtectedRoute>
     ),
   },
