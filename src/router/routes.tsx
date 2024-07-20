@@ -7,7 +7,6 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const Calendar = lazy(() => import('@/pages/Calendar'));
 const SignIn = lazy(() => import('@/pages/SignIn'));
 const SignUp = lazy(() => import('@/pages/SignUp'));
-const Layout = lazy(() => import('@/components/layout/Layout'));
 const ApplyForm = lazy(() => import('@/pages/ApplyForm'));
 const ApplyList = lazy(() => import('@/pages/ApplyList'));
 
@@ -44,9 +43,7 @@ export const routes = [
     element: (
       <ProtectedRoute>
         <Suspense fallback={<Loading />}>
-          <Layout>
-            <MyPage />
-          </Layout>
+          <MyPage />
         </Suspense>
       </ProtectedRoute>
     ),
