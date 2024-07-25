@@ -12,6 +12,7 @@ import {
   UserInformationH2,
   UserInformationSpan,
 } from '@/styles/userInformation';
+import { useUserNameStore } from '@/lib/store/useUserNameStore';
 
 const UserInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -22,6 +23,8 @@ const UserInfo = () => {
     email: '',
     userName: '',
   });
+
+  const { userName } = useUserNameStore();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -62,7 +65,7 @@ const UserInfo = () => {
           <UserInformationBox>
             <p>
               닉네임
-              <UserInformationSpan>{userInfoData.userName}</UserInformationSpan>
+              <UserInformationSpan>{userName}</UserInformationSpan>
             </p>
             <p>
               이메일

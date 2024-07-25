@@ -17,19 +17,20 @@ import { toast } from 'react-toastify';
 import { useUserNameStore } from '@/lib/store/useUserNameStore';
 import { Controller, useForm } from 'react-hook-form';
 import Button from './Button';
-
 const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfoModalProps) => {
-  const { userName, setUserName } = useUserNameStore();
-  const [previewURL, setPreviewURL] = useState<string>('');
+  const { userName: storeUserName, setUserName: setStoreUserName } = useUserNameStore();
+  const [localUserName, setLocalUserName] = useState(storeUserName);
+  const [previewURL, setPreviewURL] = useState('');
   const [file, setFile] = useState<File | null>(null);
-  const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
-  } = useForm<UserInfoData>({
+  } = useForm({
     defaultValues: {
       email: '',
       birthday: '',
@@ -47,14 +48,13 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
         const snapshot = await get(userRef);
         if (snapshot.exists()) {
           const data = snapshot.val();
-          setUserName(data.userName || '');
+          setLocalUserName(data.userName || '');
           setPreviewURL(data.photoURL || '');
           reset({
             email: data.email || '',
             birthday: data.birthday || '',
             phoneNumber: data.phoneNumber || '',
             photoURL: data.photoURL || '',
-            userName: data.userName || '',
           });
         } else {
           console.error('사용자 정보를 찾을 수 없습니다.');
@@ -76,38 +76,31 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
 
   const onSubmit = async (data: UserInfoData) => {
     try {
-      if (!file) {
-        toast.info('파일을 업로드해주세요', {
-          autoClose: 2000,
-        });
+      if (!file && !isFileUploaded && !previewURL) {
+        toast.info('파일을 업로드해주세요', { autoClose: 2000 });
         return;
       }
-      if (!isFileUploaded) {
-        toast.info('파일 업로드 버튼을 클릭해주세요', {
-          autoClose: 2000,
-        });
-        return;
-      }
-      setIsFileUploaded(false);
 
       const userId = auth.currentUser?.uid;
       const userRef = ref(db, `users/${userId}`);
-      let photoURL = '';
+      let photoURL = data.photoURL;
 
-      if (file) {
+      if (file && !isFileUploaded) {
         const fileRef = storageRef(storage, `/${userId}/${file.name}`);
         await uploadBytes(fileRef, file);
         photoURL = await getDownloadURL(fileRef);
       }
 
-      await set(userRef, data);
+      const updatedData = { ...data, photoURL, userName: localUserName };
+      await set(userRef, updatedData);
 
-      setUserInfoData(data);
-      setUserName(userName); // store에 userName 저장함
-      alert('저장되었습니다.');
+      setUserInfoData(updatedData);
+      setStoreUserName(localUserName); // Zustand store 업데이트
+      toast.success('저장되었습니다.', { autoClose: 2000 });
       onClose();
     } catch (error) {
       console.error(error, '저장에 실패했습니다.');
+      toast.error('저장에 실패했습니다.', { autoClose: 2000 });
     }
   };
 
@@ -120,28 +113,29 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
   const handleUpload = async () => {
     try {
       const userId = auth.currentUser?.uid;
-      let photoURL = '';
-
       if (file && userId) {
         const fileRef = storageRef(storage, `/${userId}/${file.name}`);
         await uploadBytes(fileRef, file);
-        photoURL = await getDownloadURL(fileRef);
+        const photoURL = await getDownloadURL(fileRef);
         setPreviewURL(photoURL);
+        setValue('photoURL', photoURL);
         setIsFileUploaded(true);
+        toast.success('업로드에 성공했습니다.', { autoClose: 2000 });
       }
-      toast.success('업로드에 성공했습니다.', {
-        autoClose: 2000,
-      });
     } catch (error) {
-      toast.error('업로드에 실패했습니다.', {
-        autoClose: 2000,
-      });
+      console.error(error);
+      toast.error('업로드에 실패했습니다.', { autoClose: 2000 });
     }
+  };
+
+  const handleClose = () => {
+    setLocalUserName(storeUserName); // 로컬 상태를 store의 값으로 되돌립니다.
+    onClose();
   };
 
   return (
     <>
-      {isOpen && <ModalBackgroundBox $isOpen={isOpen} onClick={onClose} />}
+      {isOpen && <ModalBackgroundBox $isOpen={isOpen} onClick={handleClose} />}
       <UserInformationModalBox $isOpen={isOpen}>
         <UserModalInformationH2>개인정보 수정</UserModalInformationH2>
         <ProfileLabel>
@@ -169,7 +163,7 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
             </label>
             <label>
               닉네임:
-              <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+              <Input type="text" value={localUserName} onChange={(e) => setLocalUserName(e.target.value)} />
             </label>
             <label>
               생년월일:
@@ -204,7 +198,7 @@ const UserInfoModal = React.memo(({ isOpen, onClose, setUserInfoData }: userInfo
             </label>
           </LabelBox>
           <UserInformationModalBtnBox>
-            <Button onClick={onClose} variant="white">
+            <Button onClick={handleClose} variant="white">
               취소
             </Button>
             <Button type="submit">저장</Button>
